@@ -1,4 +1,4 @@
 
 export default function index() {
-  return <div></div>;
+  return <div>Landing Page</div>;
 }
