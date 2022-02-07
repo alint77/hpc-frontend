@@ -1,4 +1,4 @@
-import { createContext, useState, useLayoutEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import jwtDecode, { JwtPayload } from "jwt-decode";
@@ -26,10 +26,11 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [isLoading, setisLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const router = useRouter();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     checkUserLoggedIn();
   }, []);
 
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       return toast.error("Password invalid");
     }
 
-    toast.loading("Logging in..", { toastId: "2" });
+    toast.loading("Logging in..", { toastId: "1" });
 
     setisLoading(true);
     const res = await fetch(`${API_URL}/users/Login`, {
@@ -47,23 +48,28 @@ export const AuthProvider = ({ children }) => {
         "content-type": "application/json",
       },
       body: JSON.stringify(user),
-    });
-
-    const data = await res.json();
-
-    toast.dismiss("2");
-
-    if (res.ok) {
-      window.localStorage.setItem("access", data.data.accessToken);
-      window.localStorage.setItem("refresh", data.data.refreshToken);
-      toast.success("Success!");
-      await checkUserLoggedIn();
-      setisLoading(false);
-      router.push("/");
-    } else {
-      setisLoading(false);
-      toast.error(data.Message);
-    }
+    })
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then( (data) => {
+        toast.dismiss("1");
+        window.localStorage.setItem("access", data.data.accessToken);
+        window.localStorage.setItem("refresh", data.data.refreshToken);
+        toast.success("Success!");
+        checkUserLoggedIn();
+        setisLoading(false);
+        router.push("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        setisLoading(false);
+        toast.dismiss("1");
+        toast.error(e.message);
+      });
   };
 
   const register = async (user: registerUserModel) => {
@@ -75,34 +81,36 @@ export const AuthProvider = ({ children }) => {
         "content-type": "application/json",
       },
       body: JSON.stringify(user),
-    });
-
-    const data = await res.json();
-
-    toast.dismiss("1");
-
-    if (res.ok) {
-      toast.success("Successful!");
-      window.localStorage.setItem("access", data.data.accessToken);
-      window.localStorage.setItem("refresh", data.data.refreshToken);
-      await checkUserLoggedIn();
-      setisLoading(false);
-      router.push("/");
-    } else {
-      setisLoading(false);
-      toast.error(data.message);
-    }
+    })
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        toast.dismiss("1");
+        window.localStorage.setItem("access", data.data.accessToken);
+        window.localStorage.setItem("refresh", data.data.refreshToken);
+        toast.success("Success!");
+        checkUserLoggedIn();
+        setisLoading(false);
+        router.push("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        setisLoading(false);
+        toast.dismiss("1");
+        toast.error(e.message);
+      });
   };
 
   const checkUserLoggedIn = async () => {
-
-    if (!window.localStorage.getItem("access")) {
+    if (!window.localStorage.getItem("access")||!window.localStorage.getItem("refresh")) {
       setUser(null);
       setisLoading(false);
       return;
     }
-
-    const accessToken = window.localStorage.getItem("access");
 
     setisLoading(true);
 
@@ -110,23 +118,28 @@ export const AuthProvider = ({ children }) => {
       await refreshAccessToken();
     }
 
+    const accessToken = window.localStorage.getItem("access");
+
     const res = await fetch(`${API_URL}/users/GetUserInfo`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "content-type": "application/json",
       },
-    });
-    const data = await res.json();
-
-    if (res.ok) {
+    }).then(async (e) => {
+      if (!e.ok) {
+        throw Error((await e.json()).message);
+      }
+      return e.json();
+    }).then(data=>{
       setUser(data.data);
       setisLoading(false);
-    } else {
+    }).catch(e=>{
       setUser(null);
-      console.log("CheckUserLoggedInError:", data);
+      console.log("CheckUserLoggedInError:",e.message);
       setisLoading(false);
-    }
+    })
+  
   };
 
   const isAccessTokenValid = () => {
@@ -136,13 +149,10 @@ export const AuthProvider = ({ children }) => {
 
     const deltaT = decodedAccess.exp - parseInt((Date.now() / 1000).toFixed());
     console.log(deltaT);
-    return deltaT > 50;
+    return deltaT > 40;
   };
 
   const refreshAccessToken = async () => {
-
-    if(isAccessTokenValid()) return
-
     setisLoading(true);
 
     const accessToken = window.localStorage.getItem("access");
@@ -160,16 +170,12 @@ export const AuthProvider = ({ children }) => {
     });
     const data = await res.json();
 
-    console.log(res);
-    console.log(data);
-
     if (res.ok) {
       window.localStorage.setItem("access", data.data.accessToken);
       window.localStorage.setItem("refresh", data.data.refreshToken);
-      setisLoading(false)
-
+      setisLoading(false);
     } else if (data.statusCode >= 400) {
-      logout()
+      logout();
     }
   };
 
@@ -193,6 +199,8 @@ export const AuthProvider = ({ children }) => {
           login,
           register,
           checkUserLoggedIn,
+          refreshAccessToken,
+          isAccessTokenValid,
         }}
       >
         {children}
