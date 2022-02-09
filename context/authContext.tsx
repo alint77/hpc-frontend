@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
 
-import { API_URL } from "../config/apiRoute";
+import { API_URL } from "../config/config";
 
 interface loginUserModel {
   email: string;
@@ -82,12 +82,12 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify(user),
     })
-      .then(async (e) => {
-        if (!e.ok) {
-          throw Error((await e.json()).message);
-        }
-        return e.json();
-      })
+    .then(async (e) => {
+      if (!e.ok) {
+        throw Error((await e.json()).message);
+      }
+      return e.json();
+    })
       .then((data) => {
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
@@ -167,16 +167,24 @@ export const AuthProvider = ({ children }) => {
         accessToken,
         refreshToken,
       }),
-    });
-    const data = await res.json();
+    }).then(async (e) => {
+      if (!e.ok) {
+        throw Error((await e.json()).message);
+      }
+      return e.json();
+    }).then(data=>{
 
-    if (res.ok) {
       window.localStorage.setItem("access", data.data.accessToken);
       window.localStorage.setItem("refresh", data.data.refreshToken);
       setisLoading(false);
-    } else if (data.statusCode >= 400) {
-      logout();
-    }
+
+    }).catch(e=>{
+      setUser(null);
+      console.log("CheckUserLoggedInError:",e.message);
+      logout()
+      setisLoading(false);
+    })
+    
   };
 
   const logout = () => {

@@ -1,10 +1,10 @@
 import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
 import AuthContext from "../../context/authContext";
-import { API_URL } from "../../config/apiRoute";
+import { API_URL } from "../../config/config";
 import { toast } from "react-toastify";
 import Table, {
   SelectColumnFilter,
-} from "../../components/Admin/Users/table";
+} from "../../components/Admin/Users/Table";
 import Link from "next/link";
 
 interface User {
@@ -30,7 +30,7 @@ export default function users() {
 
           value=JSON.parse(value)
           return (
-            <Link href={`/admin/dashboard/`+value[3]}>
+            <Link href={`/admin/user/`+value[3]}>
               <div className="">
                 <div className="flex flex-row">
                   <div className="mr-1">{value[0]}</div>
@@ -120,7 +120,7 @@ export default function users() {
       await refreshAccessToken();
     }
     const accessToken = window.localStorage.getItem("access");
-    try {
+    
       const res = await fetch(
         `${API_URL}/users/GetAllUsers/admin?PageNumber=1&PageSize=100`,
         {
@@ -130,17 +130,22 @@ export default function users() {
             Authorization: "Bearer " + accessToken,
           },
         }
-      );
-      const data = await res.json();
-
-      if (res.ok) {
+      ).then(async e=>{
+        if(!e.ok){
+          throw Error((await e.json()).message)
+        }
+        return e.json()
+      }).then(data=>{
         console.log(data.data);
         setUsersList(data.data);
         setisLoading(false);
-      }
-    } catch (error) {
-      toast.error("Could not fetch list");
-    }
+      }).catch(e=>{
+        setisLoading(false)
+        console.log('ERROR:failed to fetch usersList! ',e.message);
+
+      })
+      
+    
   };
 
   useLayoutEffect(() => {

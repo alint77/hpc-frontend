@@ -1,6 +1,6 @@
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { API_URL } from "../config/apiRoute";
+import { API_URL } from "../config/config";
 import AuthContext from "../context/authContext";
 import PlanCard from "../components/Plans/planCard";
 
@@ -45,7 +45,7 @@ export default function plans() {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchPlansList();
   }, []);
 
