@@ -1,84 +1,19 @@
-import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
-import AuthContext from "../../context/authContext";
-import { API_URL, OS } from "../../config/config";
-import { toast } from "react-toastify";
-import Table, { SelectColumnFilter } from "../../components/Admin/Users/Table";
+import { useContext, useLayoutEffect, useMemo, useState } from "react";
+import AuthContext from "../../../context/authContext";
 import Link from "next/link";
+import Table, {
+  SelectColumnFilter,
+} from "../../../components/Admin/Users/Table";
+import { API_URL, OS } from "../../../config/config";
 
-interface Creator {
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-}
-
-interface Host {
-  id: string;
-  name: string;
-}
-
-interface VM {
-  name: string;
-  createDateTime: string;
-  endPriodDateTime: string;
-  id: string;
-  vmState: string;
-  creator: Creator;
-  isPaid: boolean;
-  host: Host;
-  os: number;
-  period: number;
-  processorCores: number;
-  memory: number;
-}
-
-export default function vms() {
+export default function Index() {
   const columns = useMemo(
     () => [
       {
         Header: "Name",
         accessor: "name",
       },
-      {
-        Header: "Creator",
-        accessor: ({ creator }) =>
-          JSON.stringify([
-            creator.lastName,
-            creator.firstName,
-            creator.email,
-            creator.id,
-          ]),
-        Cell: ({ value }) => {
-          value = JSON.parse(value);
-          return (
-            <Link href={`/admin/user/` + value[3]}>
-              <div className="cursor-pointer">
-                <div className="flex flex-row">
-                  <div className="mr-1">{value[1]}</div>
-                  <div>{value[0]}</div>
-                </div>
-                <div>{value[2]}</div>
-              </div>
-            </Link>
-          );
-        },
-      },
-      {
-        Header: "Host",
-        accessor: ({ host }) => JSON.stringify([host.name, host.id]),
-        Cell: ({ value }) => {
-          value = JSON.parse(value);
-          return (
-            <Link href={`/admin/hosts/` + value[1]}>
-              <div className=" cursor-pointer">
-                <div className="flex flex-row">
-                  <div className="mr-1">{value[0]}</div>
-                </div>
-              </div>
-            </Link>
-          );
-        },
-      },
+
       {
         Header: "Status",
         accessor: "vmState",
@@ -163,16 +98,13 @@ export default function vms() {
     }
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(
-      `${API_URL}/vms/GetAllVMs/admin?PageNumber=1&PageSize=100`,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      }
-    )
+    const res = await fetch(`${API_URL}/vms/GetAllVMsOfUser`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    })
       .then(async (e) => {
         if (!e.ok) {
           throw Error((await e.json()).message);
@@ -196,6 +128,11 @@ export default function vms() {
 
   return (
     <div className="w-11/12 mx-auto">
+      <Link href="/dashboard/vms/requestNewVM">
+        <div className="border-2 w-fit cursor-pointer bg-gray-200">
+          Request New VM
+        </div>
+      </Link>
       <Table columns={columns} data={vmsList} className=""></Table>
     </div>
   );

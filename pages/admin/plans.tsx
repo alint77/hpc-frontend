@@ -67,7 +67,7 @@ export default function Plans() {
     <>
       <div className="">
         <div
-          className="bg-gray-200 text-center w-20 m-auto"
+          className="bg-gray-200 text-center w-20 m-auto cursor-pointer"
           onClick={() => setShowAddPlanModal(true)}
         >
           Add Plan

@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Layout({ children }) {
-  const { logout, user,isLoading } = useContext(AuthContext);
-  
+  const { logout, user, isLoading } = useContext(AuthContext);
 
   if (!user) {
     return (
@@ -26,14 +25,17 @@ export default function Layout({ children }) {
           user :{" " + user.email + " "}
           {user.role !== "DEVELOPER" ||
             (user.role !== "ADMIN" && (
-              <Link href="/admin/dashboard">AdminPanel </Link>
+              <Link href="/admin">AdminPanel </Link>
             ))}
-          <button className="" onClick={() => logout()}>
+          <span className=" cursor-pointer">
+            <Link href="/profile">Profile </Link>
+          </span>
+          <span className=" cursor-pointer" onClick={() => logout()}>
             Logout
-          </button>
+          </span>
         </div>
       </div>
-      <div className="py-2">{children}</div>
+      <div className="py-2 flex justify-center">{children}</div>
     </div>
   );
 }

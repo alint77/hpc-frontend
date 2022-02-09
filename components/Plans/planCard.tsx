@@ -13,11 +13,12 @@ interface Plan {
 
 interface Prop {
   plan: Plan;
+  className?:string
 }
-export default function planCard({plan}: Prop) {
+export default function planCard({plan,className}: Prop) {
   if(!plan.isActive) return <></>
   return (
-    <div className="flex flex-col border-black border-[1px] m-2">
+    <div className={className+" flex flex-col border-black border-[1px] m-2"}>
         <div>
           <div>name: {plan.name}</div>
           <div>cores: {plan.processorCores}</div>
