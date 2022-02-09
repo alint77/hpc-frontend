@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
 import AuthContext from "../../context/authContext";
-import { API_URL } from "../../config/config";
+import { API_URL, RegistrationStatus, UserRole } from "../../config/config";
 import { toast } from "react-toastify";
 import Table, {
   SelectColumnFilter,
@@ -25,16 +25,16 @@ export default function users() {
     () => [
       {
         Header: "Name",
-        accessor: ({firstName,lastName,email,id})=> JSON.stringify([firstName,lastName,email,id]),
+        accessor: ({firstName,lastName,email,id})=> JSON.stringify([lastName,firstName,email,id]),
         Cell: ({value})=> {
 
           value=JSON.parse(value)
           return (
             <Link href={`/admin/user/`+value[3]}>
-              <div className="">
+              <div className=" cursor-pointer">
                 <div className="flex flex-row">
-                  <div className="mr-1">{value[0]}</div>
-                  <div>{value[1]}</div>
+                  <div className="mr-1">{value[1]}</div>
+                  <div>{value[0]}</div>
                 </div>
                 <div>{value[2]}</div>
               </div>
@@ -46,7 +46,7 @@ export default function users() {
         Header: "Status",
         accessor: "registrationState",
         Cell: ({ value }) => {
-          value = value == "WAITING_FOR_EMAIL_VERIFICATION" ? "PENDING" : value;
+          value = value == RegistrationStatus[0] ? "PENDING(Email)" : value;
           return <div className="">{value}</div>;
         },
         Filter: SelectColumnFilter,
@@ -64,7 +64,7 @@ export default function users() {
         Header: "Role",
         accessor: "role",
         Cell: ({ value }) => {
-          value = value == "DEVELOPER" ? "DEV" : value;
+          value = value == UserRole[2] ? "DEV" : value;
           return <div className="">{value}</div>;
         },
         Filter: SelectColumnFilter,

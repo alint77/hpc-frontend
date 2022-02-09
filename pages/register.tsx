@@ -7,6 +7,8 @@ import Link from "next/link";
 export default function registerPage() {
   const [userInput, setUserInput] = useState({});
   const { register, isLoading, user } = useContext(AuthContext);
+  const [showPass, setShowPass] = useState(false);
+  const [showConfPass, setShowConfPass] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -75,38 +77,59 @@ export default function registerPage() {
             required
           />
         </div>
-        <div className="mb-4">
+        <div className=" mb-5">
           <label
             className="block text-gray-700 text-sm mb-2"
             htmlFor="password"
           >
             Password
           </label>
-          <input
-            name="password"
-            minLength={6}
-            type="password"
-            placeholder="Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none "
-            required
-          />
+          <div className="relative border-2 flex flex-row ">
+            <input
+              name="password"
+              minLength={6}
+              type={showPass ? "text" : "password"}
+              placeholder="Password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none "
+              required
+            />
+            <div
+              onClick={() =>
+                showPass ? setShowPass(false) : setShowPass(true)
+              }
+              className="absolute right-2 h-full flex items-center"
+            >
+              {showPass ? "hide" : "show"}
+            </div>
+          </div>
         </div>
-        <div className="mb-4">
+        <div className=" mb-5">
           <label
             className="block text-gray-700 text-sm mb-2"
             htmlFor="passwordConfirmation"
           >
             Repeat Password
           </label>
-          <input
-            name="passwordConfirmation"
-            minLength={6}
-            type="password"
-            placeholder="Confirm Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none "
-            required
-          />
+          <div className="relative border-2 flex flex-row ">
+            <input
+              name="passwordConfirmation"
+              minLength={6}
+              type={showConfPass ? "text" : "password"}
+              placeholder="Confirm Password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none "
+              required
+            />
+            <div
+              onClick={() =>
+                showConfPass ? setShowConfPass(false) : setShowConfPass(true)
+              }
+              className="absolute right-2 h-full flex items-center"
+            >
+              {showConfPass ? "hide" : "show"}
+            </div>
+          </div>
         </div>
+        
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm mb-2"

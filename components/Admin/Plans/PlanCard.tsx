@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import AuthContext from "../../../../context/authContext";
-import { API_URL } from "../../../../config/config";
-import Modal from "../../../Modal/Modal";
+import AuthContext from "../../../context/authContext";
+import { API_URL, OS } from "../../../config/config";
+import Modal from "../../Modal/Modal";
 import EditPlanModal from "./EditPlanModal";
 
 interface Plan {
@@ -31,7 +31,7 @@ export default function planCard({ plan }: Prop) {
           <div>name: {plan.name}</div>
           <div>cores: {plan.processorCores}</div>
           <div>memory: {plan.memory}</div>
-          <div>os: {plan.os==0?"UBUNTU":"CENTOS"}</div>
+          <div>os: {OS[plan.os]}</div>
           <div>period: {plan.period}</div>
           <div>price: {plan.price}</div>
           <div>isActive: {plan.isActive.toString()}</div>

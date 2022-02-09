@@ -10,6 +10,9 @@ export default function loginPage() {
     email: "",
     password: "",
   });
+
+  const [showPass, setShowPass] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin();
@@ -19,10 +22,10 @@ export default function loginPage() {
   };
 
   const handleLogin = async () => {
-    try{
-    login(userInput);
-    }catch(e){
-      toast.error('sign in failed!')
+    try {
+      login(userInput);
+    } catch (e) {
+      toast.error("sign in failed!");
       console.log(e);
     }
   };
@@ -58,13 +61,22 @@ export default function loginPage() {
           >
             Password
           </label>{" "}
-          <input
-            type="password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none "
-            name="password"
-            placeholder="********"
-          />
-          
+          <div className="relative border-2 flex flex-row">
+            <input
+              type={showPass ? "text" : "password"}
+              className=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none "
+              name="password"
+              placeholder="********"
+            />
+            <div
+              onClick={() =>
+                showPass ? setShowPass(false) : setShowPass(true)
+              }
+              className="absolute right-2 h-full flex items-center"
+            >
+              {showPass ? "hide" : "show"}
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-row-reverse  items-center justify-between py-2">

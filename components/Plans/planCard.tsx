@@ -1,3 +1,5 @@
+import { OS } from "../../config/config";
+
 interface Plan {
   id: string;
   isActive: boolean;
@@ -12,17 +14,18 @@ interface Plan {
 interface Prop {
   plan: Plan;
 }
-export default function planCard(props: Prop) {
+export default function planCard({plan}: Prop) {
+  if(!plan.isActive) return <></>
   return (
     <div className="flex flex-col border-black border-[1px] m-2">
-      <div>{props.plan.name}</div>
-      <div>{props.plan.isActive}</div>
-      <div>{props.plan.memory}</div>
-      <div>{props.plan.os}</div>
-      <div>{props.plan.period}</div>
-      <div>{props.plan.price}</div>
-      <div>{props.plan.processorCores}</div>
-      <div>{props.plan.id}</div>
-    </div>
+        <div>
+          <div>name: {plan.name}</div>
+          <div>cores: {plan.processorCores}</div>
+          <div>memory: {plan.memory}</div>
+          <div>os: {OS[plan.os]}</div>
+          <div>period: {plan.period}</div>
+          <div>price: {plan.price}</div>
+        </div>
+      </div>
   );
 }

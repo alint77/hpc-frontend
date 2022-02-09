@@ -43,8 +43,8 @@ export default function vms() {
         Header: "Creator",
         accessor: ({ creator }) =>
           JSON.stringify([
-            creator.firstName,
             creator.lastName,
+            creator.firstName,
             creator.email,
             creator.id,
           ]),
@@ -52,10 +52,10 @@ export default function vms() {
           value = JSON.parse(value);
           return (
             <Link href={`/admin/user/`+value[3]}>
-              <div className="">
+              <div className="cursor-pointer">
                 <div className="flex flex-row">
-                  <div className="mr-1">{value[0]}</div>
-                  <div>{value[1]}</div>
+                  <div className="mr-1">{value[1]}</div>
+                  <div>{value[0]}</div>
                 </div>
                 <div>{value[2]}</div>
               </div>
@@ -74,7 +74,7 @@ export default function vms() {
           value = JSON.parse(value);
           return (
             <Link href={`/admin/hosts/`+value[1]}>
-              <div className="">
+              <div className=" cursor-pointer">
                 <div className="flex flex-row">
                   <div className="mr-1">{value[0]}</div>
                   
@@ -131,12 +131,15 @@ export default function vms() {
         accessor: "endPriodDateTime",
         Cell: ({ value }) => {
           const dateTime = new Date(value);
+          console.log(dateTime.getTime(),Date.now());
+          const deltaT = ((dateTime.getTime() - Date.now())/86400000).toFixed()
           const x = dateTime.toLocaleString().split(",");
 
           return (
             <div className="">
               <div>{x[0]}</div>
               <div>{x[1]}</div>
+              <div>{deltaT} days left  </div>
             </div>
           );
         },

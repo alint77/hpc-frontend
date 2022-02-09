@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { API_URL, OS } from "../../../../config/config";
-import AuthContext from "../../../../context/authContext";
-import Modal from "../../../Modal/Modal";
+import { API_URL, OS } from "../../../config/config";
+import AuthContext from "../../../context/authContext";
+import Modal from "../../Modal/Modal";
 import axios from "axios";
 
 import "react-toastify/dist/ReactToastify.css";

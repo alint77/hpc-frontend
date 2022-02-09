@@ -9,8 +9,8 @@ import AuthContext from "../../context/authContext";
 import Table from "../../components/Admin/Users/Table";
 import { API_URL } from "../../config/config";
 import Link from "next/link";
-import PlanCard from "../../components/Admin/Users/Plans/PlanCard";
-import AddPlanModal from "../../components/Admin/Users/Plans/AddPlanModal";
+import PlanCard from "../../components/Admin/Plans/PlanCard";
+import AddPlanModal from "../../components/Admin/Plans/AddPlanModal";
 
 export default function Plans() {
   const {

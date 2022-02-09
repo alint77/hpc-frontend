@@ -39,7 +39,6 @@ export default function hosts() {
       }).catch(e=>{
         setisLoading(false)
         console.log('ERROR:failed to fetch usersList! ',e.message);
-
       })
       
     
