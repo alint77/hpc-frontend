@@ -22,6 +22,7 @@ export default function ChangePassModal({
   const {
     user,
     isLoading,
+    logout,
     setisLoading,
     refreshAccessToken,
     isAccessTokenValid,
@@ -66,8 +67,7 @@ export default function ChangePassModal({
       .then((data) => {
         toast.success("success");
         console.log(data);
-        router.reload();
-        setisLoading(false);
+        logout()
       })
       .catch((e) => {
         toast.error(e.message);
