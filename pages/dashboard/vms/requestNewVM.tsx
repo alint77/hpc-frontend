@@ -1,8 +1,9 @@
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { API_URL } from "../../../config/config";
 import AuthContext from "../../../context/authContext";
 import PlanCard from "../../../components/Plans/planCard";
+import Router from "next/router";
 
 interface Plan {
   id: string;
@@ -24,6 +25,7 @@ export default function RequestNewVM() {
     refreshAccessToken,
   } = useContext(AuthContext);
   const [selectedPlanId, setSelectedPlanId] = useState(null);
+  const [vmName, setVmName] = useState("");
 
   const [plansList, setPlansList] = useState<Array<Plan>>([]);
 
@@ -54,7 +56,9 @@ export default function RequestNewVM() {
   };
 
   const handleRequestVM = async () => {
-    if (!selectedPlanId) toast.error("Please Select a Plan");
+    if (!selectedPlanId) return toast.error("Please Select a Plan");
+    if (vmName.length<4) return toast.error("Please Enter a Name");
+
     setisLoading(true);
     if (!isAccessTokenValid()) {
       await refreshAccessToken();
@@ -71,6 +75,7 @@ export default function RequestNewVM() {
       },
       body: JSON.stringify({
         planId: selectedPlanId,
+        vmName,
       }),
     })
       .then(async (e) => {
@@ -84,6 +89,7 @@ export default function RequestNewVM() {
         toast.success("success!");
         console.log(data);
         setisLoading(false);
+        Router.push("/dashboard/vms")
       })
       .catch((e) => {
         toast.dismiss("1");
@@ -109,13 +115,28 @@ export default function RequestNewVM() {
           ></PlanCard>
         </div>
       ))}
+      {selectedPlanId && (
+        <div className="flex flex-col">
+          <label htmlFor="vmName">VM Name:</label>
+          <input
+            required
+            onChange={(e) => setVmName(e.target.value)}
+            value={vmName}
+            id="vmName"
+            name="vmName"
+            type="text"
+            minLength={4}
+            maxLength={12}
+          />
+        </div>
+      )}
       <div
         className=" w-fit bg-gray-200  cursor-pointer"
         onClick={handleRequestVM}
       >
         Request
       </div>
-      <ToastContainer></ToastContainer>
+      <ToastContainer hideProgressBar></ToastContainer>
     </div>
   );
 }

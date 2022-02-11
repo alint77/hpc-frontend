@@ -193,7 +193,7 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem("refresh");
     setUser(null);
     setisLoading(false);
-    router.reload();
+    router.push("/");
   };
 
   return (

@@ -6,6 +6,7 @@ import { API_URL, RegistrationStatus } from "../../../config/config";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import VmTable from "../../../components/Admin/Users/VmTable";
 
 interface User {
   id: string;
@@ -42,12 +43,13 @@ export default function UserAdminPage() {
     lastLoginDateTime: "",
   });
 
-  const [userVMs, setUserVMs] = useState({});
+  const [userVMs, setUserVMs] = useState(null);
 
   const router = useRouter();
   useLayoutEffect(() => {
     if (router.query.id) {
       handleFetchUser();
+      handleFetchUserVMs();
     }
   }, [router.query.id]);
 
@@ -144,7 +146,7 @@ export default function UserAdminPage() {
     }
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(`${API_URL}/vms/${id}/GetAllVMsOfUser`, {
+    const res = await fetch(`${API_URL}/vms/GetAllVMsOfUser/${id}/admin`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -159,7 +161,7 @@ export default function UserAdminPage() {
       })
       .then((data) => {
         console.log(data.data);
-        setUserData(data.data);
+        setUserVMs(data.data);
         setisLoading(false);
       })
       .catch((e) => {
@@ -172,9 +174,11 @@ export default function UserAdminPage() {
   return (
     <div>
       <pre>{JSON.stringify(userData,null,2)}</pre>
-      <div onClick={handleChangeState} className=" cursor-pointer">
-        ChangeStatus
+      <div onClick={handleChangeState} className=" w-fit my-4 cursor-pointer">
+        Change RegisterationState
       </div>
+      {userVMs&&<VmTable vmsList={userVMs}></VmTable>}
+      
       <ToastContainer hideProgressBar></ToastContainer>
     </div>
   );

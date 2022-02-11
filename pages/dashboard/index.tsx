@@ -12,17 +12,11 @@ export default function Index() {
   } = useContext(AuthContext);
 
 
-
-  useLayoutEffect(() => {}, []);
-
-  return <div>user dashboard
-
-      <div><Link href={"/dashboard/vms"}>
-          
-              VMs
-      </Link>
+  return (
+    <div>
+      <div>
+        <Link href={"/dashboard/vms"}>VMs</Link>
       </div>
-
-
-  </div>;
+    </div>
+  );
 }

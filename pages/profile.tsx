@@ -32,7 +32,7 @@ export default function Profile() {
     isAccessTokenValid,
   } = useContext(AuthContext);
 
-  useLayoutEffect(() => {}, []);
+  if(!user) return <div>not signed in</div>
 
   return (
     <div className="flex flex-col">

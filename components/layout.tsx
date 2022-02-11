@@ -24,11 +24,12 @@ export default function Layout({ children }) {
         <div className="w-11/12">
           user :{" " + user.email + " "}
           {user.role !== "DEVELOPER" ||
-            (user.role !== "ADMIN" && (
-              <Link href="/admin">AdminPanel </Link>
-            ))}
+            (user.role !== "ADMIN" && <Link href="/admin">AdminPanel </Link>)}
           <span className=" cursor-pointer">
             <Link href="/profile">Profile </Link>
+          </span>
+          <span className=" cursor-pointer">
+            <Link href="/dashboard">Dashboard </Link>
           </span>
           <span className=" cursor-pointer" onClick={() => logout()}>
             Logout

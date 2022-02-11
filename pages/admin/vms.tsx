@@ -18,7 +18,7 @@ interface Host {
 }
 
 interface VM {
-  name: string;
+  vnName: string;
   createDateTime: string;
   endPriodDateTime: string;
   id: string;
@@ -37,7 +37,7 @@ export default function vms() {
     () => [
       {
         Header: "Name",
-        accessor: "name",
+        accessor: "vmName",
       },
       {
         Header: "Creator",

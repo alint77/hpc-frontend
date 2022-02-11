@@ -5,9 +5,8 @@ import Table, {
   SelectColumnFilter,
 } from "../../../components/Admin/Users/Table";
 import { API_URL, OS } from "../../../config/config";
-import VmTable from "../../../components/Admin/Users/VmTable";
 
-export default function Index() {
+export default function VmTable({vmsList}) {
   const columns = useMemo(
     () => [
       {
@@ -81,59 +80,11 @@ export default function Index() {
     ],
     []
   );
-  const [vmsList, setVmsList] = useState<Array<any>>();
-  const {
-    user,
-    isLoading,
-    setisLoading,
-    refreshAccessToken,
-    isAccessTokenValid,
-  } = useContext(AuthContext);
-
-
-  const handleFetchVmsList = async () => {
-    setisLoading(true);
-    if (!isAccessTokenValid()) {
-      await refreshAccessToken();
-    }
-    const accessToken = window.localStorage.getItem("access");
-
-    const res = await fetch(`${API_URL}/vms/GetAllVMsOfUser`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    })
-      .then(async (e) => {
-        if (!e.ok) {
-          throw Error((await e.json()).message);
-        }
-        return e.json();
-      })
-      .then((data) => {
-        console.log(data.data);
-        setVmsList(data.data);
-        setisLoading(false);
-      })
-      .catch((e) => {
-        setisLoading(false);
-        console.log("ERROR:failed to fetch! ", e.message);
-      });
-  };
-
-  useLayoutEffect(() => {
-    handleFetchVmsList();
-  }, []);
-
+  
   return (
-    <div className="w-11/12 mx-auto">
-      <Link href="/dashboard/vms/requestNewVM">
-        <div className="border-2 w-fit cursor-pointer bg-gray-200">
-          Request New VM
-        </div>
-      </Link>
-      {vmsList?<VmTable vmsList={vmsList}></VmTable>:"no VMs"}
+    <div className="overflow-auto mx-auto">
+      
+      <Table columns={columns} data={vmsList} className=""></Table>
     </div>
   );
 }

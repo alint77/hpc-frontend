@@ -13,7 +13,12 @@ export default function EditUserModal({
   setIsOpen,
   title,
   children,
-}: Prop) {
+}: Prop)
+
+{
+
+
+
   return (
     <div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}></Modal>
