@@ -6,7 +6,12 @@ import Table, {
 } from "../../../components/Admin/Users/Table";
 import { API_URL, OS } from "../../../config/config";
 
-export default function VmTable({vmsList}) {
+
+interface Prop{
+  vmsList?:any
+}
+
+export default function VmTable({vmsList}:Prop) {
   const columns = useMemo(
     () => [
       {
@@ -81,6 +86,7 @@ export default function VmTable({vmsList}) {
     []
   );
   
+  if(!vmsList)return <></>
   return (
     <div className="overflow-auto mx-auto">
       

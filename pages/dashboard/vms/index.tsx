@@ -1,4 +1,10 @@
-import { useContext, useLayoutEffect, useMemo, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import AuthContext from "../../../context/authContext";
 import Link from "next/link";
 import Table, {
@@ -81,7 +87,7 @@ export default function Index() {
     ],
     []
   );
-  const [vmsList, setVmsList] = useState<Array<any>>();
+  const [vmsList, setVmsList] = useState<Array<any>>([]);
   const {
     user,
     isLoading,
@@ -89,7 +95,6 @@ export default function Index() {
     refreshAccessToken,
     isAccessTokenValid,
   } = useContext(AuthContext);
-
 
   const handleFetchVmsList = async () => {
     setisLoading(true);
@@ -117,15 +122,17 @@ export default function Index() {
         setisLoading(false);
       })
       .catch((e) => {
+        setVmsList([])
         setisLoading(false);
         console.log("ERROR:failed to fetch! ", e.message);
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchVmsList();
   }, []);
 
+  if(!user)return<>not logged in</>
   return (
     <div className="w-11/12 mx-auto">
       <Link href="/dashboard/vms/requestNewVM">
@@ -133,7 +140,7 @@ export default function Index() {
           Request New VM
         </div>
       </Link>
-      {vmsList?<VmTable vmsList={vmsList}></VmTable>:"no VMs"}
+      {vmsList.length>0 ? <VmTable vmsList={vmsList}></VmTable> : "no VMs"}
     </div>
   );
 }

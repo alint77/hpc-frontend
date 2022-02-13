@@ -42,7 +42,7 @@ export default function registerPage() {
             First Name
           </label>
           <input
-            name="firstName"
+            id="firstName"
             type="text"
             placeholder="First Name"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
@@ -57,7 +57,7 @@ export default function registerPage() {
             Last Name
           </label>
           <input
-            name="lastName"
+            id="lastName"
             type="text"
             placeholder="Last Name"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
@@ -70,7 +70,7 @@ export default function registerPage() {
             Email
           </label>
           <input
-            name="email"
+            id="email"
             type="email"
             placeholder="Email"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
@@ -86,7 +86,7 @@ export default function registerPage() {
           </label>
           <div className="relative border-2 flex flex-row ">
             <input
-              name="password"
+              id="password"
               minLength={6}
               type={showPass ? "text" : "password"}
               placeholder="Password"
@@ -112,7 +112,7 @@ export default function registerPage() {
           </label>
           <div className="relative border-2 flex flex-row ">
             <input
-              name="passwordConfirmation"
+              id="passwordConfirmation"
               minLength={6}
               type={showConfPass ? "text" : "password"}
               placeholder="Confirm Password"
@@ -138,7 +138,7 @@ export default function registerPage() {
             Social Security Number
           </label>
           <input
-            name="nationalId"
+            id="nationalId"
             type="number"
             placeholder="2134567890"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
@@ -153,7 +153,7 @@ export default function registerPage() {
             Phone Number
           </label>
           <input
-            name="phoneNumber"
+            id="phoneNumber"
             pattern="[0]{1}[9]{1}[0-9]{9}"
             type="tel"
             minLength={11}

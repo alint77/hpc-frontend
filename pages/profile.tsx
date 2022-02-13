@@ -50,7 +50,9 @@ export default function Profile() {
           Edit
         </div>
       </div>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(user, null, 2)}
+      </pre>
       <ChangePassModal isOpen={showChangePassModal} setIsOpen={setShowChangePassModal} title={"Change Password"}></ChangePassModal>
       <EditUserModal isOpen={showEditUserModal} setIsOpen={setShowEditUserModal} title={"Edit User"}></EditUserModal>
     </div>

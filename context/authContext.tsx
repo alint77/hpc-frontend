@@ -143,13 +143,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAccessTokenValid = () => {
+    
     const accessToken = window.localStorage.getItem("access");
+    const refreshToken = window.localStorage.getItem("refresh");
 
-    const decodedAccess: JwtPayload = jwtDecode(accessToken);
+    if(!accessToken||!refreshToken) return false
 
-    const deltaT = decodedAccess.exp - parseInt((Date.now() / 1000).toFixed());
+    const decodedAccessToken: JwtPayload = jwtDecode(accessToken);
+
+    const deltaT = decodedAccessToken.exp - parseInt((Date.now() / 1000).toFixed());
     console.log(deltaT);
     return deltaT > 40;
+    
   };
 
   const refreshAccessToken = async () => {
@@ -193,7 +198,7 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem("refresh");
     setUser(null);
     setisLoading(false);
-    router.push("/");
+    router.push("/login");
   };
 
   return (
