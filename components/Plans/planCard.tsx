@@ -5,8 +5,7 @@ interface Plan {
   isActive: boolean;
   memory: number;
   name: string;
-  os: string;
-  period: number;
+  diskSize:number;
   price: number;
   processorCores: number;
 }
@@ -18,14 +17,13 @@ interface Prop {
 export default function planCard({plan,className}: Prop) {
   if(!plan.isActive) return <></>
   return (
-    <div className={className+" flex flex-col border-black border-[1px] m-2"}>
+    <div className={className+" flex flex-col border-black border-[1px] m-2 p-4"}>
         <div>
           <div>name: {plan.name}</div>
           <div>cores: {plan.processorCores}</div>
           <div>memory: {plan.memory}</div>
-          <div>os: {OS[plan.os]}</div>
-          <div>period: {plan.period}</div>
           <div>price: {plan.price}</div>
+          <div>Disk Size: {plan.diskSize}GB</div>
         </div>
       </div>
   );

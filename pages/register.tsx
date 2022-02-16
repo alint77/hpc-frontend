@@ -129,7 +129,7 @@ export default function registerPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm mb-2"
@@ -176,8 +176,6 @@ export default function registerPage() {
       <div className=" text-center w-full font-semibold text-blue-800">
         <Link href="/login">Login</Link>
       </div>
-
-      <ToastContainer></ToastContainer>
     </div>
   );
 }

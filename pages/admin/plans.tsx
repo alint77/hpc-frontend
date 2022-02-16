@@ -25,7 +25,7 @@ export default function Plans() {
 
   if (!user || user.role == "USER") return <>Access Denied!</>;
 
-  const handleFetchUsersList = async () => {
+  const handleFetchPlansList = async () => {
     setisLoading(true);
     if (!isAccessTokenValid()) {
       await refreshAccessToken();
@@ -33,7 +33,7 @@ export default function Plans() {
     const accessToken = window.localStorage.getItem("access");
 
     const res = await fetch(
-      `${API_URL}/plans/GetAllPlans?PageNumber=1&PageSize=100`,
+      `${API_URL}/plans/GetAllPlansAdmin/admin?PageNumber=1&PageSize=100`,
       {
         method: "GET",
         headers: {
@@ -59,8 +59,8 @@ export default function Plans() {
       });
   };
 
-  useLayoutEffect(() => {
-    handleFetchUsersList();
+  useEffect(() => {
+    handleFetchPlansList();
   }, []);
 
   return (
@@ -78,7 +78,11 @@ export default function Plans() {
           ))}
         </div>
       </div>
-      <AddPlanModal isOpen={showAddPlanModal} setIsOpen={setShowAddPlanModal} title="Create New Plan" ></AddPlanModal>
+      <AddPlanModal
+        isOpen={showAddPlanModal}
+        setIsOpen={setShowAddPlanModal}
+        title="Create New Plan"
+      ></AddPlanModal>
     </>
   );
 }

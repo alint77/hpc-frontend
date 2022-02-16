@@ -218,7 +218,7 @@ export const AuthProvider = ({ children }) => {
       >
         {children}
       </AuthContext.Provider>
-      <ToastContainer hideProgressBar />
+      <ToastContainer hideProgressBar position="top-center" />
     </>
   );
 };

@@ -47,10 +47,17 @@ export default function EditUserModal({
   const router = useRouter();
 
   const [inputFields, setInputFields] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phoneNumber: user.phoneNumber,
   });
+  useEffect(() => {
+    setInputFields({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+    });
+  }, [user]);
   const handleEditUser = async () => {
     if (
       inputFields.firstName.length < 1 &&

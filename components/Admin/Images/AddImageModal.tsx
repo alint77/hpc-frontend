@@ -14,16 +14,14 @@ interface Prop {
   children?: any;
 }
 
-interface InputPlan {
-  name: string;
+interface InputImage {
   isActive: boolean;
-  diskSize: number;
-  memory: number;
-  price: number;
-  processorCores: number;
+  osName: string;
+  osVersion: number;
+  softWare: string;
 }
 
-export default function AddPlanModal({
+export default function AddImageModal({
   isOpen,
   setIsOpen,
   title,
@@ -34,16 +32,14 @@ export default function AddPlanModal({
 
   const router = useRouter();
 
-  const [inputPlan, setInputPlan] = useState<InputPlan>({
+  const [inputImage, setInputImage] = useState<InputImage>({
     isActive: false,
-    memory: NaN,
-    name: "",
-    diskSize: NaN,
-    price: NaN,
-    processorCores: NaN,
+    osName: "",
+    osVersion: NaN,
+    softWare: "",
   });
 
-  const handleAddPlan = async () => {
+  const handleAddImage = async () => {
     toast.loading("loading...", { toastId: "1" });
 
     setisLoading(true);
@@ -51,13 +47,13 @@ export default function AddPlanModal({
       await refreshAccessToken();
     }
 
-    const res = await fetch(`${API_URL}/plans/Create/admin`, {
+    const res = await fetch(`${API_URL}/images/Create/admin`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: "Bearer " + window.localStorage.getItem("access"),
       },
-      body: JSON.stringify(inputPlan),
+      body: JSON.stringify(inputImage),
     })
       .then(async (e) => {
         if (!e.ok) {
@@ -81,9 +77,9 @@ export default function AddPlanModal({
   };
 
   const handleChange = (e) => {
-    setInputPlan({ ...inputPlan, isActive: false });
+    setInputImage({ ...inputImage, isActive: false });
 
-    setInputPlan({ ...inputPlan, [e.target.name]: e.target.value });
+    setInputImage({ ...inputImage, [e.target.name]: e.target.value });
   };
 
   return (
@@ -92,60 +88,35 @@ export default function AddPlanModal({
         <div className="p-4">
           {/* TODO: Constraints */}
           <div className="flex flex-col">
-            <label htmlFor="name">name:</label>
+            <label htmlFor="osName">osName:</label>
             <input
               onChange={handleChange}
               className="border-2 text-sm mb-2"
               required
-              name="name"
+              name="osName"
               type="text"
             />
-            <label htmlFor="price">price:</label>
+            <label htmlFor="softWare">software:</label>
             <input
-              onChange={(e) =>
-                setInputPlan({ ...inputPlan, price: parseInt(e.target.value) })
-              }
+              onChange={handleChange}
               className="border-2 text-sm mb-2"
-              required
-              name="price"
-              type="number"
+              name="softWare"
+              type="text"
             />
-            <label htmlFor="memory">memory:</label>
-            <input
-              onChange={(e) =>
-                setInputPlan({ ...inputPlan, memory: parseInt(e.target.value) })
-              }
-              className="border-2 text-sm mb-2"
-              required
-              name="memory"
-              type="number"
-            />
-            <label htmlFor="processorCores">processorCores:</label>
-            <input
-              onChange={(e) =>
-                setInputPlan({
-                  ...inputPlan,
-                  processorCores: parseInt(e.target.value),
-                })
-              }
-              className="border-2 text-sm mb-2"
-              required
-              name="processorCores"
-              type="number"
-            />
-            <label htmlFor="diskSize">diskSize:</label>
+
+            <label htmlFor="osVersion">osVersion:</label>
             <input
               onChange={handleChange}
               className="border-2 text-sm mb-2"
               required
-              name="diskSize"
+              name="osVersion"
               type="number"
             />
 
             <label htmlFor="isActive">isActive:</label>
             <input
               onChange={(e) =>
-                setInputPlan({ ...inputPlan, isActive: e.target.checked })
+                setInputImage({ ...inputImage, isActive: e.target.checked })
               }
               className="border-2 text-sm mb-2"
               required
@@ -157,7 +128,7 @@ export default function AddPlanModal({
         <div className="flex flex-row-reverse items-center border-t-2 h-12">
           <div
             className="mr-5 px-2 py-1 bg-green-500 text-white rounded font-semibold text-sm cursor-pointer"
-            onClick={() => handleAddPlan()}
+            onClick={() => handleAddImage()}
           >
             Add
           </div>

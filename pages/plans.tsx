@@ -10,6 +10,7 @@ interface Plan {
   memory: number;
   name: string;
   os: string;
+  diskSize:number,
   period: number;
   price: number;
   processorCores: number;
@@ -54,7 +55,6 @@ export default function plans() {
       {plansList.map((v) => (
         <PlanCard plan={v} key={v.id}></PlanCard>
       ))}
-      <ToastContainer></ToastContainer>
     </div>
   );
 }

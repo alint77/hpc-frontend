@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API_URL } from "../../../config/config";
 import AuthContext from "../../../context/authContext";
 import { toast } from "react-toastify";
@@ -23,6 +23,9 @@ export default function EditUserEmailModal({
   const { setisLoading, isAccessTokenValid, refreshAccessToken } =
     useContext(AuthContext);
   const [emailInput, setEmailInput] = useState(user.email);
+  useEffect(() => {
+    setEmailInput(user.email);
+  }, [user]);
 
   const handleEditUserEmail = async () => {
     if (!confirm("Are you sure?")) return;

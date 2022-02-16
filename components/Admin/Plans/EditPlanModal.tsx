@@ -200,7 +200,6 @@ export default function EditPlanModal({
           )}
         </div>
       </Modal>
-      <ToastContainer hideProgressBar></ToastContainer>
     </>
   );
 }

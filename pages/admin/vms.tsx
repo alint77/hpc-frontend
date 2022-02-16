@@ -91,12 +91,16 @@ export default function vms() {
       },
       {
         Header: "OS",
-        accessor: "os",
-        Cell: ({ value }) => <div>{OS[value]}</div>,
+        accessor: (e) => e.image.osName,
       },
       {
         Header: "RAM",
         accessor: "memory",
+      },
+      {
+        Header: "Disk",
+        accessor: "diskSize",
+        Cell:({value})=>value+"GB"
       },
       {
         Header: "CPU#",
@@ -126,7 +130,6 @@ export default function vms() {
         accessor: "endPriodDateTime",
         Cell: ({ value }) => {
           const dateTime = new Date(value);
-          console.log(dateTime.getTime(), Date.now());
           const deltaT = (
             (dateTime.getTime() - Date.now()) /
             86400000

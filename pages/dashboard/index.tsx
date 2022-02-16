@@ -20,6 +20,9 @@ export default function Index() {
       <div>
         <Link href={"/dashboard/profile"}>Profile</Link>
       </div>
+      <div>
+        <Link href={"/dashboard/messages"}>Messages</Link>
+      </div>
     </div>
   );
 }

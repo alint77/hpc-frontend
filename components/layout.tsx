@@ -37,25 +37,25 @@ export default function Layout({ children }) {
             <NavbarCollapse open={openNavbar}>
               <Nav>
                 <NavItem
-                  active={router.pathname.includes("/faq") && "light"}
+                  active={router.pathname.includes("/faq") ? "light" : ""}
                   ripple="light"
                 >
                   <Link href="/faq">FAQ</Link>
                 </NavItem>
                 <NavItem
-                  active={router.pathname.includes("/plans") && "light"}
+                  active={router.pathname.includes("/plans") ? "light" : ""}
                   ripple="light"
                 >
                   <Link href="/plans">Plans</Link>
                 </NavItem>
                 <NavItem
-                  active={router.pathname.includes("/login") && "light"}
+                  active={router.pathname.includes("/login") ? "light" : ""}
                   ripple="light"
                 >
                   <Link href="/login">Login</Link>
                 </NavItem>
                 <NavItem
-                  active={router.pathname.includes("/register") && "light"}
+                  active={router.pathname.includes("/register") ? "light" : ""}
                   ripple="light"
                 >
                   <Link href="/register">Register</Link>
@@ -90,7 +90,7 @@ export default function Layout({ children }) {
                 <Link href="/admin">
                   <a href="">
                     <NavItem
-                      active={router.pathname.includes("/admin") && "light"}
+                      active={router.pathname.includes("/admin") ? "light" : ""}
                       ripple="light"
                     >
                       Admin Panel
@@ -102,7 +102,9 @@ export default function Layout({ children }) {
                 <a href="">
                   <NavItem
                     active={
-                      router.pathname.includes("/dashboard/profile") && "light"
+                      router.pathname.includes("/dashboard/profile")
+                        ? "light"
+                        : ""
                     }
                     ripple="light"
                   >
@@ -113,7 +115,9 @@ export default function Layout({ children }) {
               <Link href="/dashboard">
                 <a href="">
                   <NavItem
-                    active={router.pathname.endsWith("/dashboard") && "light"}
+                    active={
+                      router.pathname.endsWith("/dashboard") ? "light" : ""
+                    }
                     ripple="light"
                   >
                     Dashboard
@@ -122,7 +126,7 @@ export default function Layout({ children }) {
               </Link>
               <div className=" cursor-pointer" onClick={() => logout()}>
                 <NavItem
-                  active={router.pathname.includes("/register") && "light"}
+                  active={router.pathname.includes("/register") ? "light" : ""}
                   ripple="light"
                 >
                   Logout

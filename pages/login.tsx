@@ -91,7 +91,6 @@ export default function loginPage() {
       <div className=" text-center w-full font-semibold text-blue-800">
         <Link href="/register">Create a New Account</Link>
       </div>
-      <ToastContainer hideProgressBar></ToastContainer>
     </div>
   );
 }

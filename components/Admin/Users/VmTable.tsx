@@ -6,12 +6,11 @@ import Table, {
 } from "../../../components/Admin/Users/Table";
 import { API_URL, OS } from "../../../config/config";
 
-
-interface Prop{
-  vmsList?:any
+interface Prop {
+  vmsList?: any;
 }
 
-export default function VmTable({vmsList}:Prop) {
+export default function VmTable({ vmsList }: Prop) {
   const columns = useMemo(
     () => [
       {
@@ -31,12 +30,16 @@ export default function VmTable({vmsList}:Prop) {
       },
       {
         Header: "OS",
-        accessor: "os",
-        Cell: ({ value }) => <div>{OS[value]}</div>,
+        accessor: (e) => e.image.osName,
       },
       {
         Header: "RAM",
         accessor: "memory",
+      },
+      {
+        Header: "Disk",
+        accessor: "diskSize",
+        Cell: ({ value }) => value + "GB",
       },
       {
         Header: "CPU#",
@@ -66,7 +69,6 @@ export default function VmTable({vmsList}:Prop) {
         accessor: "endPriodDateTime",
         Cell: ({ value }) => {
           const dateTime = new Date(value);
-          console.log(dateTime.getTime(), Date.now());
           const deltaT = (
             (dateTime.getTime() - Date.now()) /
             86400000
@@ -85,11 +87,10 @@ export default function VmTable({vmsList}:Prop) {
     ],
     []
   );
-  
-  if(!vmsList)return <></>
+
+  if (!vmsList) return <></>;
   return (
     <div className="overflow-auto mx-auto">
-      
       <Table columns={columns} data={vmsList} className=""></Table>
     </div>
   );

@@ -220,7 +220,6 @@ export default function UserAdminPage() {
         setisLoading(false);
       })
       .catch((e) => {
-        toast.error(e.message);
         setisLoading(false);
         console.log("ERROR:failed to fetch userVMs", e.message);
       });
@@ -228,39 +227,40 @@ export default function UserAdminPage() {
 
   if (!user) return <></>;
   return (
-    <div className="w-full px-2">
-      <pre>{JSON.stringify(userData, null, 2)}</pre>
+    <div className="w-fit px-2">
+      <div className="m-auto">
+        <pre>{JSON.stringify(userData, null, 2)}</pre>
+        {userData.role == UserRole[0] && (
+          <div>
+            <div
+              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+              onClick={() => setShowEditUserModal(true)}
+            >
+              Edit User Info
+            </div>
+            <div
+              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+              onClick={() => setEditEmailModal(true)}
+            >
+              Change User Email
+            </div>
+            <div
+              onClick={handleChangeState}
+              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+            >
+              Change RegisterationState
+            </div>
+            <div
+              onClick={handleChangeIsStudent}
+              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+            >
+              Change isStudent
+            </div>
+          </div>
+        )}
+      </div>
 
-      {userData.role == UserRole[0] && (
-        <div>
-          <div
-            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-            onClick={() => setShowEditUserModal(true)}
-          >
-            Edit User Info
-          </div>
-          <div
-            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-            onClick={() => setEditEmailModal(true)}
-          >
-            Change User Email
-          </div>
-          <div
-            onClick={handleChangeState}
-            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-          >
-            Change RegisterationState
-          </div>
-          <div
-            onClick={handleChangeIsStudent}
-            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-          >
-            Change isStudent
-          </div>
-        </div>
-      )}
-
-      {userVMs && <VmTable vmsList={userVMs}></VmTable>}
+      {userVMs ? <VmTable vmsList={userVMs}></VmTable> : "No VM"}
 
       <EditUserEmailModal
         isOpen={editEmailModal}
@@ -274,7 +274,6 @@ export default function UserAdminPage() {
         title={"Edit User"}
         user={userData}
       ></EditUserModalAdmin>
-      <ToastContainer hideProgressBar></ToastContainer>
     </div>
   );
 }
