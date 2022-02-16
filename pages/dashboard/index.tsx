@@ -17,6 +17,9 @@ export default function Index() {
       <div>
         <Link href={"/dashboard/vms"}>VMs</Link>
       </div>
+      <div>
+        <Link href={"/dashboard/profile"}>Profile</Link>
+      </div>
     </div>
   );
 }

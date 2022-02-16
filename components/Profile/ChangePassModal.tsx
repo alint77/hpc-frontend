@@ -149,7 +149,7 @@ export default function ChangePassModal({
               className="block text-gray-700 text-sm my-2"
               htmlFor="passwordConfirmation"
             >
-              Old Password :
+              Confirm New Password :
             </label>
             <div className="relative border-2 flex flex-row ">
               <input

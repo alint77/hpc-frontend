@@ -1,14 +1,19 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
 import AuthContext from "../../../context/authContext";
-import { API_URL, RegistrationStatus } from "../../../config/config";
+import { API_URL, RegistrationStatus, UserRole } from "../../../config/config";
 
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import VmTable from "../../../components/Admin/Users/VmTable";
+import EditUserEmailModal from "../../../components/Admin/Users/EditUserEmailModal";
+import EditUserModalAdmin from "../../../components/Admin/Users/EditUserModalAdmin";
 
 interface User {
+  unSeenMessagesCount: number;
+  isStudent: boolean;
+
   id: string;
   firstName: string;
   lastName: string;
@@ -30,7 +35,12 @@ export default function UserAdminPage() {
     isAccessTokenValid,
   } = useContext(AuthContext);
 
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [editEmailModal, setEditEmailModal] = useState(false);
+
   const [userData, setUserData] = useState<User>({
+    unSeenMessagesCount: 0,
+    isStudent: false,
     id: "",
     firstName: "",
     lastName: "",
@@ -88,9 +98,9 @@ export default function UserAdminPage() {
 
   const handleChangeState = async () => {
     const conf = confirm(
-      "change regState from" +
+      "change regState from " +
         userData.registrationState +
-        "to" +
+        " to " +
         (userData.registrationState == RegistrationStatus[0]
           ? RegistrationStatus[1]
           : RegistrationStatus[0])
@@ -128,7 +138,52 @@ export default function UserAdminPage() {
       .then((data) => {
         toast.success("success");
         console.log(data);
-        router.reload()
+        router.reload();
+        setisLoading(false);
+      })
+      .catch((e) => {
+        toast.error(e.message);
+        setisLoading(false);
+        console.log("ERROR:", e.message);
+      });
+  };
+
+  const handleChangeIsStudent = async () => {
+    const conf = confirm(
+      "change isStudent from " +
+        userData.isStudent +
+        " to " +
+        !userData.isStudent
+    );
+
+    if (!conf) return;
+
+    setisLoading(true);
+    if (!isAccessTokenValid()) {
+      await refreshAccessToken();
+    }
+    const accessToken = window.localStorage.getItem("access");
+
+    const res = await fetch(
+      `${API_URL}/users/ChangeUserStudentState/${userData.id}/admin`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    )
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        toast.success("success");
+        console.log(data);
+        router.reload();
         setisLoading(false);
       })
       .catch((e) => {
@@ -171,14 +226,54 @@ export default function UserAdminPage() {
       });
   };
 
+  if (!user) return <></>;
   return (
-    <div>
-      <pre>{JSON.stringify(userData,null,2)}</pre>
-      <div onClick={handleChangeState} className=" w-fit my-4 cursor-pointer">
-        Change RegisterationState
-      </div>
-      {userVMs&&<VmTable vmsList={userVMs}></VmTable>}
-      
+    <div className="w-full px-2">
+      <pre>{JSON.stringify(userData, null, 2)}</pre>
+
+      {userData.role == UserRole[0] && (
+        <div>
+          <div
+            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+            onClick={() => setShowEditUserModal(true)}
+          >
+            Edit User Info
+          </div>
+          <div
+            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+            onClick={() => setEditEmailModal(true)}
+          >
+            Change User Email
+          </div>
+          <div
+            onClick={handleChangeState}
+            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+          >
+            Change RegisterationState
+          </div>
+          <div
+            onClick={handleChangeIsStudent}
+            className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+          >
+            Change isStudent
+          </div>
+        </div>
+      )}
+
+      {userVMs && <VmTable vmsList={userVMs}></VmTable>}
+
+      <EditUserEmailModal
+        isOpen={editEmailModal}
+        setIsOpen={setEditEmailModal}
+        user={userData}
+        title="Edit User Email"
+      ></EditUserEmailModal>
+      <EditUserModalAdmin
+        isOpen={showEditUserModal}
+        setIsOpen={setShowEditUserModal}
+        title={"Edit User"}
+        user={userData}
+      ></EditUserModalAdmin>
       <ToastContainer hideProgressBar></ToastContainer>
     </div>
   );

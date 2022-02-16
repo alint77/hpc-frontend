@@ -2,12 +2,13 @@ import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
 import AuthContext from "../../context/authContext";
 import { API_URL, RegistrationStatus, UserRole } from "../../config/config";
 import { toast } from "react-toastify";
-import Table, {
-  SelectColumnFilter,
-} from "../../components/Admin/Users/Table";
+import Table, { SelectColumnFilter } from "../../components/Admin/Users/Table";
 import Link from "next/link";
 
 interface User {
+  unSeenMessagesCount: number;
+  isStudent: boolean;
+
   id: string;
   firstName: string;
   lastName: string;
@@ -25,12 +26,12 @@ export default function users() {
     () => [
       {
         Header: "Name",
-        accessor: ({firstName,lastName,email,id})=> JSON.stringify([lastName,firstName,email,id]),
-        Cell: ({value})=> {
-
-          value=JSON.parse(value)
+        accessor: ({ firstName, lastName, email, id }) =>
+          JSON.stringify([lastName, firstName, email, id]),
+        Cell: ({ value }) => {
+          value = JSON.parse(value);
           return (
-            <Link href={`/admin/user/`+value[3]}>
+            <Link href={`/admin/user/` + value[3]}>
               <div className=" cursor-pointer">
                 <div className="flex flex-row">
                   <div className="mr-1">{value[1]}</div>
@@ -120,32 +121,32 @@ export default function users() {
       await refreshAccessToken();
     }
     const accessToken = window.localStorage.getItem("access");
-    
-      const res = await fetch(
-        `${API_URL}/users/GetAllUsers/admin?PageNumber=1&PageSize=100`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + accessToken,
-          },
+
+    const res = await fetch(
+      `${API_URL}/users/GetAllUsers/admin?PageNumber=1&PageSize=100`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    )
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
         }
-      ).then(async e=>{
-        if(!e.ok){
-          throw Error((await e.json()).message)
-        }
-        return e.json()
-      }).then(data=>{
+        return e.json();
+      })
+      .then((data) => {
         console.log(data.data);
         setUsersList(data.data);
         setisLoading(false);
-      }).catch(e=>{
-        setisLoading(false)
-        console.log('ERROR:failed to fetch usersList! ',e.message);
-
       })
-      
-    
+      .catch((e) => {
+        setisLoading(false);
+        console.log("ERROR:failed to fetch usersList! ", e.message);
+      });
   };
 
   useLayoutEffect(() => {

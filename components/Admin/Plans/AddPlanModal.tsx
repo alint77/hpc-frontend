@@ -16,10 +16,9 @@ interface Prop {
 
 interface InputPlan {
   name: string;
-  os: number;
   isActive: boolean;
+  diskSize: number;
   memory: number;
-  period: number;
   price: number;
   processorCores: number;
 }
@@ -39,8 +38,7 @@ export default function AddPlanModal({
     isActive: false,
     memory: NaN,
     name: "",
-    os: 0,
-    period: NaN,
+    diskSize: NaN,
     price: NaN,
     processorCores: NaN,
   });
@@ -135,28 +133,16 @@ export default function AddPlanModal({
               name="processorCores"
               type="number"
             />
-            <label htmlFor="os">os:</label>
-            <select
-              onChange={(e) =>
-                setInputPlan({ ...inputPlan, os: parseInt(e.target.value) })
-              }
-              className="border-2 text-sm mb-2"
-              required
-              name="os"
-            >
-              <option value="0">UBUNTU</option>
-              <option value="1">CENTOS</option>
-            </select>
-            <label htmlFor="period">period:</label>
+            <label htmlFor="diskSize">diskSize:</label>
             <input
-              onChange={(e) =>
-                setInputPlan({ ...inputPlan, period: parseInt(e.target.value) })
-              }
+              onChange={handleChange}
               className="border-2 text-sm mb-2"
               required
-              name="period"
+              name="diskSize"
               type="number"
+              
             />
+            
             <label htmlFor="isActive">isActive:</label>
             <input
               onChange={(e) =>

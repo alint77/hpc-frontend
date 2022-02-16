@@ -7,10 +7,9 @@ import EditPlanModal from "./EditPlanModal";
 interface Plan {
   id: string;
   name: string;
-  os: number;
   isActive: boolean;
+  diskSize:number,
   memory: number;
-  period: number;
   price: number;
   processorCores: number;
 }
@@ -31,8 +30,7 @@ export default function planCard({ plan }: Prop) {
           <div>name: {plan.name}</div>
           <div>cores: {plan.processorCores}</div>
           <div>memory: {plan.memory}</div>
-          <div>os: {OS[plan.os]}</div>
-          <div>period: {plan.period}</div>
+          <div>disk: {plan.diskSize}GB</div>
           <div>price: {plan.price}</div>
           <div>isActive: {plan.isActive.toString()}</div>
         </div>

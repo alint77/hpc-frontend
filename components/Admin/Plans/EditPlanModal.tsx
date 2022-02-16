@@ -3,7 +3,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { API_URL, OS } from "../../../config/config";
 import AuthContext from "../../../context/authContext";
 import Modal from "../../Modal/Modal";
-import axios from "axios";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
@@ -19,16 +18,12 @@ interface Prop {
 interface Plan {
   id: string;
   name: string;
-  os: number;
   isActive: boolean;
+  diskSize: number;
   memory: number;
-  period: number;
   price: number;
   processorCores: number;
 }
-
-
-
 
 export default function EditPlanModal({
   isOpen,
@@ -42,11 +37,9 @@ export default function EditPlanModal({
 
   const router = useRouter();
 
-  
   const { id, ...omitedId } = plan;
 
   const [editedPlan, setEditedPlan] = useState<Plan>(omitedId);
-
 
   const handleEditPlan = async () => {
     toast.loading("loading...", { toastId: "1" });
@@ -55,7 +48,6 @@ export default function EditPlanModal({
     if (!isAccessTokenValid()) {
       await refreshAccessToken();
     }
-
 
     const res = await fetch(`${API_URL}/plans/${plan.id}/UpdatePlan/admin`, {
       method: "PUT",
@@ -131,8 +123,6 @@ export default function EditPlanModal({
       });
   };
 
-  
-
   return (
     <>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
@@ -175,31 +165,14 @@ export default function EditPlanModal({
               type="number"
               value={editedPlan.processorCores}
             />
-            <label htmlFor="os">os:</label>
-            <select
-              onChange={(e) => {
-                setEditedPlan({ ...editedPlan, os: parseInt(e.target.value) });
-              }}
-              className="border-2 text-sm mb-2"
-              required
-              name="os"
-              value={
-                editedPlan.os
-              }
-            >
-
-              
-              <option value="0">UBUNTU</option>
-              <option value="1">CENTOS</option>
-            </select>
-            <label htmlFor="period">period:</label>
+            <label htmlFor="diskSize">diskSize:</label>
             <input
               onChange={handleChange}
               className="border-2 text-sm mb-2"
               required
-              name="period"
+              name="diskSize"
               type="number"
-              value={editedPlan.period}
+              value={editedPlan.diskSize}
             />
           </div>
         </div>

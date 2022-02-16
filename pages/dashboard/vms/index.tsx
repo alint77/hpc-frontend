@@ -140,6 +140,7 @@ export default function Index() {
           Request New VM
         </div>
       </Link>
+      
       {vmsList.length>0 ? <VmTable vmsList={vmsList}></VmTable> : "no VMs"}
     </div>
   );

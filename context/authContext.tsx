@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
         toast.success("Success!");
         checkUserLoggedIn();
         setisLoading(false);
-        router.push("/");
+        router.push("/dashboard");
       })
       .catch((e) => {
         console.log(e);

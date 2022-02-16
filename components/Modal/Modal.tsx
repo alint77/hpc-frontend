@@ -32,7 +32,7 @@ export default function Modal({isOpen,setIsOpen,children,title}:Prop) {
           </div>
 
           <div
-            className="absolute z-index-10 w-screen h-screen inset-0 bg-opacity-50 bg-black cursor-pointer"
+            className="absolute z-index-10 w-screen h-screen inset-0 opacity-60 bg-black cursor-pointer"
             onClick={() => setIsOpen(false)}
           ></div>
         </>

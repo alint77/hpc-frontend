@@ -1,13 +1,15 @@
 import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
-import AuthContext from "../context/authContext";
-import { API_URL, RegistrationStatus, UserRole } from "../config/config";
+import AuthContext from "../../context/authContext";
+import { API_URL, RegistrationStatus, UserRole } from "../../config/config";
 import { toast } from "react-toastify";
 
 import Link from "next/link";
-import ChangePassModal from "../components/Profile/ChangePassModal";
-import EditUserModal from "../components/Profile/EditUserModal";
+import ChangePassModal from "../../components/Profile/ChangePassModal";
+import EditUserModal from "../../components/Profile/EditUserModal";
 
 interface User {
+  unSeenMessagesCount: number;
+  isStudent: boolean;
   id: string;
   firstName: string;
   lastName: string;
@@ -32,7 +34,7 @@ export default function Profile() {
     isAccessTokenValid,
   } = useContext(AuthContext);
 
-  if(!user) return <div>not signed in</div>
+  if (!user) return <div>not signed in</div>;
 
   return (
     <div className="flex flex-col">
@@ -50,11 +52,17 @@ export default function Profile() {
           Edit
         </div>
       </div>
-      <pre>
-        {JSON.stringify(user, null, 2)}
-      </pre>
-      <ChangePassModal isOpen={showChangePassModal} setIsOpen={setShowChangePassModal} title={"Change Password"}></ChangePassModal>
-      <EditUserModal isOpen={showEditUserModal} setIsOpen={setShowEditUserModal} title={"Edit User"}></EditUserModal>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <ChangePassModal
+        isOpen={showChangePassModal}
+        setIsOpen={setShowChangePassModal}
+        title={"Change Password"}
+      ></ChangePassModal>
+      <EditUserModal
+        isOpen={showEditUserModal}
+        setIsOpen={setShowEditUserModal}
+        title={"Edit User"}
+      ></EditUserModal>
     </div>
   );
 }

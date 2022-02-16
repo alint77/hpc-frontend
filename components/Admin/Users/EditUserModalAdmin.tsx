@@ -1,8 +1,8 @@
-import Modal from "../Modal/Modal";
+import Modal from "../../Modal/Modal";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
-import AuthContext from "../../context/authContext";
-import { API_URL, RegistrationStatus } from "../../config/config";
+import AuthContext from "../../../context/authContext";
+import { API_URL, RegistrationStatus } from "../../../config/config";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -10,6 +10,7 @@ interface Prop {
   isOpen: boolean;
   setIsOpen: Function;
   title: any;
+  user: User;
   children?: any;
 }
 
@@ -32,10 +33,10 @@ export default function EditUserModal({
   isOpen,
   setIsOpen,
   title,
+  user,
   children,
 }: Prop) {
   const {
-    user,
     isLoading,
     logout,
     setisLoading,
@@ -46,9 +47,9 @@ export default function EditUserModal({
   const router = useRouter();
 
   const [inputFields, setInputFields] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    phoneNumber: user.phoneNumber,
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
   });
   const handleEditUser = async () => {
     if (
@@ -62,14 +63,17 @@ export default function EditUserModal({
     }
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(`${API_URL}/users/UpdateUserInfo`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-      body: JSON.stringify(inputFields),
-    })
+    const res = await fetch(
+      `${API_URL}/users/UpdateUserInfo/${user.id}/admin`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+        body: JSON.stringify(inputFields),
+      }
+    )
       .then(async (e) => {
         if (!e.ok) {
           throw Error((await e.json()).message);
@@ -109,6 +113,7 @@ export default function EditUserModal({
                 className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
                 id="firstName"
                 type={"text"}
+                placeholder={user.firstName}
               />
             </div>
           </div>
@@ -126,6 +131,7 @@ export default function EditUserModal({
                 className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
                 id="lastName"
                 type={"text"}
+                placeholder={user.lastName}
               />
             </div>
           </div>
@@ -147,6 +153,7 @@ export default function EditUserModal({
                 maxLength={11}
                 className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
                 id="phoneNumber"
+                placeholder={user.phoneNumber}
               />
             </div>
           </div>
