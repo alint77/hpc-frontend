@@ -94,19 +94,19 @@ export default function EditUserModal({
   return (
     <div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
-        <div className="p-4">
+        <div className="p-4 text-right">
           <div className=" mb-5">
             <label
-              className="block text-gray-700 text-sm my-2"
+              className="block  text-sm my-2 px-1"
               htmlFor="firstName"
             >
-              First Name :
+              نام
             </label>
             <div className="relative border-2 flex flex-row ">
               <input
                 onChange={handleChangeInputs}
                 value={inputFields.firstName}
-                className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
+                className=" flex shadow appearance-none border rounded w-full py-2 px-4  leading-tight focus:outline-none "
                 id="firstName"
                 type={"text"}
               />
@@ -114,16 +114,17 @@ export default function EditUserModal({
           </div>
           <div className=" mb-5">
             <label
-              className="block text-gray-700 text-sm my-2"
+              className="block  text-sm my-2 px-1"
               htmlFor="lastName"
             >
-              Last Name :
+              نام خانوادگی
+
             </label>
             <div className="relative border-2 flex flex-row ">
               <input
                 onChange={handleChangeInputs}
                 value={inputFields.lastName}
-                className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
+                className=" flex shadow appearance-none border rounded w-full py-2 px-4  leading-tight focus:outline-none "
                 id="lastName"
                 type={"text"}
               />
@@ -132,10 +133,10 @@ export default function EditUserModal({
 
           <div className=" mb-5">
             <label
-              className="block text-gray-700 text-sm my-2"
+              className="block  text-sm my-2 px-1"
               htmlFor="phoneNumber"
             >
-              Phone Number :
+              شماره همراه
             </label>
             <div className="relative border-2 flex flex-row ">
               <input
@@ -145,18 +146,18 @@ export default function EditUserModal({
                 type="tel"
                 minLength={11}
                 maxLength={11}
-                className=" flex shadow appearance-none border rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none "
+                className=" flex shadow appearance-none border rounded w-full py-2 px-4  leading-tight focus:outline-none "
                 id="phoneNumber"
               />
             </div>
           </div>
         </div>
-        <div className="flex flex-row-reverse items-center border-t-2 h-12">
+        <div className="flex flex-row items-center border-t-2 h-12">
           <div
-            className="mr-5 px-2 py-1 bg-green-400 text-white rounded font-semibold text-sm cursor-pointer"
+            className="mx-5 px-2 py-1 bg-green-400 text-white rounded font-semibold text-sm cursor-pointer"
             onClick={() => handleEditUser()}
           >
-            Save
+            ذخیره
           </div>
         </div>
       </Modal>

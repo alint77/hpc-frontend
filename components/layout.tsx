@@ -69,7 +69,6 @@ export default function Layout({ children }) {
       </>
     );
   }
-  console.log(user);
 
   return (
     <div>
@@ -120,7 +119,7 @@ export default function Layout({ children }) {
                     }
                     ripple="light"
                   >
-                    Dashboard
+                    {`Dashboard`+(user.unSeenMessagesCount!=0?`(${user.unSeenMessagesCount})`:"")}
                   </NavItem>
                 </a>
               </Link>

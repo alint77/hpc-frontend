@@ -1,10 +1,10 @@
 import { useContext, useLayoutEffect, useMemo, useState } from "react";
-import AuthContext from "../../../context/authContext";
+import AuthContext from "../../context/authContext";
 import Link from "next/link";
 import Table, {
   SelectColumnFilter,
-} from "../../../components/Admin/Users/Table";
-import { API_URL, OS } from "../../../config/config";
+} from "../Admin/Users/Table";
+import { API_URL, OS } from "../../config/config";
 
 interface Prop {
   vmsList?: any;
@@ -15,14 +15,16 @@ export default function VmTable({ vmsList }: Prop) {
     () => [
       {
         Header: "Name",
-        accessor: "vmName",
+        accessor: (vm) => JSON.stringify([vm.vmName, vm.id]),
+        Cell: ({ value }) => {
+          value = JSON.parse(value);
+          return <Link href={`/dashboard/vms/` + value[1]}>{value[0]}</Link>;
+        },
       },
 
       {
         Header: "Status",
         accessor: "vmState",
-        Filter: SelectColumnFilter,
-        filter: "includes",
       },
       {
         Header: "Period",
@@ -91,7 +93,7 @@ export default function VmTable({ vmsList }: Prop) {
   if (!vmsList) return <></>;
   return (
     <div className="overflow-auto mx-auto">
-      <Table columns={columns} data={vmsList} className=""></Table>
+      <Table searchable={false} paginated={false} columns={columns} data={vmsList} className=""></Table>
     </div>
   );
 }

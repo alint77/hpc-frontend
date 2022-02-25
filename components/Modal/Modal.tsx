@@ -12,12 +12,12 @@ export default function Modal({isOpen,setIsOpen,children,title}:Prop) {
 
     return(
         <>
-          <div className="fixed z-20 inset-0 m-auto h-min w-96 bg-white rounded">
+          <div className="fixed z-30 inset-0 m-auto h-min w-96 bg-white rounded">
             <div className="flex flex-col">
-              <div className="flex h-8 border-b-2 justify-between items-center mt-2">
-                <div className="font-semibold text-lg ml-4">{title}</div>
+              <div className="flex flex-row-reverse h-10 border-b-2 justify-between items-center mt-2 px-6">
+                <div className="font-semibold text-lg">{title}</div>
                 <div
-                  className="mr-4 font-bold cursor-pointer "
+                  className=" font-bold cursor-pointer "
                   onClick={() => setIsOpen(false)}
                 >
                   X
@@ -29,12 +29,14 @@ export default function Modal({isOpen,setIsOpen,children,title}:Prop) {
                 
               </div>
             </div>
+            
           </div>
-
           <div
-            className="absolute z-index-10 w-screen h-screen inset-0 opacity-60 bg-black cursor-pointer"
+            className="fixed z-20 w-screen h-screen inset-0 opacity-60 bg-black cursor-pointer"
             onClick={() => setIsOpen(false)}
           ></div>
+
+          
         </>
     )
 };

@@ -16,7 +16,7 @@ export default function registerPage() {
   };
 
   const handleChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+    setUserInput({ ...userInput, [e.target.id]: e.target.value });
   };
 
   if (user) {

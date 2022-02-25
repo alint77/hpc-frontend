@@ -1,8 +1,10 @@
-import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
-import AuthContext from "../../context/authContext";
-import { API_URL, OS } from "../../config/config";
+import React, { useEffect, useState, useContext, useMemo } from "react";
+import AuthContext from "../../../context/authContext";
+import { API_URL, OS } from "../../../config/config";
 import { toast } from "react-toastify";
-import Table, { SelectColumnFilter } from "../../components/Admin/Users/Table";
+import Table, {
+  SelectColumnFilter,
+} from "../../../components/Admin/Users/Table";
 import Link from "next/link";
 
 interface Creator {
@@ -18,7 +20,7 @@ interface Host {
 }
 
 interface VM {
-  vnName: string;
+  vmName: string;
   createDateTime: string;
   endPriodDateTime: string;
   id: string;
@@ -32,12 +34,16 @@ interface VM {
   memory: number;
 }
 
-export default function vms() {
+export default function VMs() {
   const columns = useMemo(
     () => [
       {
         Header: "Name",
-        accessor: "vmName",
+        accessor: (vm: VM) => JSON.stringify([vm.vmName, vm.id]),
+        Cell: ({ value }) => {
+          value = JSON.parse(value);
+          return <Link href={`/admin/vms/` + value[1]}>{value[0]}</Link>;
+        },
       },
       {
         Header: "Creator",
@@ -100,7 +106,7 @@ export default function vms() {
       {
         Header: "Disk",
         accessor: "diskSize",
-        Cell:({value})=>value+"GB"
+        Cell: ({ value }) => value + "GB",
       },
       {
         Header: "CPU#",
@@ -148,7 +154,7 @@ export default function vms() {
     ],
     []
   );
-  const [vmsList, setVmsList] = useState<Array<any>>([]);
+  const [vmsList, setVmsList] = useState<Array<VM>>([]);
   const {
     user,
     isLoading,
@@ -193,7 +199,7 @@ export default function vms() {
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchVmsList();
   }, []);
 

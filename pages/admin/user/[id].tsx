@@ -3,12 +3,12 @@ import Router, { useRouter } from "next/router";
 import AuthContext from "../../../context/authContext";
 import { API_URL, RegistrationStatus, UserRole } from "../../../config/config";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-import "react-toastify/dist/ReactToastify.css";
-import VmTable from "../../../components/Admin/Users/VmTable";
+import VmTable from "../../../components/VMs/VmTable";
 import EditUserEmailModal from "../../../components/Admin/Users/EditUserEmailModal";
 import EditUserModalAdmin from "../../../components/Admin/Users/EditUserModalAdmin";
+import SendMessageModal from "../../../components/Admin/Users/SendMessageModal";
 
 interface User {
   unSeenMessagesCount: number;
@@ -37,6 +37,7 @@ export default function UserAdminPage() {
 
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
+  const [showSendMessageModal, setShowSendMessageModal] = useState(false);
 
   const [userData, setUserData] = useState<User>({
     unSeenMessagesCount: 0,
@@ -225,9 +226,10 @@ export default function UserAdminPage() {
       });
   };
 
+
   if (!user) return <></>;
   return (
-    <div className="w-fit px-2">
+    <div className="container">
       <div className="m-auto">
         <pre>{JSON.stringify(userData, null, 2)}</pre>
         {userData.role == UserRole[0] && (
@@ -256,6 +258,12 @@ export default function UserAdminPage() {
             >
               Change isStudent
             </div>
+            <div
+              onClick={() => setShowSendMessageModal(true)}
+              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
+            >
+              Send Message to User
+            </div>
           </div>
         )}
       </div>
@@ -274,6 +282,14 @@ export default function UserAdminPage() {
         title={"Edit User"}
         user={userData}
       ></EditUserModalAdmin>
+      {userData && (
+        <SendMessageModal
+          isOpen={showSendMessageModal}
+          setIsOpen={setShowSendMessageModal}
+          title={"Send Message"}
+          user={userData}
+        ></SendMessageModal>
+      )}
     </div>
   );
 }

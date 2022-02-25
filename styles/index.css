@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+    font-family: "iransans";
+    src: url("/components/fonts/iransans.ttf") format("truetype");
+}

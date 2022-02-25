@@ -5,6 +5,7 @@ import AuthContext from "../../../context/authContext";
 import PlanCard from "../../../components/Plans/planCard";
 import Router from "next/router";
 import ImageCard from "../../../components/VMs/RequestNewVM/ImageCard";
+import UserLayout from "../../../components/UserDashboardLayout";
 
 interface Plan {
   id: string;
@@ -22,6 +23,20 @@ interface Image {
   osVersion: number;
   softWare: string;
 }
+interface Upgrade {
+  extraCores?: number;
+  extraMemory?: number;
+  extraDisk?: number;
+}
+interface VMrequest {
+  planId: string;
+  vmName: string;
+  imageId: string;
+  description?: string;
+  period: number;
+  isCustom: boolean;
+  upgrade?: Upgrade;
+}
 
 export default function RequestNewVM() {
   const {
@@ -31,6 +46,14 @@ export default function RequestNewVM() {
     isAccessTokenValid,
     refreshAccessToken,
   } = useContext(AuthContext);
+
+  const [isCustom, setIsCustom] = useState(false);
+  const [upgradeInputs, setUpgradeInputs] = useState<Upgrade>({
+    extraCores: 0,
+    extraDisk: 0,
+    extraMemory: 0,
+  });
+
   const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedImageId, setSelectedImageId] = useState(null);
 
@@ -125,6 +148,8 @@ export default function RequestNewVM() {
         imageId: selectedImageId,
         description: "sth",
         period,
+        isCustom,
+        upgrade: upgradeInputs,
       }),
     })
       .then(async (e) => {
@@ -153,64 +178,134 @@ export default function RequestNewVM() {
     handleFetchImagesList();
   }, []);
 
+  const handleChangeUpgradeInput = (e) => {
+    setUpgradeInputs({ ...upgradeInputs, [e.target.id]: e.target.value });
+  };
+
   return (
-    <div>
-      Select Plan:
-      {plansList.map((v) => (
-        <div key={v.id} className="" onClick={() => setSelectedPlanId(v.id)}>
-          <PlanCard
-            className={selectedPlanId == v.id ? "bg-green-100" : ""}
-            plan={v}
-          ></PlanCard>
-        </div>
-      ))}
+    <div className="text-right flex flex-col bg-stone-200 rounded shadow-md py-6 px-4">
+      <div className="py-2 text-center">:انتخاب طرح</div>
+      <div className="flex flex-row flex-wrap justify-evenly">
+        {plansList.map((v) => (
+          <div
+            key={v.id}
+            className="w-52"
+            onClick={() => setSelectedPlanId(v.id)}
+          >
+            <PlanCard selected={selectedPlanId == v.id} plan={v}></PlanCard>
+          </div>
+        ))}
+      </div>
       {selectedPlanId && (
-        <div>
-          <div>Select Image :</div>
-          {imagesList.map((v) => (
-            <div key={v.id} onClick={() => setSelectedImageId(v.id)}>
-              <ImageCard
-                className={selectedImageId == v.id ? "bg-green-100" : ""}
-                image={v}
-              ></ImageCard>
-            </div>
-          ))}
-        </div>
-      )}
-      {selectedImageId && selectedPlanId && (
-        <div>
-          <div className="flex flex-col">
-            <label htmlFor="vmName">VM Name:</label>
-            <input
-              required
-              onChange={(e) => setVmName(e.target.value)}
-              value={vmName}
-              id="vmName"
-              name="vmName"
-              type="text"
-              minLength={4}
-              maxLength={12}
-            />
-            <label htmlFor="period">VM Duration Days:</label>
-            <input
-              required
-              onChange={(e) => setPeriod(parseInt(e.target.value))}
-              value={period}
-              id="period"
-              name="period"
-              type="number"
-              min={3}
-              max={15}
-            />
+        <div className="text-center">
+          <button
+            className=" focus:outline-none shadow-md m-auto bg-slate-700 text-xs text-white p-2 mt-3 w-fit rounded cursor-pointer"
+            onClick={() => setIsCustom(!isCustom)}
+          >
+            منابع بیشتر
+          </button>
+          <div>
+            {isCustom && (
+              <div className="text-xs flex flex-col items-center mt-4">
+                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                  <label className="w-36 text-right" htmlFor="extraCores">هسته پردازشی</label>
+                  <input
+                    onChange={handleChangeUpgradeInput}
+                    value={upgradeInputs.extraCores}
+                    id="extraCores"
+                    type="number"
+                    min={0}
+                    max={32}
+                    className="p-1 w-16 my-2 rounded"
+                  />
+                </div>
+                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                  <label className="w-36 text-right" htmlFor="extraMemory">رم </label>
+                  <input
+                    onChange={handleChangeUpgradeInput}
+                    value={upgradeInputs.extraMemory}
+                    id="extraMemory"
+                    type="number"
+                    min={0}
+                    max={64}
+                    className="p-1 w-16 my-2 rounded"
+                  />
+                </div>
+                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                  <label className="w-36 text-right" htmlFor="extraDisk">هارد</label>
+                  <input
+                    onChange={handleChangeUpgradeInput}
+                    value={upgradeInputs.extraDisk}
+                    id="extraDisk"
+                    type="number"
+                    min={0}
+                    max={1024}
+                    className="p-1 w-16 my-2 rounded"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="text-center py-4">:انتخاب سیستم عامل</div>
+          <div className="flex flex-row flex-wrap justify-evenly">
+            {imagesList.map((v) => (
+              <div
+                className="w-52 text-left"
+                key={v.id}
+                onClick={() => setSelectedImageId(v.id)}
+              >
+                <ImageCard
+                  selected={selectedImageId == v.id}
+                  image={v}
+                ></ImageCard>
+              </div>
+            ))}
           </div>
         </div>
       )}
-      <div
-        className=" w-fit bg-gray-200  cursor-pointer"
-        onClick={handleRequestVM}
-      >
-        Request
-      </div>
+      {selectedImageId && selectedPlanId && (
+        <div className="">
+          <div className="flex flex-col space-y-4 items-center m-auto mt-4">
+            <div className="flex flex-row-reverse">
+              <label className="w-44 text-sm border-b-2 border-slate-700 p-1" htmlFor="vmName">:شناسه سرویس</label>
+              <input
+                required
+                onChange={(e) => setVmName(e.target.value)}
+                value={vmName}
+                id="vmName"
+                name="vmName"
+                type="text"
+                minLength={4}
+                maxLength={12}
+                className="w-36 rounded border-slate-700 border-2 focus:outline-none px-1"
+                placeholder="4-12 characters"
+              />
+            </div>
+            <div className="flex flex-row-reverse">
+              <label className="w-44 text-sm border-b-2 border-slate-700 p-1" htmlFor="period">:مدت زمان سرویس</label>
+              <input
+                required
+                onChange={(e) => setPeriod(parseInt(e.target.value))}
+                value={period}
+                id="period"
+                name="period"
+                type="number"
+                min={3}
+                max={15}
+                className="w-36 rounded border-slate-700 border-2 focus:outline-none px-1"
+                placeholder="3-15 days"
+              />
+            </div>
+          </div>
+          {(vmName.length>3&&period>2)&&(<div
+            className=" w-fit bg-slate-700 text-white mt-8 m-auto rounded p-2 text-sm  cursor-pointer"
+            onClick={handleRequestVM}
+          >
+            ثبت درخواست
+          </div>)}
+        </div>
+      )}
     </div>
   );
 }
+RequestNewVM.Layout = UserLayout;

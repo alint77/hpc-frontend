@@ -15,19 +15,32 @@ interface Image {
 interface Prop {
   image: Image;
   className?: string;
+  selected?: boolean;
 }
 
-export default function ImageCard({ image, className }: Prop) {
+export default function ImageCard({
+  image,
+  className,
+  selected = false,
+}: Prop) {
   return (
     <div>
       <div
         className={
-          className + " flex flex-col border-black border-[1px] m-2 p-4"
+          className +
+          (selected ? " border-slate-800 " : " border-slate-400 ") +
+          " flex flex-col  border-2 m-2 rounded shadow "
         }
       >
-        <div>
-          <div>osName: {image.osName}</div>
-          <div>osVersion: {image.osVersion}</div>
+        <div
+          className={
+            (selected ? " bg-slate-700" : "bg-slate-400") + " py-2 text-center "
+          }
+        >
+        </div>
+        <div className="p-4">
+          <div>OS: {image.osName}</div>
+          <div>Version: {image.osVersion}</div>
           {image.softWare && <div>software: {image.softWare}</div>}
         </div>
       </div>

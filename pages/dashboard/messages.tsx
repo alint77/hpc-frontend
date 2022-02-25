@@ -5,6 +5,7 @@ import { API_URL } from "../../config/config";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import MessageCard from "../../components/Messages/MessageCard";
+import UserLayout from "../../components/UserDashboardLayout";
 
 interface Message {
   context: string;
@@ -58,18 +59,27 @@ export default function Messages() {
         console.log("ERROR:failed to fetch! ", e.message);
       });
   };
+
   return (
-    <div>
-      {messagesList
-        ? messagesList.map((v) => (
-            <div
-              className="mb-6 border-2 bg-gray-100 rounded shadow"
-              key={v.id}
-            >
-              <MessageCard message={v} ></MessageCard>
-            </div>
-          ))
-        : "No Message"}
+    <div className="p-2">
+      <div className="">
+        {messagesList.length > 0
+          ? messagesList.map((v) => (
+              <div
+                className="mb-6  bg-stone-200 rounded shadow-lg"
+                key={v.id}
+              >
+                <MessageCard message={v}></MessageCard>
+              </div>
+            ))
+          : (<div
+            className="mb-6 text-center py-12 bg-stone-200 rounded shadow-lg"
+          >
+            پیامی وجود ندارد
+          </div>)}
+      </div>
     </div>
   );
 }
+
+Messages.Layout = UserLayout;

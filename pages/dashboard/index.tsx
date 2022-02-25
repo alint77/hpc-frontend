@@ -1,6 +1,8 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import AuthContext from "../../context/authContext";
 import Link from "next/link";
+import UserLayout from "../../components/UserDashboardLayout";
+import { useRouter } from "next/router";
 
 export default function Index() {
   const {
@@ -11,18 +13,14 @@ export default function Index() {
     isAccessTokenValid,
   } = useContext(AuthContext);
 
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/dashboard/vms");
+  }, []);
 
-  return (
-    <div>
-      <div>
-        <Link href={"/dashboard/vms"}>VMs</Link>
-      </div>
-      <div>
-        <Link href={"/dashboard/profile"}>Profile</Link>
-      </div>
-      <div>
-        <Link href={"/dashboard/messages"}>Messages</Link>
-      </div>
-    </div>
-  );
+  if (!user) return <>Access Denied!</>;
+
+  return <div className="w-full"></div>;
 }
+
+Index.Layout = UserLayout;

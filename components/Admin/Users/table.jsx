@@ -62,7 +62,7 @@ export function SelectColumnFilter({
 }
 
 
-export default function table({ className ,columns, data }) {
+export default function table({ className ,columns, data,searchable=true,paginated=true }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -93,11 +93,11 @@ export default function table({ className ,columns, data }) {
 
   return (
     <div>
-      <GlobalFilter
+      {searchable&&(<GlobalFilter
         preGlobalFilteredRows={preGlobalFilteredRows}
         globalFilter={state.globalFilter}
         setGlobalFilter={setGlobalFilter}
-      />
+      />)}
       {headerGroups.map((headerGroup) =>
         headerGroup.headers.map((column) =>
           column.Filter ? (
@@ -109,8 +109,8 @@ export default function table({ className ,columns, data }) {
         )
       )}
       <div className="mt-2 flex flex-col">
-        <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="my-2 overflow-x-auto">
+          <div className="py-2 align-middle inline-block min-w-full">
             <div className={"shadow overflow-hidden border-b border-gray-200 sm:rounded-lg "+className}>
               <table
                 {...getTableProps()}
@@ -124,7 +124,7 @@ export default function table({ className ,columns, data }) {
                         // we can add them into the header props
                         <th
                           scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                           {...column.getHeaderProps(
                             column.getSortByToggleProps()
                           )}
@@ -156,7 +156,7 @@ export default function table({ className ,columns, data }) {
                           return (
                             <td
                               {...cell.getCellProps()}
-                              className="px-6 py-4 whitespace-nowrap"
+                              className="px-2 py-2 text-sm text-center whitespace-nowrap"
                             >
                               {cell.render("Cell")}
                             </td>
@@ -171,30 +171,30 @@ export default function table({ className ,columns, data }) {
           </div>
         </div>
       </div>
-      <div className="pagination">
+      {paginated&&(<div className="pagination">
         <button
-          className="border-2 w-10 bg-gray-100 disabled:bg-white"
+          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
         >
           {"<<"}
         </button>{" "}
         <button
-          className="border-2 w-10 bg-gray-100 disabled:bg-white"
+          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
         >
           {"<"}
         </button>{" "}
         <button
-          className="border-2 w-10 bg-gray-100 disabled:bg-white"
+          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
           onClick={() => nextPage()}
           disabled={!canNextPage}
         >
           {">"}
         </button>{" "}
         <button
-          className="border-2 w-10 bg-gray-100 disabled:bg-white"
+          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >
@@ -218,7 +218,7 @@ export default function table({ className ,columns, data }) {
             </option>
           ))}
         </select>
-      </div>
+      </div>)}
       
     </div>
   );

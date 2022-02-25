@@ -11,82 +11,10 @@ import Table, {
   SelectColumnFilter,
 } from "../../../components/Admin/Users/Table";
 import { API_URL, OS } from "../../../config/config";
-import VmTable from "../../../components/Admin/Users/VmTable";
+import VmTableUser from "../../../components/VMs/VmTableUser";
+import UserLayout from "../../../components/UserDashboardLayout";
 
 export default function Index() {
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "vmName",
-      },
-
-      {
-        Header: "Status",
-        accessor: "vmState",
-        Filter: SelectColumnFilter,
-        filter: "includes",
-      },
-      {
-        Header: "Period",
-        accessor: "period",
-      },
-      {
-        Header: "OS",
-        accessor: "os",
-        Cell: ({ value }) => <div>{OS[value]}</div>,
-      },
-      {
-        Header: "RAM",
-        accessor: "memory",
-      },
-      {
-        Header: "CPU#",
-        accessor: "processorCores",
-      },
-      {
-        Header: "Paid",
-        accessor: (e) => (e.isPaid ? "YES" : "NO"),
-      },
-      {
-        Header: "Created",
-        accessor: "createDateTime",
-        Cell: ({ value }) => {
-          const dateTime = new Date(value);
-          const x = dateTime.toLocaleString().split(",");
-
-          return (
-            <div className="">
-              <div>{x[0]}</div>
-              <div>{x[1]}</div>
-            </div>
-          );
-        },
-      },
-      {
-        Header: "Expire Date",
-        accessor: "endPriodDateTime",
-        Cell: ({ value }) => {
-          const dateTime = new Date(value);
-          console.log(dateTime.getTime(), Date.now());
-          const deltaT = (
-            (dateTime.getTime() - Date.now()) /
-            86400000
-          ).toFixed();
-          const x = dateTime.toLocaleString().split(",");
-
-          return (
-            <div className="">
-              <div>{x[0]}</div>
-              <div>{x[1]}</div>
-              <div>{deltaT} days left </div>
-            </div>
-          );
-        },
-      },
-    ],
-    []
-  );
   const [vmsList, setVmsList] = useState<Array<any>>([]);
   const {
     user,
@@ -122,7 +50,7 @@ export default function Index() {
         setisLoading(false);
       })
       .catch((e) => {
-        setVmsList([])
+        setVmsList([]);
         setisLoading(false);
         console.log("ERROR:failed to fetch! ", e.message);
       });
@@ -132,16 +60,34 @@ export default function Index() {
     handleFetchVmsList();
   }, []);
 
-  if(!user)return<>not logged in</>
+  if (!user) return <>not logged in</>;
+
   return (
-    <div className="w-11/12 mx-auto">
-      <Link href="/dashboard/vms/requestNewVM">
-        <div className="border-2 w-fit cursor-pointer bg-gray-200">
-          Request New VM
+    <div className="flex flex-col">
+      <div className="bg-stone-200 rounded-lg p-4 pt-6 w-full shadow-lg mt-4">
+        <div>
+          {vmsList.length > 0 ? (
+            <div className="text-center">
+              <div>سرویس های شما</div>
+              <VmTableUser vmsList={vmsList}></VmTableUser>
+            </div>
+          ) : (
+            <div className=" text-center font-semibold">
+              سرویسی برای نمایش موجود نیست
+            </div>
+          )}
         </div>
-      </Link>
-      
-      {vmsList.length>0 ? <VmTable vmsList={vmsList}></VmTable> : "no VMs"}
+        <div className="m-auto flex flex-row-reverse">
+          <Link href="/dashboard/vms/requestNewVM">
+            <div className="my-2 shadow-md w-fit cursor-pointer p-2 text-sm bg-slate-700 rounded-md text-white">
+               سرویس جدید
+            </div>
+          </Link>
+        </div>
+
+        <div></div>
+      </div>
     </div>
   );
 }
+Index.Layout = UserLayout;

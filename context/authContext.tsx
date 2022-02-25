@@ -55,11 +55,10 @@ export const AuthProvider = ({ children }) => {
         }
         return e.json();
       })
-      .then( (data) => {
+      .then((data) => {
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
-        toast.success("Success!");
         checkUserLoggedIn();
         setisLoading(false);
         router.push("/dashboard");
@@ -82,20 +81,21 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify(user),
     })
-    .then(async (e) => {
-      if (!e.ok) {
-        throw Error((await e.json()).message);
-      }
-      return e.json();
-    })
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
       .then((data) => {
+        console.log(data.message);
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
         toast.success("Success!");
         checkUserLoggedIn();
         setisLoading(false);
-        router.push("/");
+        setTimeout(() => router.push("/activation"), 300);
       })
       .catch((e) => {
         console.log(e);
@@ -106,7 +106,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async () => {
-    if (!window.localStorage.getItem("access")||!window.localStorage.getItem("refresh")) {
+    if (
+      !window.localStorage.getItem("access") ||
+      !window.localStorage.getItem("refresh")
+    ) {
       setUser(null);
       setisLoading(false);
       return;
@@ -126,40 +129,39 @@ export const AuthProvider = ({ children }) => {
         Authorization: `Bearer ${accessToken}`,
         "content-type": "application/json",
       },
-    }).then(async (e) => {
-      if (!e.ok) {
-        throw Error((await e.json()).message);
-      }
-      return e.json();
-    }).then(data=>{
-      setUser(data.data);
-      setisLoading(false);
-    }).catch(e=>{
-      setUser(null);
-      console.log("CheckUserLoggedInError:",e.message);
-      setisLoading(false);
     })
-  
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        setUser(data.data);
+        setisLoading(false);
+      })
+      .catch((e) => {
+        setUser(null);
+        console.log("CheckUserLoggedInError:", e.message);
+        setisLoading(false);
+      });
   };
 
   const isAccessTokenValid = () => {
-    
     const accessToken = window.localStorage.getItem("access");
     const refreshToken = window.localStorage.getItem("refresh");
 
-    if(!accessToken||!refreshToken) return false
+    if (!accessToken || !refreshToken) return false;
 
     const decodedAccessToken: JwtPayload = jwtDecode(accessToken);
 
-    const deltaT = decodedAccessToken.exp - parseInt((Date.now() / 1000).toFixed());
+    const deltaT =
+      decodedAccessToken.exp - parseInt((Date.now() / 1000).toFixed());
     console.log(deltaT);
     return deltaT > 40;
-    
   };
 
   const refreshAccessToken = async () => {
-    setisLoading(true);
-
     const accessToken = window.localStorage.getItem("access");
     const refreshToken = window.localStorage.getItem("refresh");
 
@@ -172,24 +174,22 @@ export const AuthProvider = ({ children }) => {
         accessToken,
         refreshToken,
       }),
-    }).then(async (e) => {
-      if (!e.ok) {
-        throw Error((await e.json()).message);
-      }
-      return e.json();
-    }).then(data=>{
-
-      window.localStorage.setItem("access", data.data.accessToken);
-      window.localStorage.setItem("refresh", data.data.refreshToken);
-      setisLoading(false);
-
-    }).catch(e=>{
-      setUser(null);
-      console.log("CheckUserLoggedInError:",e.message);
-      logout()
-      setisLoading(false);
     })
-    
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        window.localStorage.setItem("access", data.data.accessToken);
+        window.localStorage.setItem("refresh", data.data.refreshToken);
+      })
+      .catch((e) => {
+        setUser(null);
+        console.log("CheckUserLoggedInError:", e.message);
+        logout();
+      });
   };
 
   const logout = () => {

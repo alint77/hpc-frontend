@@ -179,12 +179,12 @@ export default function ChangePassModal({
 
           
         </div>
-        <div className="flex flex-row-reverse items-center border-t-2 h-12">
+        <div className="flex flex-row items-center border-t-2 h-12">
           <div
-            className="mr-5 px-2 py-1 bg-green-400 text-white rounded font-semibold text-sm cursor-pointer"
+            className="mx-5 px-2 py-1 bg-green-400 text-white rounded font-semibold text-sm cursor-pointer"
             onClick={() => handleChangePassword()}
           >
-            Save
+            ذخیره
           </div>
         </div>
       </Modal>
