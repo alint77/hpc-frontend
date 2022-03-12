@@ -199,7 +199,9 @@ export default function VMpage() {
         </div>
         <div className="">{btnsRender()}</div>
       </div>
-      <pre>{JSON.stringify(vmData, null, 2)}</pre>
+      <div>
+        <pre>{JSON.stringify(vmData, null, 2)}</pre>
+      </div>
       <button
         onClick={() => setShowExtendRequestModal(true)}
         className="p-2 mr-2 rounded bg-gray-200 w-fit"
@@ -218,6 +220,7 @@ export default function VMpage() {
           setIsOpen={setShowExtendRequestModal}
           title={"Extend VM Request"}
           vmId={vmData.id}
+          vmPrice={0}
         ></ExtendModal>
       )}
       {vmData && (

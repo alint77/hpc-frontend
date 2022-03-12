@@ -56,12 +56,51 @@ export default function RequestNewVM() {
 
   const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedImageId, setSelectedImageId] = useState(null);
+  const [prices, setPrices] = useState({
+    extraCorePrice: 800,
+    extraDiskPrice: 100,
+    extraMemoryPrice: 400,
+    gpuPrice: 50000,
+    shutDownVMDiscountPercent: 33,
+    studentDiscountPercent: 5,
+  });
 
   const [vmName, setVmName] = useState("");
   const [period, setPeriod] = useState(0);
 
   const [plansList, setPlansList] = useState<Array<Plan>>([]);
   const [imagesList, setImagesList] = useState<Array<Image>>([]);
+
+  const handleFetchPrices = async () => {
+    setisLoading(true);
+    if (!isAccessTokenValid()) {
+      await refreshAccessToken();
+    }
+    const accessToken = window.localStorage.getItem("access");
+
+    await fetch(`${API_URL}/root/GetPrices`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    })
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        console.log(data.data);
+        setPrices(data.data);
+        setisLoading(false);
+      })
+      .catch((e) => {
+        setisLoading(false);
+        console.log("ERROR:failed to fetch! ", e.message);
+      });
+  };
 
   const handleFetchImagesList = async () => {
     setisLoading(true);
@@ -70,7 +109,7 @@ export default function RequestNewVM() {
     }
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(`${API_URL}/images/GetAllImages`, {
+    await fetch(`${API_URL}/images/GetAllImages`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -92,18 +131,12 @@ export default function RequestNewVM() {
         setisLoading(false);
         console.log("ERROR:failed to fetch! ", e.message);
       });
-  };
-
-  const handleFetchPlansList = async () => {
-    const res = await fetch(
-      `${API_URL}/plans/GetAllPlans?pageSize=50&pageNumber=1`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    await fetch(`${API_URL}/plans/GetAllPlans?pageSize=50&pageNumber=1`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then(async (e) => {
         if (!e.ok) {
           throw Error((await e.json()).message);
@@ -174,12 +207,20 @@ export default function RequestNewVM() {
   };
 
   useEffect(() => {
-    handleFetchPlansList();
     handleFetchImagesList();
+    handleFetchPrices();
   }, []);
 
   const handleChangeUpgradeInput = (e) => {
     setUpgradeInputs({ ...upgradeInputs, [e.target.id]: e.target.value });
+  };
+
+  const calcTotalPrice = () => {
+    let price = plansList.find((e) => e.id == selectedPlanId).price;
+    return (price +=
+      (upgradeInputs.extraCores * prices.extraCorePrice +
+      upgradeInputs.extraDisk * prices.extraDiskPrice +
+      upgradeInputs.extraMemory * prices.extraMemoryPrice));
   };
 
   return (
@@ -207,41 +248,53 @@ export default function RequestNewVM() {
           <div>
             {isCustom && (
               <div className="text-xs flex flex-col items-center mt-4">
-                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
-                  <label className="w-36 text-right" htmlFor="extraCores">هسته پردازشی</label>
-                  <input
-                    onChange={handleChangeUpgradeInput}
-                    value={upgradeInputs.extraCores}
-                    id="extraCores"
-                    type="number"
-                    min={0}
-                    max={32}
-                    className="p-1 w-16 my-2 rounded"
-                  />
+                <div>
+                  <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                    <label className="w-36 text-right" htmlFor="extraCores">
+                      هسته پردازشی
+                    </label>
+                    <input
+                      onChange={handleChangeUpgradeInput}
+                      value={upgradeInputs.extraCores}
+                      id="extraCores"
+                      type="number"
+                      min={0}
+                      max={32}
+                      className="p-1 w-16 my-2 rounded"
+                    />
+                  </div>
+                  <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                    <label className="w-36 text-right" htmlFor="extraMemory">
+                      رم{" "}
+                    </label>
+                    <input
+                      onChange={handleChangeUpgradeInput}
+                      value={upgradeInputs.extraMemory}
+                      id="extraMemory"
+                      type="number"
+                      min={0}
+                      max={64}
+                      className="p-1 w-16 my-2 rounded"
+                    />
+                  </div>
+                  <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
+                    <label className="w-36 text-right" htmlFor="extraDisk">
+                      هارد
+                    </label>
+                    <input
+                      onChange={handleChangeUpgradeInput}
+                      value={upgradeInputs.extraDisk}
+                      id="extraDisk"
+                      type="number"
+                      min={0}
+                      max={1024}
+                      className="p-1 w-16 my-2 rounded"
+                    />
+                  </div>
                 </div>
-                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
-                  <label className="w-36 text-right" htmlFor="extraMemory">رم </label>
-                  <input
-                    onChange={handleChangeUpgradeInput}
-                    value={upgradeInputs.extraMemory}
-                    id="extraMemory"
-                    type="number"
-                    min={0}
-                    max={64}
-                    className="p-1 w-16 my-2 rounded"
-                  />
-                </div>
-                <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
-                  <label className="w-36 text-right" htmlFor="extraDisk">هارد</label>
-                  <input
-                    onChange={handleChangeUpgradeInput}
-                    value={upgradeInputs.extraDisk}
-                    id="extraDisk"
-                    type="number"
-                    min={0}
-                    max={1024}
-                    className="p-1 w-16 my-2 rounded"
-                  />
+                <div>
+                  <span>قیمت </span>
+                  <span>{calcTotalPrice()}</span>
                 </div>
               </div>
             )}
@@ -267,7 +320,12 @@ export default function RequestNewVM() {
         <div className="">
           <div className="flex flex-col space-y-4 items-center m-auto mt-4">
             <div className="flex flex-row-reverse">
-              <label className="w-44 text-sm border-b-2 border-slate-700 p-1" htmlFor="vmName">:شناسه سرویس</label>
+              <label
+                className="w-44 text-sm border-b-2 border-slate-700 p-1"
+                htmlFor="vmName"
+              >
+                :شناسه سرویس
+              </label>
               <input
                 required
                 onChange={(e) => setVmName(e.target.value)}
@@ -282,7 +340,12 @@ export default function RequestNewVM() {
               />
             </div>
             <div className="flex flex-row-reverse">
-              <label className="w-44 text-sm border-b-2 border-slate-700 p-1" htmlFor="period">:مدت زمان سرویس</label>
+              <label
+                className="w-44 text-sm border-b-2 border-slate-700 p-1"
+                htmlFor="period"
+              >
+                :مدت زمان سرویس
+              </label>
               <input
                 required
                 onChange={(e) => setPeriod(parseInt(e.target.value))}
@@ -297,12 +360,20 @@ export default function RequestNewVM() {
               />
             </div>
           </div>
-          {(vmName.length>3&&period>2)&&(<div
-            className=" w-fit bg-slate-700 text-white mt-8 m-auto rounded p-2 text-sm  cursor-pointer"
-            onClick={handleRequestVM}
-          >
-            ثبت درخواست
-          </div>)}
+          {vmName.length > 3 && period > 2 && (
+            <div>
+              <div className="text-center pt-4">
+                <span>قیمت نهایی : </span>
+                <span>{calcTotalPrice()*period*24}</span>
+              </div>
+              <div
+                className=" w-fit bg-slate-700 text-white mt-8 m-auto rounded p-2 text-sm  cursor-pointer"
+                onClick={handleRequestVM}
+              >
+                ثبت درخواست
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -13,7 +13,7 @@ export default function UserLayout({ children }) {
   if (!user) return <></>;
   return (
     <div className="font-[iransans] relative min-h-screen lg:flex lg:flex-row-reverse">
-      <div className="bg-slate-700  inset-x-0 text-white flex justify-between lg:hidden">
+      <div className="bg-slate-700 px-4 inset-x-0 text-white flex justify-between lg:hidden">
         <div className="p-4 font-semibold text-lg">BNUT-HPC</div>
         <button
           onClick={() => setSideBarShow(!sideBarShow)}

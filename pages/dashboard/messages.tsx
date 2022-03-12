@@ -50,6 +50,9 @@ export default function Messages() {
       })
       .then((data) => {
         console.log(data.data);
+        data.data.sort(
+          (a, b) => Date.parse(b.createDateTime) - Date.parse(a.createDateTime)
+        );
         setMessagesList(data.data);
         setisLoading(false);
       })
@@ -63,20 +66,17 @@ export default function Messages() {
   return (
     <div className="p-2">
       <div className="">
-        {messagesList.length > 0
-          ? messagesList.map((v) => (
-              <div
-                className="mb-6  bg-stone-200 rounded shadow-lg"
-                key={v.id}
-              >
-                <MessageCard message={v}></MessageCard>
-              </div>
-            ))
-          : (<div
-            className="mb-6 text-center py-12 bg-stone-200 rounded shadow-lg"
-          >
+        {messagesList.length > 0 ? (
+          messagesList.map((v) => (
+            <div className="mb-6  bg-stone-200 rounded shadow-lg" key={v.id}>
+              <MessageCard message={v}></MessageCard>
+            </div>
+          ))
+        ) : (
+          <div className="mb-6 text-center py-12 bg-stone-200 rounded shadow-lg">
             پیامی وجود ندارد
-          </div>)}
+          </div>
+        )}
       </div>
     </div>
   );

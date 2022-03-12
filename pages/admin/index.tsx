@@ -14,6 +14,7 @@ export default function Index() {
     <div><Link href="/admin/plans">Plans</Link></div>
     <div><Link href="/admin/vms">VMs</Link></div>
     <div><Link href="/admin/images">Images</Link></div>
+    <div><Link href="/admin/settings">Site Settings</Link></div>
   </div>
   )
 }

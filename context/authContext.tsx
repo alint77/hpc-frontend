@@ -27,12 +27,16 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setisLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+    
+  
 
   const router = useRouter();
 
   useEffect(() => {
     checkUserLoggedIn();
   }, []);
+
+  
 
   const login = async (user: loginUserModel) => {
     if (!user.email || user.password.length < 6) {
@@ -55,11 +59,11 @@ export const AuthProvider = ({ children }) => {
         }
         return e.json();
       })
-      .then((data) => {
+      .then(async(data) => {
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
-        checkUserLoggedIn();
+        await checkUserLoggedIn();
         setisLoading(false);
         router.push("/dashboard");
       })

@@ -1,9 +1,7 @@
 import { useContext, useLayoutEffect, useMemo, useState } from "react";
 import AuthContext from "../../context/authContext";
 import Link from "next/link";
-import Table, {
-  SelectColumnFilter,
-} from "../Admin/Users/Table";
+import Table, { SelectColumnFilter } from "../Admin/Users/Table";
 import { API_URL, OS } from "../../config/config";
 
 interface Prop {
@@ -47,10 +45,7 @@ export default function VmTable({ vmsList }: Prop) {
         Header: "CPU#",
         accessor: "processorCores",
       },
-      {
-        Header: "Paid",
-        accessor: (e) => (e.isPaid ? "YES" : "NO"),
-      },
+
       {
         Header: "Created",
         accessor: "createDateTime",
@@ -93,7 +88,13 @@ export default function VmTable({ vmsList }: Prop) {
   if (!vmsList) return <></>;
   return (
     <div className="overflow-auto mx-auto">
-      <Table searchable={false} paginated={false} columns={columns} data={vmsList} className=""></Table>
+      <Table
+        searchable={false}
+        paginated={false}
+        columns={columns}
+        data={vmsList}
+        className=""
+      ></Table>
     </div>
   );
 }

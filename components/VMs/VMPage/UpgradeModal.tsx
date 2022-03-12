@@ -29,10 +29,57 @@ export default function UpgradeModal({
     extraDisk: 0,
     extraMemory: 0,
   });
+  const [prices, setPrices] = useState({
+    extraCorePrice: 800,
+
+    extraDiskPrice: 100,
+
+    extraMemoryPrice: 400,
+
+    gpuPrice: 50000,
+
+    shutDownVMDiscountPercent: 33,
+
+    studentDiscountPercent: 5,
+  });
+
+  const handleFetchPrices = async () => {
+    setisLoading(true);
+    if (!isAccessTokenValid()) {
+      await refreshAccessToken();
+    }
+    const accessToken = window.localStorage.getItem("access");
+
+    await fetch(`${API_URL}/root/GetPrices`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    })
+      .then(async (e) => {
+        if (!e.ok) {
+          throw Error((await e.json()).message);
+        }
+        return e.json();
+      })
+      .then((data) => {
+        console.log(data.data);
+        setPrices(data.data);
+        setisLoading(false);
+      })
+      .catch((e) => {
+        setisLoading(false);
+        console.log("ERROR:failed to fetch! ", e.message);
+      });
+  };
 
   useEffect(() => {
     setId(vmId);
   }, [vmId]);
+  useEffect(() => {
+    handleFetchPrices();
+  }, []);
 
   const handleRequestUpgrade = async () => {
     if (!confirm("Are you sure?")) return;
@@ -73,6 +120,14 @@ export default function UpgradeModal({
     setUpgradeInputs({ ...upgradeInputs, [e.target.id]: e.target.value });
   };
 
+  const calcTotalPrice = () => {
+    return (
+      upgradeInputs.extraCores * prices.extraCorePrice +
+      upgradeInputs.extraDisk * prices.extraDiskPrice +
+      upgradeInputs.extraMemory * prices.extraMemoryPrice
+    );
+  };
+
   return (
     <div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
@@ -110,6 +165,7 @@ export default function UpgradeModal({
               min={0}
             />
           </div>
+        <div className="text-center">{calcTotalPrice()}</div>
         </div>
         <div className="flex flex-row-reverse items-center border-t-2 h-12">
           <div

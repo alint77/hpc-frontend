@@ -9,6 +9,7 @@ import VmTable from "../../../components/VMs/VmTable";
 import EditUserEmailModal from "../../../components/Admin/Users/EditUserEmailModal";
 import EditUserModalAdmin from "../../../components/Admin/Users/EditUserModalAdmin";
 import SendMessageModal from "../../../components/Admin/Users/SendMessageModal";
+import Link from "next/link";
 
 interface User {
   unSeenMessagesCount: number;
@@ -226,7 +227,6 @@ export default function UserAdminPage() {
       });
   };
 
-
   if (!user) return <></>;
   return (
     <div className="container">
@@ -266,6 +266,11 @@ export default function UserAdminPage() {
             </div>
           </div>
         )}
+        <Link href={`/admin/user/${userData.id}/wallet`}>
+          <div className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded">
+            User Wallet-Trxs
+          </div>
+        </Link>
       </div>
 
       {userVMs ? <VmTable vmsList={userVMs}></VmTable> : "No VM"}

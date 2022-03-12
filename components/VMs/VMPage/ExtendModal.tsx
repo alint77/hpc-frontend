@@ -11,6 +11,7 @@ interface Prop {
   title: any;
   children?: any;
   vmId: string;
+  vmPrice: number;
 }
 
 export default function ExtendModal({
@@ -18,9 +19,11 @@ export default function ExtendModal({
   setIsOpen,
   title,
   vmId,
+  vmPrice,
   children,
 }: Prop) {
   const [id, setId] = useState(vmId);
+  const [price, setPrice] = useState(vmPrice);
   const router = useRouter();
   const { setisLoading, isAccessTokenValid, refreshAccessToken } =
     useContext(AuthContext);
@@ -31,6 +34,7 @@ export default function ExtendModal({
 
   useEffect(() => {
     setId(vmId);
+    setPrice(vmPrice);
   }, [vmId]);
 
   const handleRequestExtend = async () => {
@@ -86,6 +90,7 @@ export default function ExtendModal({
             }
             required
           />
+          <div className="text-center">{price*input.extraPeriod*24}</div>
         </div>
         <div className="flex flex-row-reverse items-center border-t-2 h-12">
           <div

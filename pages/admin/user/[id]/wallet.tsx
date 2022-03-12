@@ -4,6 +4,7 @@ import AuthContext from "../../../../context/authContext";
 import { API_URL } from "../../../../config/config";
 
 import { toast } from "react-toastify";
+import DepositModal from "../../../../components/Admin/Users/Wallet/DepositModal";
 
 export default function Wallet() {
   const {
@@ -14,10 +15,12 @@ export default function Wallet() {
     isAccessTokenValid,
   } = useContext(AuthContext);
   const router = useRouter();
+  const [showDepositModal, setShowDepositModal] = useState(false)
   const [walletData, setWalletData] = useState();
   const [trxData, setTrxData] = useState([]);
 
   const handleFetchWallet = async () => {
+    if(!router.query.id)return
     const { id } = router.query;
     setisLoading(true);
     if (!isAccessTokenValid()) {
@@ -73,8 +76,17 @@ export default function Wallet() {
       });
   };
   useLayoutEffect(() => {
-    if (router.query.id) handleFetchWallet();
-  }, [router.query.id]);
+    handleFetchWallet();
+  },[] );
 
-  return <div>wallet</div>;
+  return (
+    <div>
+      <pre>{JSON.stringify(walletData, null, 2)}</pre>
+      <pre>{JSON.stringify(trxData, null, 2)}</pre>
+
+      <button className="bg-gray-200 p-1 rounded" onClick={()=>setShowDepositModal(true)}>Deposit</button>
+      <DepositModal isOpen={showDepositModal} title={"شارژ حساب کاربر"} className={undefined} setIsOpen={setShowDepositModal}></DepositModal>
+
+    </div>
+  );
 }
