@@ -33,10 +33,10 @@ export default function users() {
           return (
             <Link href={`/admin/user/` + value[3]}>
               <div className=" cursor-pointer">
-                <div className="flex flex-row">
-                  <div className="mr-1">{value[1]}</div>
-                  <div>{value[0]}</div>
-                </div>
+                  <div className="m-auto">
+                    <span className="mr-1">{value[1]}</span>
+                    <span>{value[0]}</span>
+                  </div>
                 <div>{value[2]}</div>
               </div>
             </Link>
@@ -155,7 +155,7 @@ export default function users() {
 
   return (
     <div className="w-11/12 mx-auto">
-      <Table columns={columns} data={usersList} className=""></Table>
+      <Table className="bg-stone-200 p-2 rounded shadow" columns={columns} data={usersList}></Table>
     </div>
   );
 }

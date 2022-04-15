@@ -22,6 +22,7 @@ function GlobalFilter({
     <span>
       Search:{" "}
       <input
+        className="px-2 rounded"
         type="text"
         value={value || ""}
         onChange={(e) => {
@@ -45,24 +46,32 @@ export function SelectColumnFilter({
     return [...options.values()];
   }, [id, preFilteredRows]);
   return (
-    <select
-      name={id}
-      id={id}
-      value={filterValue}
-      onChange={(e) => setFilter(e.target.value || undefined)}
-    >
-      <option value="">All</option>
-      {options.map((option, i) => (
-        <option key={i} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
+    <div className=" inline-block">
+      <select
+        className="rounded"
+        name={id}
+        id={id}
+        value={filterValue}
+        onChange={(e) => setFilter(e.target.value || undefined)}
+      >
+        <option value="">All</option>
+        {options.map((option, i) => (
+          <option key={i} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
-
-export default function table({ className ,columns, data,searchable=true,paginated=true }) {
+export default function table({
+  className,
+  columns,
+  data,
+  searchable = true,
+  paginated = true,
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -92,26 +101,35 @@ export default function table({ className ,columns, data,searchable=true,paginat
   );
 
   return (
-    <div>
-      {searchable&&(<GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={state.globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />)}
-      {headerGroups.map((headerGroup) =>
-        headerGroup.headers.map((column) =>
-          column.Filter ? (
-            <div key={column.id}>
-              <label htmlFor={column.id}>{column.render("Header")}: </label>
-              {column.render("Filter")}
-            </div>
-          ) : null
-        )
-      )}
-      <div className="mt-2 flex flex-col">
-        <div className="my-2 overflow-x-auto">
+    <div className={" "+className}>
+      <div className="flex flex-col space-y-2 p-2">
+        {searchable && (
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+        )}
+        {headerGroups.map((headerGroup) =>
+          headerGroup.headers.map((column) =>
+            column.Filter ? (
+              <div key={column.id}>
+                <label htmlFor={column.id}>{column.render("Header")}: </label>
+                {column.render("Filter")}
+              </div>
+            ) : null
+          )
+        )}
+      </div>
+      <div className="my-1 flex flex-col">
+        <div className=" overflow-x-auto">
           <div className="py-2 align-middle inline-block min-w-full">
-            <div className={"shadow overflow-hidden border-b border-gray-200 sm:rounded-lg "+className}>
+            <div
+              className={
+                " overflow-hidden border-gray-200 rounded " +
+                className
+              }
+            >
               <table
                 {...getTableProps()}
                 className="min-w-full divide-y divide-gray-200"
@@ -171,55 +189,57 @@ export default function table({ className ,columns, data,searchable=true,paginat
           </div>
         </div>
       </div>
-      {paginated&&(<div className="pagination">
-        <button
-          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
-          onClick={() => gotoPage(0)}
-          disabled={!canPreviousPage}
-        >
-          {"<<"}
-        </button>{" "}
-        <button
-          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
-          onClick={() => previousPage()}
-          disabled={!canPreviousPage}
-        >
-          {"<"}
-        </button>{" "}
-        <button
-          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
-          onClick={() => nextPage()}
-          disabled={!canNextPage}
-        >
-          {">"}
-        </button>{" "}
-        <button
-          className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
-          onClick={() => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-        >
-          {">>"}
-        </button>{" "}
-        <span>
-          Page{" "}
-          <strong>
-            {state.pageIndex + 1} of {pageOptions.length}
-          </strong>{" "}
-        </span>
-        <select
-          value={state.pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[4, 10, 20].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>)}
-      
+      {paginated && (
+        <div className="pagination space-x-1">
+          <button
+            className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
+            onClick={() => gotoPage(0)}
+            disabled={!canPreviousPage}
+          >
+            {"<<"}
+          </button>{" "}
+          <button
+            className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+          >
+            {"<"}
+          </button>
+          <button
+            className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
+            {">"}
+          </button>
+          <button
+            className="border-2 rounded w-10 disabled:bg-gray-100 bg-white"
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+          >
+            {">>"}
+          </button>
+          <span>
+            Page{" "}
+            <strong>
+              {state.pageIndex + 1} of {pageOptions.length}
+            </strong>
+          </span>
+          <select
+          className="rounded p-0.5"
+            value={state.pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+            }}
+          >
+            {[4, 10, 20].map((pageSize) => (
+              <option className="" key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 }

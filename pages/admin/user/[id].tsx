@@ -227,53 +227,100 @@ export default function UserAdminPage() {
       });
   };
 
-  if (!user) return <></>;
+  if (!user || !userData) return <></>;
   return (
     <div className="container">
-      <div className="m-auto">
-        <pre>{JSON.stringify(userData, null, 2)}</pre>
-        {userData.role == UserRole[0] && (
-          <div>
-            <div
-              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-              onClick={() => setShowEditUserModal(true)}
-            >
-              Edit User Info
-            </div>
-            <div
-              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-              onClick={() => setEditEmailModal(true)}
-            >
-              Change User Email
-            </div>
-            <div
-              onClick={handleChangeState}
-              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-            >
-              Change RegisterationState
-            </div>
-            <div
-              onClick={handleChangeIsStudent}
-              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-            >
-              Change isStudent
-            </div>
-            <div
-              onClick={() => setShowSendMessageModal(true)}
-              className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded"
-            >
-              Send Message to User
-            </div>
+      <div className="m-auto flex flex-col">
+        <div className="rounded bg-stone-200 shadow-md text-right p-4 max-w-2xl m-auto w-full">
+          <div className="firstname flex flex-row-reverse justify-between my-4 px-6">
+            <div>نام</div>
+            <div className="">{userData.firstName}</div>
           </div>
-        )}
+          <div className="lastname flex flex-row-reverse justify-between my-4 px-6">
+            <div>نام خانوادگی</div>
+            <div className="">{userData.lastName}</div>
+          </div>
+          <div className="email flex flex-row-reverse justify-between my-4 px-6">
+            <div>ایمیل</div>
+            <div className="">{userData.email}</div>
+          </div>
+          <div className="phone flex flex-row-reverse justify-between my-4 px-6">
+            <div>شماره همراه</div>
+            <div className="">{userData.phoneNumber}</div>
+          </div>
+          <div className="ssn flex flex-row-reverse justify-between my-4 px-6">
+            <div>کد ملی</div>
+            <div className="">{userData.nationalId}</div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6">
+            <div>تاریخ ثبت نام</div>
+            <div className="">{new Date(userData.createDateTime).toLocaleString()}</div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6">
+            <div>آخرین لاگین</div>
+            <div className="">{new Date(userData.lastLoginDateTime).toLocaleString()}</div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6">
+            <div>وضعیت ثبت نام</div>
+            <div className="">{userData.registrationState}</div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6">
+            <div>نقش</div>
+            <div className="">{userData.role}</div>
+          </div>
+          {userData.isStudent && (
+            <div className=" flex flex-row-reverse justify-between my-4 px-6">
+              <div>کاربر دانشجو می باشد </div>
+            </div>
+          )}
+        </div>
+        <div className="max-w-2xl m-auto w-full mt-4">
+          {userData.role == UserRole[0] && (
+            <div className=" flex flex-row space-x-3 ">
+              
+                <div
+                  onClick={() => setShowEditUserModal(true)}
+                  className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center w-fit cursor-pointer mb-2"
+                >
+                  Edit User Info
+                </div>
+                <div
+                  onClick={() => setEditEmailModal(true)}
+                  className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center w-fit cursor-pointer mb-2"
+                >
+                  Change User Email
+                </div>
+                <div
+                  onClick={handleChangeState}
+                  className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center w-fit cursor-pointer mb-2"
+                >
+                  Change RegisterationState
+                </div>
+                <div
+                  onClick={handleChangeIsStudent}
+                  className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center w-fit cursor-pointer mb-2"
+                >
+                  Change isStudent
+                </div>
+                <div
+                  onClick={() => setShowSendMessageModal(true)}
+                  className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center w-fit cursor-pointer mb-2"
+                >
+                  Send Message to User
+                </div>
+              
+            </div>
+          )}
+        </div>
+
         <Link href={`/admin/user/${userData.id}/wallet`}>
-          <div className=" w-fit my-4 cursor-pointer border-2 bg-gray-200 rounded">
-            User Wallet-Trxs
+          <div className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center cursor-pointer mb-2 max-w-2xl m-auto w-fit">
+            User Wallet Transactions
           </div>
         </Link>
       </div>
 
-      {userVMs ? <VmTable vmsList={userVMs}></VmTable> : "No VM"}
+      <div className="max-w-2xl m-auto w-full mt-4">{userVMs ? <VmTable vmsList={userVMs}></VmTable> : "No VM"}</div>
 
       <EditUserEmailModal
         isOpen={editEmailModal}

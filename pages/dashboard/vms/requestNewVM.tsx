@@ -6,6 +6,7 @@ import PlanCard from "../../../components/Plans/planCard";
 import Router from "next/router";
 import ImageCard from "../../../components/VMs/RequestNewVM/ImageCard";
 import UserLayout from "../../../components/UserDashboardLayout";
+import { json } from "stream/consumers";
 
 interface Plan {
   id: string;
@@ -225,17 +226,17 @@ export default function RequestNewVM() {
 
   return (
     <div className="text-right flex flex-col bg-stone-200 rounded shadow-md py-6 px-4">
-      <div className="py-2 text-center">:انتخاب طرح</div>
-      <div className="flex flex-row flex-wrap justify-evenly">
-        {plansList.map((v) => (
+      <div className="py-4 text-center">:انتخاب طرح</div>
+      <div className="flex justify-center shadow-inner border-2 rounded ">
+            <div className="flex flex-row overflow-x-auto">        {plansList.map((v) => (
           <div
             key={v.id}
-            className="w-52"
             onClick={() => setSelectedPlanId(v.id)}
           >
-            <PlanCard selected={selectedPlanId == v.id} plan={v}></PlanCard>
+            <PlanCard className="w-44" lineThrough={isCustom &&selectedPlanId == v.id} selected={selectedPlanId == v.id} plan={v}></PlanCard>
           </div>
         ))}
+        </div>
       </div>
       {selectedPlanId && (
         <div className="text-center">
@@ -247,8 +248,8 @@ export default function RequestNewVM() {
           </button>
           <div>
             {isCustom && (
-              <div className="text-xs flex flex-col items-center mt-4">
-                <div>
+              <div className="text-xs flex flex-col items-center mt-4 border-2 border-slate-700 p-2 rounded w-fit m-auto">
+                <div className="">
                   <div className="flex flex-row-reverse border-b-2 border-slate-700 items-center">
                     <label className="w-36 text-right" htmlFor="extraCores">
                       هسته پردازشی
@@ -292,27 +293,32 @@ export default function RequestNewVM() {
                     />
                   </div>
                 </div>
-                <div>
+                <div className="mt-2 text-base">
                   <span>قیمت </span>
-                  <span>{calcTotalPrice()}</span>
+                  <span>{calcTotalPrice().toLocaleString()}</span>{" "}
+                  <span>تومان </span>
+
                 </div>
               </div>
             )}
           </div>
           <div className="text-center py-4">:انتخاب سیستم عامل</div>
-          <div className="flex flex-row flex-wrap justify-evenly">
-            {imagesList.map((v) => (
-              <div
-                className="w-52 text-left"
-                key={v.id}
-                onClick={() => setSelectedImageId(v.id)}
-              >
-                <ImageCard
-                  selected={selectedImageId == v.id}
-                  image={v}
-                ></ImageCard>
-              </div>
-            ))}
+          <div className="flex justify-center shadow-inner border-2 rounded ">
+            <div className="flex flex-row overflow-x-auto">
+              {imagesList.map((v) => (
+                <div
+                className=""
+                  key={v.id}
+                  onClick={() => setSelectedImageId(v.id)}
+                >
+                  <ImageCard
+                    className="w-44"
+                    selected={selectedImageId == v.id}
+                    image={v}
+                  ></ImageCard>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -361,13 +367,17 @@ export default function RequestNewVM() {
             </div>
           </div>
           {vmName.length > 3 && period > 2 && (
-            <div>
-              <div className="text-center pt-4">
+            <div className="text-center">
+              <div className=" pt-6">
                 <span>قیمت نهایی : </span>
-                <span>{calcTotalPrice()*period*24}</span>
+                <span>{(calcTotalPrice()*period*24).toLocaleString()}</span>
+                <span>تومان</span>
+              </div>
+              <div>
+                ({user.isSudent?"تعرفه شما: دانشحویی":"تعرفه شما: آزاد"})
               </div>
               <div
-                className=" w-fit bg-slate-700 text-white mt-8 m-auto rounded p-2 text-sm  cursor-pointer"
+                className=" w-fit bg-slate-700 text-white mt-4 m-auto rounded p-2 text-sm  cursor-pointer"
                 onClick={handleRequestVM}
               >
                 ثبت درخواست
@@ -378,5 +388,7 @@ export default function RequestNewVM() {
       )}
     </div>
   );
+  
 }
 RequestNewVM.Layout = UserLayout;
+

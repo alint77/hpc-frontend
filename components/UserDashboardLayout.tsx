@@ -35,7 +35,7 @@ export default function UserLayout({ children }) {
               <div className="logo text-center mb-12">
                 <button
                   onClick={() => setSideBarShow(false)}
-                  className="lg:hidden absolute right-4 top-4 p-4 focus:outline-none"
+                  className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
                 >
                   X
                 </button>

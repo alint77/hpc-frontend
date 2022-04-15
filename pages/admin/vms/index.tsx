@@ -204,8 +204,8 @@ export default function VMs() {
   }, []);
 
   return (
-    <div className="w-11/12 mx-auto">
-      <Table columns={columns} data={vmsList} className=""></Table>
+    <div className="w-11/12 mx-auto bg-stone-200 rounded p-2 shadow">
+      <Table columns={columns} data={vmsList} className="bg"></Table>
     </div>
   );
 }

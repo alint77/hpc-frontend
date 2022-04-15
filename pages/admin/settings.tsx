@@ -19,6 +19,7 @@ export default function Settings() {
   const router = useRouter();
   const [settingsData, setSettingsData] = useState();
   const [input, setInput] = useState({
+    id:"",
     name: "",
     extensionDaysLimit: NaN,
     studentDiscountPercent: NaN,

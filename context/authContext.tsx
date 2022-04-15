@@ -27,8 +27,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setisLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-    
-  
 
   const router = useRouter();
 
@@ -36,7 +34,25 @@ export const AuthProvider = ({ children }) => {
     checkUserLoggedIn();
   }, []);
 
-  
+  const loginPromise = async (user: loginUserModel) => {
+    if (!user.email || user.password.length < 6) {
+      return toast.error("Password invalid");
+    }
+    const data = await fetch(`${API_URL}/users/Login`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }).then(async (e) => {
+      if (!e.ok) {
+        throw Error((await e.json()).message);
+      }
+      return e.json();
+    }).then()
+
+    return new Promise((res, req) => {});
+  };
 
   const login = async (user: loginUserModel) => {
     if (!user.email || user.password.length < 6) {
@@ -59,7 +75,7 @@ export const AuthProvider = ({ children }) => {
         }
         return e.json();
       })
-      .then(async(data) => {
+      .then(async (data) => {
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
@@ -110,6 +126,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async () => {
+    const prom = new Promise((resolve,reject)=>{})
+    let errorMessage=""
     if (
       !window.localStorage.getItem("access") ||
       !window.localStorage.getItem("refresh")
@@ -148,7 +166,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         console.log("CheckUserLoggedInError:", e.message);
         setisLoading(false);
+        errorMessage=e.message
       });
+      
+      return new Promise((res,req)=>{
+        if(errorMessage) return req(errorMessage)
+        return res("")
+      })
   };
 
   const isAccessTokenValid = () => {
