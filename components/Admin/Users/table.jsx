@@ -66,7 +66,7 @@ export function SelectColumnFilter({
 }
 
 export default function table({
-  className,
+  className="",
   columns,
   data,
   searchable = true,

@@ -1,9 +1,7 @@
 import { useContext, useLayoutEffect, useMemo, useState } from "react";
 import AuthContext from "../../context/authContext";
 import Link from "next/link";
-import Table, {
-  SelectColumnFilter,
-} from "../Admin/Users/Table.jsx";
+import Table, { SelectColumnFilter } from "../Admin/Users/Table";
 import { API_URL, OS } from "../../config/config";
 
 interface Prop {
@@ -95,7 +93,13 @@ export default function VmTable({ vmsList }: Prop) {
   if (!vmsList) return <></>;
   return (
     <div className="overflow-auto mx-auto">
-      <Table columns={columns} data={vmsList} className=""></Table>
+      <Table
+        columns={columns}
+        data={vmsList}
+        className=""
+        searchable={true}
+        paginated={true}
+      ></Table>
     </div>
   );
 }
