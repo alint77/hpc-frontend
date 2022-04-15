@@ -75,7 +75,7 @@ export default function Wallet() {
         console.log("ERROR:failed to fetch trxs:", e.message);
       });
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchWallet();
   },[] );
 

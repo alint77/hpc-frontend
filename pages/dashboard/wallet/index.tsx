@@ -107,7 +107,6 @@ export default function Index() {
         console.log("ERROR:failed to fetch VM", e.message);
       });
   };
-  document.title = "امور مالی";
   useEffect(() => {
     handleFetchWallet();
   }, []);
@@ -120,7 +119,7 @@ export default function Index() {
           <div className="flex flex-row items-center space-x-6 text-center">
             <div className="font-bold text-lg">
               <div>مبلغ آزاد</div>
-              <div className="">{walletData.total-walletData.blocked}</div>
+              <div className="">{walletData.total - walletData.blocked}</div>
             </div>
 
             <div className=" font-light">
@@ -161,7 +160,6 @@ export default function Index() {
                 <div className="px-1">توضیح</div>
                 <div className="px-1">:</div>
                 <div className="px-1">{metaData.description}</div>
-                
               </div>
             </div>
           ))}

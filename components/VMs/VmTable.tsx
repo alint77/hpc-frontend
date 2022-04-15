@@ -3,7 +3,7 @@ import AuthContext from "../../context/authContext";
 import Link from "next/link";
 import Table, {
   SelectColumnFilter,
-} from "../Admin/Users/Table";
+} from "../Admin/Users/Table.jsx";
 import { API_URL, OS } from "../../config/config";
 
 interface Prop {
