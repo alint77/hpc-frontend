@@ -3,6 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import AuthContext from "../context/authContext";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import HidePassSVG from "../components/SVGs/HidePassSVG";
+import ShowPassSVG from "../components/SVGs/ShowPassSVG";
 
 export default function registerPage() {
   const [userInput, setUserInput] = useState({});
@@ -24,14 +26,14 @@ export default function registerPage() {
   }
 
   return (
-    <div className="w-full max-w-[28rem] m-auto">
+    <div className="w-full max-w-[28rem] mt-2 m-auto text-right">
       <form
         onSubmit={handleRegister}
         onChange={handleChange}
-        className="bg-gray-100 w-[28rem] shadow-md rounded p-12 pb-8 mb-4"
+        className="bg-gray-100 w-[28rem] shadow-md rounded p-10 pb-8 mb-4"
       >
-        <div className="titleHolder flex w-full text-3xl font-semibold mb-10">
-          Register
+        <div className="titleHolder w-full text-3xl font-semibold mb-6">
+          ثبت نام
         </div>
 
         <div className="mb-4">
@@ -39,7 +41,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="firstName"
           >
-            First Name
+            نام
           </label>
           <input
             id="firstName"
@@ -54,7 +56,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="lastName"
           >
-            Last Name
+            نام خانوادگی
           </label>
           <input
             id="lastName"
@@ -67,7 +69,7 @@ export default function registerPage() {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
-            Email
+            ایمیل
           </label>
           <input
             id="email"
@@ -82,7 +84,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="password"
           >
-            Password
+            کلمه عبور
           </label>
           <div className="relative border-2 flex flex-row ">
             <input
@@ -99,7 +101,7 @@ export default function registerPage() {
               }
               className="absolute right-2 h-full flex items-center"
             >
-              {showPass ? "hide" : "show"}
+              {showPass ? <HidePassSVG/> : <ShowPassSVG/>}
             </div>
           </div>
         </div>
@@ -108,7 +110,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="passwordConfirmation"
           >
-            Repeat Password
+            تکرار کلمه عبور
           </label>
           <div className="relative border-2 flex flex-row ">
             <input
@@ -125,7 +127,7 @@ export default function registerPage() {
               }
               className="absolute right-2 h-full flex items-center"
             >
-              {showConfPass ? "hide" : "show"}
+              {showConfPass ? <HidePassSVG/> : <ShowPassSVG/>}
             </div>
           </div>
         </div>
@@ -135,7 +137,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="nationalId"
           >
-            Social Security Number
+            کد ملی
           </label>
           <input
             id="nationalId"
@@ -150,7 +152,7 @@ export default function registerPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="phoneNumber"
           >
-            Phone Number
+            شماره همراه
           </label>
           <input
             id="phoneNumber"
@@ -164,17 +166,17 @@ export default function registerPage() {
           />
         </div>
 
-        <div className="flex flex-row-reverse items-center justify-between pt-6">
+        <div className="flex flex-row items-center justify-between pt-6">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Sign Up
+            ثبت نام
           </button>
         </div>
       </form>
-      <div className=" text-center w-full font-semibold text-blue-800">
-        <Link href="/login">Login</Link>
+      <div className=" text-center w-full font-semibold text-slate-700">
+        <Link href="/login">ورود</Link>
       </div>
     </div>
   );

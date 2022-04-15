@@ -1,142 +1,170 @@
-import AuthContext from "../context/authContext";
-import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
-
-import Navbar from "@material-tailwind/react/Navbar";
-import NavbarContainer from "@material-tailwind/react/NavbarContainer";
-import NavbarWrapper from "@material-tailwind/react/NavbarWrapper";
-import NavbarBrand from "@material-tailwind/react/NavbarBrand";
-import NavbarToggler from "@material-tailwind/react/NavbarToggler";
-import NavbarCollapse from "@material-tailwind/react/NavbarCollapse";
-import Nav from "@material-tailwind/react/Nav";
-import NavItem from "@material-tailwind/react/NavItem";
-import NavLink from "@material-tailwind/react/NavLink";
-import NavbarInput from "@material-tailwind/react/NavbarInput";
-import Icon from "@material-tailwind/react/Icon";
 import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import AuthContext from "../context/authContext";
+import MenuSVG from "./SVGs/MenuSVG";
+import Link from "next/link";
+import { UserRole } from "../config/config";
 
-export default function Layout({ children }) {
+export default function UserLayout({ children }) {
   const { logout, user, isLoading } = useContext(AuthContext);
-  const [openNavbar, setOpenNavbar] = useState(false);
   const router = useRouter();
 
-  if (!user) {
+  const [sideBarShow, setSideBarShow] = useState(false);
+  if (!user)
     return (
-      <>
-        <Navbar color="blue" navbar>
-          <NavbarContainer>
-            <NavbarWrapper>
-              <NavbarBrand>HPC-BNUT</NavbarBrand>
-              <NavbarToggler
-                color="white"
-                onClick={() => setOpenNavbar(!openNavbar)}
-                ripple="light"
-              />
-            </NavbarWrapper>
+      <div className="font-[iransans] relative min-h-screen lg:flex lg:flex-row-reverse">
+        <div className="bg-slate-700 px-4 inset-x-0 text-white flex justify-between lg:hidden">
+          <div className="p-4 font-semibold text-lg">BNUT-HPC</div>
+          <button
+            onClick={() => setSideBarShow(!sideBarShow)}
+            className="p-4 focus:outline-none focus:bg-slate-500"
+          >
+            <MenuSVG></MenuSVG>
+          </button>
+        </div>
 
-            <NavbarCollapse open={openNavbar}>
-              <Nav>
-                <NavItem
-                  active={router.pathname.includes("/faq") ? "light" : ""}
-                  ripple="light"
-                >
-                  <Link href="/faq">FAQ</Link>
-                </NavItem>
-                <NavItem
-                  active={router.pathname.includes("/plans") ? "light" : ""}
-                  ripple="light"
-                >
-                  <Link href="/plans">Plans</Link>
-                </NavItem>
-                <NavItem
-                  active={router.pathname.includes("/login") ? "light" : ""}
-                  ripple="light"
-                >
-                  <Link href="/login">Login</Link>
-                </NavItem>
-                <NavItem
-                  active={router.pathname.includes("/register") ? "light" : ""}
-                  ripple="light"
-                >
-                  <Link href="/register">Register</Link>
-                </NavItem>
-              </Nav>
-            </NavbarCollapse>
-          </NavbarContainer>
-        </Navbar>
+        <div
+          className={
+            "sidebar shadow-lg bg-slate-700 w-64 text-white fixed inset-y-0 right-0 ease-in-out duration-200 z-50 lg:relative lg:translate-x-0" +
+            (!sideBarShow && " translate-x-full")
+          }
+        >
+          <div className="flex h-full pb-4 flex-col">
+            <div className="flex h-full flex-col justify-between">
+              <div className="">
+                <div className="logo text-center mb-12">
+                  <button
+                    onClick={() => setSideBarShow(false)}
+                    className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
+                  >
+                    X
+                  </button>
+                  <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
+                </div>
+                <div className="text-center flex flex-col space-y-4">
+                  <Link href={"/login"}>
+                    <a>
+                      <div className="w-full py-2 rounded hover:bg-slate-600  active:bg-slate-500">
+                        ورود
+                      </div>
+                    </a>
+                  </Link>
+                  <Link href={"/register"}>
+                    <a>
+                      <div className="w-full py-2 rounded hover:bg-slate-600 active:bg-slate-500 ">
+                        ثبت نام
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="w-full mb-12 space-y-4 text-center"></div>
+            </div>
+          </div>
+        </div>
 
-        <div className="py-8 flex justify-center">{children}</div>
-      </>
+        <div className="grow p-4">
+          <div className="lg:w-[calc(100%-16rem)]">{children}</div>
+        </div>
+      </div>
     );
-  }
-
   return (
-    <div>
-      <Navbar color="blue" navbar>
-        <NavbarContainer>
-          <NavbarWrapper>
-            <NavbarBrand>HPC-BNUT</NavbarBrand>
-            <NavbarToggler
-              color="white"
-              onClick={() => setOpenNavbar(!openNavbar)}
-              ripple="light"
-            />
-          </NavbarWrapper>
+    <div className="font-[iransans] relative min-h-screen lg:flex lg:flex-row-reverse">
+      <div className="bg-slate-700 px-4 inset-x-0 text-white flex justify-between lg:hidden">
+        <div className="p-4 font-semibold text-lg">BNUT-HPC</div>
+        <button
+          onClick={() => setSideBarShow(!sideBarShow)}
+          className="p-4 focus:outline-none focus:bg-slate-500"
+        >
+          <MenuSVG></MenuSVG>
+        </button>
+      </div>
 
-          <NavbarCollapse open={openNavbar}>
-            <Nav>
-              {(user.role == "DEVELOPER" || user.role == "ADMIN") && (
-                <Link href="/admin">
-                  <a href="">
-                    <NavItem
-                      active={router.pathname.includes("/admin") ? "light" : ""}
-                      ripple="light"
-                    >
-                      Admin Panel
-                    </NavItem>
+      <div
+        className={
+          "sidebar shadow-lg bg-slate-700 w-64 text-white fixed inset-y-0 right-0 ease-in-out duration-200 lg:relative lg:translate-x-0" +
+          (!sideBarShow && " translate-x-full")
+        }
+      >
+        <div className="flex h-full pb-4 flex-col">
+          <div className="flex h-full flex-col justify-between">
+            <div className="">
+              <div className="logo text-center mb-12">
+                <button
+                  onClick={() => setSideBarShow(false)}
+                  className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
+                >
+                  X
+                </button>
+                <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
+              </div>
+              <div className="text-center flex flex-col space-y-4">
+                <Link href={"/dashboard/vms"}>
+                  <a>
+                    <div className="w-full py-2 rounded hover:bg-slate-600  active:bg-slate-500">
+                      سرویس ها
+                    </div>
                   </a>
                 </Link>
-              )}
-              <Link href="/dashboard/profile">
-                <a href="">
-                  <NavItem
-                    active={
-                      router.pathname.includes("/dashboard/profile")
-                        ? "light"
-                        : ""
-                    }
-                    ripple="light"
-                  >
-                    {`Welcome ${user.firstName}`}
-                  </NavItem>
-                </a>
-              </Link>
-              <Link href="/dashboard">
-                <a href="">
-                  <NavItem
-                    active={
-                      router.pathname.endsWith("/dashboard") ? "light" : ""
-                    }
-                    ripple="light"
-                  >
-                    {`Dashboard`+(user.unSeenMessagesCount!=0?`(${user.unSeenMessagesCount})`:"")}
-                  </NavItem>
-                </a>
-              </Link>
-              <div className=" cursor-pointer" onClick={() => logout()}>
-                <NavItem
-                  active={router.pathname.includes("/register") ? "light" : ""}
-                  ripple="light"
-                >
-                  Logout
-                </NavItem>
+                <Link href={"/dashboard/messages"}>
+                  <a>
+                    <div className="w-full py-2 rounded hover:bg-slate-600  active:bg-slate-500">
+                      {` پیام ها` +
+                        (user.unSeenMessagesCount != 0
+                          ? `(${user.unSeenMessagesCount})`
+                          : "")}
+                    </div>
+                  </a>
+                </Link>
+                <Link href={"/dashboard/profile"}>
+                  <a>
+                    <div className="w-full py-2 rounded hover:bg-slate-600  active:bg-slate-500">
+                      ناحیه کاربری
+                    </div>
+                  </a>
+                </Link>
+                <Link href={"/dashboard/wallet"}>
+                  <a>
+                    <div className="w-full py-2 rounded hover:bg-slate-600 active:bg-slate-500 ">
+                      امور مالی
+                    </div>
+                  </a>
+                </Link>
               </div>
-            </Nav>
-          </NavbarCollapse>
-        </NavbarContainer>
-      </Navbar>
+            </div>
+            <div className="w-full mb-12 space-y-4 text-center">
+              <Link href={"/dashboard/profile"}>
+                <a href="">
+                  <div className="w-full hover:bg-slate-600 py-2 active:bg-slate-500">
+                    {user.firstName}
+                  </div>
+                </a>
+              </Link>
+              <button
+                className="w-full hover:bg-slate-600 py-2 active:bg-slate-500"
+                onClick={logout}
+              >
+                خروج
+              </button>
+              <div>
+                {(user.role == UserRole[1] || user.role == UserRole[2]) && (
+                  <Link href={"/admin"}>
+                    <a href="">
+                      <div className="w-full hover:bg-slate-600 py-2 active:bg-slate-500">
+                        پنل ادمین
+                      </div>
+                    </a>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="py-8 flex justify-center">{children}</div>
+      <div className="grow p-4">
+        <div className="lg:w-[calc(100%-16rem)]">{children}</div>
+      </div>
     </div>
   );
 }

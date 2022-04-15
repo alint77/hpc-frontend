@@ -5,6 +5,8 @@ import AuthContext from "../../context/authContext";
 import { API_URL, RegistrationStatus } from "../../config/config";
 
 import { ToastContainer, toast } from "react-toastify";
+import HidePassSVG from "../SVGs/HidePassSVG";
+import ShowPassSVG from "../SVGs/ShowPassSVG";
 
 interface Prop {
   isOpen: boolean;
@@ -41,8 +43,8 @@ export default function ChangePassModal({
     passwordConfirmation: false,
   });
   const handleChangePassword = async () => {
-
-    if(inputFields.newPassword!==inputFields.passwordConfirmation) return toast.error("New Passwords Don't Match")
+    if (inputFields.newPassword !== inputFields.passwordConfirmation)
+      return toast.error("New Passwords Don't Match");
 
     setisLoading(true);
     if (!isAccessTokenValid()) {
@@ -67,7 +69,7 @@ export default function ChangePassModal({
       .then((data) => {
         toast.success("success");
         console.log(data);
-        logout()
+        logout();
       })
       .catch((e) => {
         toast.error(e.message);
@@ -109,7 +111,7 @@ export default function ChangePassModal({
                 }
                 className="absolute right-2 h-full flex items-center"
               >
-                {showHideBtns.oldPassword ? "hide" : "show"}
+                {showHideBtns.oldPassword ? <HidePassSVG /> : <ShowPassSVG />}
               </div>
             </div>
           </div>
@@ -139,7 +141,7 @@ export default function ChangePassModal({
                 }
                 className="absolute right-2 h-full flex items-center"
               >
-                {showHideBtns.newPassword ? "hide" : "show"}
+                {showHideBtns.newPassword ? <HidePassSVG /> : <ShowPassSVG />}
               </div>
             </div>
           </div>
@@ -170,14 +172,14 @@ export default function ChangePassModal({
                 }
                 className="absolute right-2 h-full flex items-center"
               >
-                {showHideBtns.passwordConfirmation ? "hide" : "show"}
+                {showHideBtns.passwordConfirmation ? (
+                  <HidePassSVG />
+                ) : (
+                  <ShowPassSVG />
+                )}
               </div>
             </div>
           </div>
-
-          
-
-          
         </div>
         <div className="flex flex-row items-center border-t-2 h-12">
           <div

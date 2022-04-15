@@ -3,6 +3,8 @@ import AuthContext from "../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import HidePassSVG from "../components/SVGs/HidePassSVG";
+import ShowPassSVG from "../components/SVGs/ShowPassSVG";
 
 export default function loginPage() {
   const { login, user, isLoading } = useContext(AuthContext);
@@ -33,19 +35,19 @@ export default function loginPage() {
   if (user) return <>you're already logged in</>;
 
   return (
-    <div className="w-full max-w-[28rem] m-auto">
+    <div className="w-full max-w-[28rem] m-auto text-right">
       <form
         onSubmit={handleSubmit}
         onChange={handleChange}
         className="bg-gray-100 h-[24rem] w-[28rem] shadow-md rounded p-12 pb-8 mb-4"
       >
-        <div className="titleHolder flex w-full text-3xl font-semibold mb-8">
-          Login
+        <div className="titleHolder text-right  w-full text-3xl font-semibold mb-8">
+          ورود
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
-            Email
+            ایمیل
           </label>{" "}
           <input
             name="email"
@@ -59,7 +61,7 @@ export default function loginPage() {
             className="block text-gray-700 text-sm mb-2"
             htmlFor="password"
           >
-            Password
+            کلمه عبور
           </label>{" "}
           <div className="relative border-2 flex flex-row">
             <input
@@ -72,24 +74,24 @@ export default function loginPage() {
               onClick={() =>
                 showPass ? setShowPass(false) : setShowPass(true)
               }
-              className="absolute right-2 h-full flex items-center"
+              className="absolute right-2 h-full flex items-center z-10"
             >
-              {showPass ? "hide" : "show"}
+              {showPass ? <HidePassSVG /> : <ShowPassSVG />}
             </div>
           </div>
         </div>
 
-        <div className="flex flex-row-reverse  items-center justify-between py-2">
+        <div className="flex flex-row  items-center justify-between py-2">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Sign In
+            ورود
           </button>
         </div>
       </form>
-      <div className=" text-center w-full font-semibold text-blue-800">
-        <Link href="/register">Create a New Account</Link>
+      <div className=" text-center w-full font-semibold text-slate-700">
+        <Link href="/register">ثبت نام</Link>
       </div>
     </div>
   );

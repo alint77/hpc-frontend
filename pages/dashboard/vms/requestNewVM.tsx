@@ -213,29 +213,34 @@ export default function RequestNewVM() {
   }, []);
 
   const handleChangeUpgradeInput = (e) => {
-    setUpgradeInputs({ ...upgradeInputs, [e.target.id]: e.target.value });
+    if (e.target.value >= 0)
+      setUpgradeInputs({ ...upgradeInputs, [e.target.id]: e.target.value });
   };
 
   const calcTotalPrice = () => {
     let price = plansList.find((e) => e.id == selectedPlanId).price;
     return (price +=
-      (upgradeInputs.extraCores * prices.extraCorePrice +
+      upgradeInputs.extraCores * prices.extraCorePrice +
       upgradeInputs.extraDisk * prices.extraDiskPrice +
-      upgradeInputs.extraMemory * prices.extraMemoryPrice));
+      upgradeInputs.extraMemory * prices.extraMemoryPrice);
   };
 
   return (
     <div className="text-right flex flex-col bg-stone-200 rounded shadow-md py-6 px-4">
       <div className="py-4 text-center">:انتخاب طرح</div>
       <div className="flex justify-center shadow-inner border-2 rounded ">
-            <div className="flex flex-row overflow-x-auto">        {plansList.map((v) => (
-          <div
-            key={v.id}
-            onClick={() => setSelectedPlanId(v.id)}
-          >
-            <PlanCard className="w-44" lineThrough={isCustom &&selectedPlanId == v.id} selected={selectedPlanId == v.id} plan={v}></PlanCard>
-          </div>
-        ))}
+        <div className="flex flex-row overflow-x-auto">
+          {" "}
+          {plansList.map((v) => (
+            <div key={v.id} onClick={() => setSelectedPlanId(v.id)}>
+              <PlanCard
+                className="w-44"
+                lineThrough={isCustom && selectedPlanId == v.id}
+                selected={selectedPlanId == v.id}
+                plan={v}
+              ></PlanCard>
+            </div>
+          ))}
         </div>
       </div>
       {selectedPlanId && (
@@ -297,7 +302,6 @@ export default function RequestNewVM() {
                   <span>قیمت </span>
                   <span>{calcTotalPrice().toLocaleString()}</span>{" "}
                   <span>تومان </span>
-
                 </div>
               </div>
             )}
@@ -307,7 +311,7 @@ export default function RequestNewVM() {
             <div className="flex flex-row overflow-x-auto">
               {imagesList.map((v) => (
                 <div
-                className=""
+                  className=""
                   key={v.id}
                   onClick={() => setSelectedImageId(v.id)}
                 >
@@ -354,7 +358,7 @@ export default function RequestNewVM() {
               </label>
               <input
                 required
-                onChange={(e) => setPeriod(parseInt(e.target.value))}
+                onChange={(e) => (parseInt(e.target.value)>=0 || parseInt(e.target.value)<=15)&& setPeriod(parseInt(e.target.value))}
                 value={period}
                 id="period"
                 name="period"
@@ -370,11 +374,11 @@ export default function RequestNewVM() {
             <div className="text-center">
               <div className=" pt-6">
                 <span>قیمت نهایی : </span>
-                <span>{(calcTotalPrice()*period*24).toLocaleString()}</span>
+                <span>{(calcTotalPrice() * period * 24).toLocaleString()}</span>
                 <span>تومان</span>
               </div>
               <div>
-                ({user.isSudent?"تعرفه شما: دانشحویی":"تعرفه شما: آزاد"})
+                ({user.isSudent ? "تعرفه شما: دانشحویی" : "تعرفه شما: آزاد"})
               </div>
               <div
                 className=" w-fit bg-slate-700 text-white mt-4 m-auto rounded p-2 text-sm  cursor-pointer"
@@ -388,7 +392,5 @@ export default function RequestNewVM() {
       )}
     </div>
   );
-  
 }
 RequestNewVM.Layout = UserLayout;
-
