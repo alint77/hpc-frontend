@@ -15,12 +15,15 @@ export default function Wallet() {
     isAccessTokenValid,
   } = useContext(AuthContext);
   const router = useRouter();
-  const [showDepositModal, setShowDepositModal] = useState(false)
-  const [walletData, setWalletData] = useState();
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [walletData, setWalletData] = useState({
+    total: 0,
+    blocked: 0,
+  });
   const [trxData, setTrxData] = useState([]);
 
   const handleFetchWallet = async () => {
-    if(!router.query.id)return
+    if (!router.query.id) return;
     const { id } = router.query;
     setisLoading(true);
     if (!isAccessTokenValid()) {
@@ -77,16 +80,76 @@ export default function Wallet() {
   };
   useEffect(() => {
     handleFetchWallet();
-  },[] );
+  }, []);
 
   return (
-    <div>
-      <pre>{JSON.stringify(walletData, null, 2)}</pre>
-      <pre>{JSON.stringify(trxData, null, 2)}</pre>
+    <div className="flex flex-col text-right p-1 ">
+      <div className="bg-stone-200 rounded-lg shadow-md  mb-8 p-10 flex flex-col">
+        <div className="flex flex-row-reverse justify-between font-semibold items-center">
+          <div className=""> : موجودی کیف پول</div>
+          <div className="flex flex-row items-center space-x-6 text-center">
+            <div className="font-bold text-lg">
+              <div>مبلغ آزاد</div>
+              <div className="">{walletData.total - walletData.blocked}</div>
+            </div>
 
-      <button className="bg-gray-200 p-1 rounded" onClick={()=>setShowDepositModal(true)}>Deposit</button>
-      <DepositModal isOpen={showDepositModal} title={"شارژ حساب کاربر"} className={undefined} setIsOpen={setShowDepositModal}></DepositModal>
-
+            <div className=" font-light">
+              <div>بلوکه شده</div>
+              <div>{walletData.blocked}</div>
+            </div>
+          </div>
+        </div>
+        <div className=""></div>
+      </div>
+      <div className="bg-stone-200 rounded-lg shadow-md mb-8 p-6 ">
+        <div className="font-semibold">: تاریخچه تراکنش ها</div>
+        <div className="max-h-96 overflow-auto mt-4 rounded">
+          {trxData.map(({ transaction, metaData }) => (
+            <div key={transaction.id} className="bg-white rounded mb-1">
+              <div className="flex flex-row-reverse p-2">
+                <div className="px-1">
+                  {transaction.type == "deposit"
+                    ? " واریز "
+                    : transaction.type == "withdraw"
+                    ? " برداشت "
+                    : ""}
+                </div>
+                <div className="px-1">مبلغ</div>
+                <div className="px-1">{transaction.amount}</div>
+                <div className="px-1">در تاریخ</div>
+                <div className="px-1">
+                  (
+                  {new Date(
+                    Date.parse(transaction.createDateTime)
+                  ).toLocaleString()}
+                  )
+                </div>
+                <div className="px-1">از</div>
+                <div className="px-1">{metaData.issuer}</div>
+              </div>
+              <div className="flex flex-row-reverse p-2 ">
+                <div className="px-1">توضیح</div>
+                <div className="px-1">:</div>
+                <div className="px-1">{metaData.description}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex">
+        <button
+          className="bg-slate-600 text-white p-1 px-2 rounded"
+          onClick={() => setShowDepositModal(true)}
+        >
+          شارژ حساب
+        </button>
+      </div>
+      <DepositModal
+        isOpen={showDepositModal}
+        title={"شارژ حساب کاربر"}
+        className={undefined}
+        setIsOpen={setShowDepositModal}
+      ></DepositModal>
     </div>
   );
 }

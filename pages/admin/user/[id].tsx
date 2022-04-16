@@ -58,7 +58,7 @@ export default function UserAdminPage() {
   const [userVMs, setUserVMs] = useState(null);
 
   const router = useRouter();
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (router.query.id) {
       handleFetchUser();
       handleFetchUserVMs();
@@ -316,6 +316,11 @@ export default function UserAdminPage() {
         <Link href={`/admin/user/${userData.id}/wallet`}>
           <div className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center cursor-pointer mb-2 max-w-2xl m-auto w-fit">
             User Wallet Transactions
+          </div>
+        </Link>
+        <Link href={`/admin/user/${userData.id}/messages`}>
+          <div className="bg-slate-700 text-white p-1.5 text-sm rounded shadow-md text-center cursor-pointer mb-2 max-w-2xl m-auto w-fit">
+            User Messages
           </div>
         </Link>
       </div>
