@@ -268,7 +268,9 @@ export default function VMpage() {
               <div>کاربر مالک</div>
               <div className="">
                 <span className=" bg-slate-600 text-white rounded p-1 px-2">
-                  <Link href={"/admin/user/"+vmData.creator.id}>{vmData.creator.firstName + " " + vmData.creator.lastName}</Link>
+                  <Link href={"/admin/user/" + vmData.creator.id}>
+                    {vmData.creator.firstName + " " + vmData.creator.lastName}
+                  </Link>
                 </span>
               </div>
             </div>
@@ -276,7 +278,9 @@ export default function VMpage() {
               <div>سرور میزبان</div>
               <div className="">
                 <span className=" bg-slate-600 text-white rounded p-1 px-2">
-                  <Link href={"/admin/hosts/"+vmData.host.id}>{vmData.host.name}</Link>
+                  <Link href={"/admin/hosts/" + vmData.host.id}>
+                    {vmData.host.name}
+                  </Link>
                 </span>
               </div>
             </div>
