@@ -30,7 +30,7 @@ export default function registerPage() {
       <form
         onSubmit={handleRegister}
         onChange={handleChange}
-        className="bg-gray-100 w-[28rem] shadow-md rounded p-10 pb-8 mb-4"
+        className="bg-gray-100  shadow-md rounded p-8 pb-8 my-4"
       >
         <div className="titleHolder w-full text-3xl font-semibold mb-6">
           ثبت نام
