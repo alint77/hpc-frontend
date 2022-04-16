@@ -56,14 +56,14 @@ export default function hosts() {
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchHostsList();
   }, []);
 
   return (
     <div className="flex flex-row justify-evenly">
       {hostsList.map((v) => (
-        <Link href={"/admin/hosts/"+v.id}>
+        <Link href={"/admin/hosts/" + v.id}>
           <div className="border-2 flex flex-col w-72 h-min mx-2" key={v.id}>
             <div> name: {v.name}</div>
             <div> deviceName: {v.deviceName}</div>

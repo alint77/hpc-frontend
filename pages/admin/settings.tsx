@@ -64,7 +64,7 @@ export default function Settings() {
         console.log("ERROR:failed to fetch Settings:", e.message);
       });
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchSettings();
   }, []);
 

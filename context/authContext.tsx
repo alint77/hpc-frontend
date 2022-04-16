@@ -28,16 +28,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
-  
   const router = useRouter();
 
-  const handleCheckUser =async () => {
-    await checkUserLoggedIn()
-  }
+  const handleCheckUser = async () => {
+    await checkUserLoggedIn();
+  };
   useEffect(() => {
-    handleCheckUser()
+    handleCheckUser();
   }, []);
-
 
   const login = async (user: loginUserModel) => {
     if (!user.email || user.password.length < 6) {
@@ -92,13 +90,13 @@ export const AuthProvider = ({ children }) => {
         }
         return e.json();
       })
-      .then((data) => {
+      .then(async (data) => {
         console.log(data.message);
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
         toast.success("Success!");
-        checkUserLoggedIn();
+        await checkUserLoggedIn();
         setisLoading(false);
         setTimeout(() => router.push("/activation"), 300);
       })
@@ -111,7 +109,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async () => {
-    let errorMessage=""
+    let errorMessage = "";
     if (
       !window.localStorage.getItem("access") ||
       !window.localStorage.getItem("refresh")
@@ -150,13 +148,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         console.log("CheckUserLoggedInError:", e.message);
         setisLoading(false);
-        errorMessage=e.message
+        errorMessage = e.message;
       });
-      
-      return new Promise((res,req)=>{
-        if(errorMessage) return req(errorMessage)
-        return res("")
-      })
+
+    return new Promise((res, req) => {
+      if (errorMessage) return req(errorMessage);
+      return res("");
+    });
   };
 
   const isAccessTokenValid = () => {
@@ -176,7 +174,7 @@ export const AuthProvider = ({ children }) => {
   const refreshAccessToken = async () => {
     const accessToken = window.localStorage.getItem("access");
     const refreshToken = window.localStorage.getItem("refresh");
-
+    let errorMessage = "";
     const res = await fetch(`${API_URL}/users/Refresh`, {
       method: "POST",
       headers: {
@@ -200,8 +198,13 @@ export const AuthProvider = ({ children }) => {
       .catch((e) => {
         setUser(null);
         console.log("CheckUserLoggedInError:", e.message);
+        errorMessage = e.messsage;
         logout();
       });
+    return new Promise((res, req) => {
+      if (errorMessage) return req(errorMessage);
+      return res("");
+    });
   };
 
   const logout = () => {
