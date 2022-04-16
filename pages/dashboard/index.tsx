@@ -23,4 +23,4 @@ export default function Index() {
   return <div className="w-full"></div>;
 }
 
-Index.Layout = UserLayout;
+// Index.Layout = UserLayout;

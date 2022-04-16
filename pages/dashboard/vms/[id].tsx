@@ -257,9 +257,7 @@ export default function VMpage() {
             </div>
             <div className=" flex flex-row-reverse justify-between my-4 px-6">
               <div> روزهای باقیمانده</div>
-              <div className="">
-                {remainingDays(vmData.endPriodDateTime)}
-              </div>
+              <div className="">{remainingDays(vmData.endPriodDateTime)}</div>
             </div>
             <div className=" flex flex-row-reverse justify-between my-4 px-6">
               <div>قیمت ساعتی بدون احتساب تخفیف</div>
@@ -276,7 +274,9 @@ export default function VMpage() {
             <div className="">{vmData.processorCores} Core Processor</div>
             <div className="">{vmData.memory}GB RAM</div>
             <div className="">{vmData.diskSize}GB Storage</div>
-            <div className="">{vmData.image.osName} version {vmData.image.osVersion}</div>
+            <div className="">
+              {vmData.image.osName} version {vmData.image.osVersion}
+            </div>
           </div>
         </div>
       </div>
@@ -315,4 +315,4 @@ export default function VMpage() {
   );
 }
 
-VMpage.Layout = UserLayout;
+VMpage = UserLayout;

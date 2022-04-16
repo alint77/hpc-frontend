@@ -169,7 +169,7 @@ export default function Index() {
   );
 }
 
-Index.Layout = UserLayout;
+// Index.Layout = UserLayout;
 
 // "type": "deposit",
 // "amount": 1000000,

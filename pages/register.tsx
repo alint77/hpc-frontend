@@ -38,7 +38,7 @@ export default function registerPage() {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="firstName"
           >
             نام
@@ -53,7 +53,7 @@ export default function registerPage() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="lastName"
           >
             نام خانوادگی
@@ -68,7 +68,7 @@ export default function registerPage() {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
+          <label className="block text-gray-700  mb-2" htmlFor="email">
             ایمیل
           </label>
           <input
@@ -81,7 +81,7 @@ export default function registerPage() {
         </div>
         <div className=" mb-5">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="password"
           >
             کلمه عبور
@@ -107,7 +107,7 @@ export default function registerPage() {
         </div>
         <div className=" mb-5">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="passwordConfirmation"
           >
             تکرار کلمه عبور
@@ -134,7 +134,7 @@ export default function registerPage() {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="nationalId"
           >
             کد ملی
@@ -149,7 +149,7 @@ export default function registerPage() {
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm mb-2"
+            className="block text-gray-700  mb-2"
             htmlFor="phoneNumber"
           >
             شماره همراه

@@ -91,4 +91,4 @@ export default function Profile() {
     </div>
   );
 }
-Profile.Layout = UserLayout;
+// Profile.Layout = UserLayout;

@@ -25,7 +25,7 @@ export default function UserLayout({ children }) {
 
         <div
           className={
-            "sidebar shadow-lg bg-slate-700 w-64 text-white fixed inset-y-0 right-0 ease-in-out duration-200 z-50 lg:relative lg:translate-x-0" +
+            "sidebar text-lg shadow-lg bg-slate-700 w-64 text-white fixed inset-y-0 right-0 ease-in-out duration-200 z-50 lg:relative lg:translate-x-0" +
             (!sideBarShow && " translate-x-full")
           }
         >

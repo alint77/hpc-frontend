@@ -90,4 +90,4 @@ export default function Index() {
     </div>
   );
 }
-Index.Layout = UserLayout;
+// Index.Layout = UserLayout;

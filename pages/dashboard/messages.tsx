@@ -82,4 +82,4 @@ export default function Messages() {
   );
 }
 
-Messages.Layout = UserLayout;
+// Messages.Layout = UserLayout;
