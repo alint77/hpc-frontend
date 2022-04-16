@@ -82,7 +82,7 @@ export default function UserLayout({ children }) {
 
       <div
         className={
-          "sidebar shadow-lg bg-slate-700 w-64 text-white fixed inset-y-0 right-0 ease-in-out duration-200 lg:relative lg:translate-x-0" +
+          "sidebar shadow-lg bg-slate-700 w-64 min-w-[16rem] text-white fixed inset-y-0 right-0 ease-in-out duration-200 lg:relative lg:translate-x-0" +
           (!sideBarShow && " translate-x-full")
         }
       >
@@ -163,7 +163,7 @@ export default function UserLayout({ children }) {
       </div>
 
       <div className="grow p-4">
-        <div className="lg:w-[calc(100%-16rem)]"><div className="m-auto">{children}</div></div>
+          <div className="m-auto">{children}</div>
       </div>
     </div>
   );
