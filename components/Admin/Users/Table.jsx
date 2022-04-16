@@ -66,7 +66,7 @@ export function SelectColumnFilter({
 }
 
 export default function table({
-  className="",
+  className = "",
   columns,
   data,
   searchable = true,
@@ -101,7 +101,7 @@ export default function table({
   );
 
   return (
-    <div className={" "+className}>
+    <div className={" " + className}>
       <div className="flex flex-col space-y-2 p-2">
         {searchable && (
           <GlobalFilter
@@ -126,8 +126,7 @@ export default function table({
           <div className="py-2 align-middle inline-block min-w-full">
             <div
               className={
-                " overflow-hidden border-gray-200 rounded " +
-                className
+                " overflow-hidden border-gray-200 rounded " + className
               }
             >
               <table
@@ -226,7 +225,7 @@ export default function table({
             </strong>
           </span>
           <select
-          className="rounded p-0.5"
+            className="rounded p-0.5"
             value={state.pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value));

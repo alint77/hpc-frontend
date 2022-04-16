@@ -159,13 +159,9 @@ export default function users() {
 
   if (!user || user.role == "USER") return <>Access Denied!</>;
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="bg-stone-200 rounded-lg p-2 pt-6 w-full  mt-2">
       {usersList ? (
-        <Table
-          className="bg-stone-200 p-2 rounded shadow"
-          columns={columns}
-          data={usersList}
-        ></Table>
+        <Table className="" columns={columns} data={usersList}></Table>
       ) : (
         <></>
       )}

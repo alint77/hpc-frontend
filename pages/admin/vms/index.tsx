@@ -58,8 +58,8 @@ export default function VMs() {
           value = JSON.parse(value);
           return (
             <Link href={`/admin/user/` + value[3]}>
-              <div className="cursor-pointer">
-                <div className="flex flex-row">
+              <div className=" text-center cursor-pointer">
+                <div className="flex flex-row justify-center">
                   <div className="mr-1">{value[1]}</div>
                   <div>{value[0]}</div>
                 </div>
@@ -163,8 +163,6 @@ export default function VMs() {
     isAccessTokenValid,
   } = useContext(AuthContext);
 
-  if (!user || user.role == "USER") return <>Access Denied!</>;
-
   const handleFetchVmsList = async () => {
     setisLoading(true);
     if (!isAccessTokenValid()) {
@@ -203,9 +201,10 @@ export default function VMs() {
     handleFetchVmsList();
   }, []);
 
+  if (!user || user.role == "USER") return <>Access Denied!</>;
   return (
-    <div className="w-11/12 mx-auto bg-stone-200 rounded p-2 shadow">
-      <Table columns={columns} data={vmsList} className="bg"></Table>
+    <div className="mx-auto bg-stone-200 rounded p-2 shadow">
+      <Table columns={columns} data={vmsList} className=""></Table>
     </div>
   );
 }

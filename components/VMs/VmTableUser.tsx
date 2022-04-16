@@ -87,7 +87,7 @@ export default function VmTable({ vmsList }: Prop) {
 
   if (!vmsList) return <></>;
   return (
-    <div className="overflow-auto mx-auto">
+    <div className="bg-stone-200 rounded-lg p-2 pt-6 w-full mt-2">
       <Table
         searchable={false}
         paginated={false}
