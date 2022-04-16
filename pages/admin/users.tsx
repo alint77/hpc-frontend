@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, useState, useContext, useMemo } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+} from "react";
 import AuthContext from "../../context/authContext";
 import { API_URL, RegistrationStatus, UserRole } from "../../config/config";
 import { toast } from "react-toastify";
@@ -33,10 +39,10 @@ export default function users() {
           return (
             <Link href={`/admin/user/` + value[3]}>
               <div className=" cursor-pointer">
-                  <div className="m-auto">
-                    <span className="mr-1">{value[1]}</span>
-                    <span>{value[0]}</span>
-                  </div>
+                <div className="m-auto">
+                  <span className="mr-1">{value[1]}</span>
+                  <span>{value[0]}</span>
+                </div>
                 <div>{value[2]}</div>
               </div>
             </Link>
@@ -104,7 +110,7 @@ export default function users() {
     ],
     []
   );
-  const [usersList, setUsersList] = useState<Array<User>>([]);
+  const [usersList, setUsersList] = useState([]);
   const {
     user,
     isLoading,
@@ -112,8 +118,6 @@ export default function users() {
     refreshAccessToken,
     isAccessTokenValid,
   } = useContext(AuthContext);
-
-  if (!user || user.role == "USER") return <>Access Denied!</>;
 
   const handleFetchUsersList = async () => {
     setisLoading(true);
@@ -149,13 +153,22 @@ export default function users() {
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleFetchUsersList();
   }, []);
 
+  if (!user || user.role == "USER") return <>Access Denied!</>;
   return (
     <div className="w-11/12 mx-auto">
-      <Table className="bg-stone-200 p-2 rounded shadow" columns={columns} data={usersList}></Table>
+      {usersList ? (
+        <Table
+          className="bg-stone-200 p-2 rounded shadow"
+          columns={columns}
+          data={usersList}
+        ></Table>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

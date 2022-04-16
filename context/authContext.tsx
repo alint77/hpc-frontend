@@ -28,31 +28,16 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
+  
   const router = useRouter();
 
+  const handleCheckUser =async () => {
+    await checkUserLoggedIn()
+  }
   useEffect(() => {
-    checkUserLoggedIn();
+    handleCheckUser()
   }, []);
 
-  const loginPromise = async (user: loginUserModel) => {
-    if (!user.email || user.password.length < 6) {
-      return toast.error("Password invalid");
-    }
-    const data = await fetch(`${API_URL}/users/Login`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    }).then(async (e) => {
-      if (!e.ok) {
-        throw Error((await e.json()).message);
-      }
-      return e.json();
-    }).then()
-
-    return new Promise((res, req) => {});
-  };
 
   const login = async (user: loginUserModel) => {
     if (!user.email || user.password.length < 6) {
@@ -126,7 +111,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const checkUserLoggedIn = async () => {
-    const prom = new Promise((resolve,reject)=>{})
     let errorMessage=""
     if (
       !window.localStorage.getItem("access") ||
