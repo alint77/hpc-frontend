@@ -315,4 +315,4 @@ export default function VMpage() {
   );
 }
 
-VMpage = UserLayout;
+// VMpage = UserLayout;
