@@ -84,13 +84,13 @@ export default function ChangePassModal({
   return (
     <div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
-        <div className="p-4">
-          <div className=" mb-5">
+        <div className="p-4 text-right">
+          <div className=" mb-5 ">
             <label
               className="block text-gray-700 text-sm my-2"
               htmlFor="oldPassword"
             >
-              Old Password :
+              کلمه عبور فعلی
             </label>
             <div className="relative border-2 flex flex-row ">
               <input
@@ -120,7 +120,7 @@ export default function ChangePassModal({
               className="block text-gray-700 text-sm my-2"
               htmlFor="newPassword"
             >
-              New Password :
+              کلمه عبور جدید{" "}
             </label>
             <div className="relative border-2 flex flex-row ">
               <input
@@ -151,7 +151,7 @@ export default function ChangePassModal({
               className="block text-gray-700 text-sm my-2"
               htmlFor="passwordConfirmation"
             >
-              Confirm New Password :
+              تکرار کلمه عبور جدید{" "}
             </label>
             <div className="relative border-2 flex flex-row ">
               <input

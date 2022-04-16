@@ -163,7 +163,7 @@ export default function UserLayout({ children }) {
       </div>
 
       <div className="grow p-4">
-        <div className="lg:w-[calc(100%-16rem)]">{children}</div>
+        <div className="lg:w-[calc(100%-16rem)]"><div className="m-auto">{children}</div></div>
       </div>
     </div>
   );
