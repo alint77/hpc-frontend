@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
 
-import { API_URL } from "../config/config";
+import { API_URL, RegistrationStatus } from "../config/config";
 
 interface loginUserModel {
   email: string;
@@ -62,9 +62,13 @@ export const AuthProvider = ({ children }) => {
         toast.dismiss("1");
         window.localStorage.setItem("access", data.data.accessToken);
         window.localStorage.setItem("refresh", data.data.refreshToken);
-        await checkUserLoggedIn();
+        checkUserLoggedIn().then((e) => {
+          console.log(e.data);
+          e.data.registrationState == RegistrationStatus[0]
+            ? router.push("/activation")
+            : router.push("/dashboard");
+        });
         setisLoading(false);
-        router.push("/dashboard");
       })
       .catch((e) => {
         console.log(e);
@@ -119,7 +123,7 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    setisLoading(true);
+    // setisLoading(true);
 
     if (!isAccessTokenValid()) {
       await refreshAccessToken();
@@ -127,7 +131,7 @@ export const AuthProvider = ({ children }) => {
 
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(`${API_URL}/users/GetUserInfo`, {
+    return fetch(`${API_URL}/users/GetUserInfo`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -143,6 +147,7 @@ export const AuthProvider = ({ children }) => {
       .then((data) => {
         setUser(data.data);
         setisLoading(false);
+        return data;
       })
       .catch((e) => {
         setUser(null);
@@ -150,11 +155,6 @@ export const AuthProvider = ({ children }) => {
         setisLoading(false);
         errorMessage = e.message;
       });
-
-    return new Promise((res, req) => {
-      if (errorMessage) return req(errorMessage);
-      return res("");
-    });
   };
 
   const isAccessTokenValid = () => {

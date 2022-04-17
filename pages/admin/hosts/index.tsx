@@ -20,15 +20,14 @@ export default function hosts() {
   } = useContext(AuthContext);
   const [hostsList, setHostsList] = useState<Array<any>>([]);
 
-  if (!user || user.role == "USER") return <>Access Denied!</>;
-
+  
   const handleFetchHostsList = async () => {
     setisLoading(true);
     if (!isAccessTokenValid()) {
       await refreshAccessToken();
     }
     const accessToken = window.localStorage.getItem("access");
-
+    
     const res = await fetch(
       `${API_URL}/hosts/GetAllHosts/admin?PageNumber=1&PageSize=100`,
       {
@@ -38,7 +37,7 @@ export default function hosts() {
           Authorization: "Bearer " + accessToken,
         },
       }
-    )
+      )
       .then(async (e) => {
         if (!e.ok) {
           throw Error((await e.json()).message);
@@ -54,17 +53,18 @@ export default function hosts() {
         setisLoading(false);
         console.log("ERROR:failed to fetch usersList! ", e.message);
       });
-  };
-
-  useEffect(() => {
-    handleFetchHostsList();
-  }, []);
-
-  return (
-    <div className="flex flex-row justify-evenly">
+    };
+    
+    useEffect(() => {
+      handleFetchHostsList();
+    }, []);
+    
+    if (!user || user.role == "USER") return <>Access Denied!</>;
+    return (
+      <div className="flex flex-row justify-evenly">
       {hostsList.map((v) => (
         <Link href={"/admin/hosts/" + v.id}>
-          <div className="border-2 flex flex-col w-72 h-min mx-2" key={v.id}>
+          <div className=" flex flex-col w-72 h-min mx-2 rounded bg-stone-200 p-2 shadow" key={v.id}>
             <div> name: {v.name}</div>
             <div> deviceName: {v.deviceName}</div>
             <div> totalDiskSize: {v.totalDiskSize}</div>

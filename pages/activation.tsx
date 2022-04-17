@@ -13,9 +13,6 @@ export default function Activation() {
     isAccessTokenValid,
   } = useContext(AuthContext);
   const [activationCodeInput, setActivationCodeInput] = useState("");
-  if (!user) return <div>Access denied!</div>;
-  if (user.registrationState != RegistrationStatus[0])
-    return <div>Access denied!</div>;
   const router = useRouter();
 
   const handleActivateUser = async () => {
@@ -43,7 +40,7 @@ export default function Activation() {
       })
       .then((data) => {
         setisLoading(false);
-        toast.success("Account Activated!");
+        toast.success("حساب شما فعال شد");
         setTimeout(() => router.push("/dashboard"), 300);
       })
       .catch((e) => {
@@ -83,17 +80,25 @@ export default function Activation() {
         console.log("ERROR:failed to fetch VM", e.message);
       });
   };
+  if (!user) return <div>Access denied!</div>;
+  if (user.registrationState != RegistrationStatus[0])
+     return <div>Access denied!</div>;
   return (
-    <div>
-      <div>Please Enter Activation Code:</div>
-      <input
-        onChange={(e) => setActivationCodeInput(e.target.value)}
-        className="border-2"
-        type="text"
-        required
-      />
-      <button onClick={handleActivateUser}>Confirm</button>
-      <button onClick={handleResend}>Resend Code</button>
+    <div className="m-auto flex flex-col items-center  py-8 space-y-8 bg-stone-200 rounded shadow">
+      <div className="flex flex-row-reverse items-center">
+        <label className="px-4" htmlFor="inp">کد تایید</label>
+        <input
+          onChange={(e) => setActivationCodeInput(e.target.value)}
+          className="border-2 rounded p-1 "
+          type="text"
+          required
+          id="inp"
+        />
+      </div>
+      <div className="">
+        <button className="rounded bg-slate-600 p-1 px-2 text-white mx-2 " onClick={handleActivateUser}>تایید</button>
+        <button className="rounded bg-slate-600 p-1 px-2 text-white mx-2 " onClick={handleResend}>ارسال مجدد </button>
+      </div>
     </div>
   );
 }
