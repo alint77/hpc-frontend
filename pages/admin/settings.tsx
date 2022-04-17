@@ -73,7 +73,7 @@ export default function Settings() {
       <div className="p-2 rounded bg-stone-200 shadow">
         <pre>{JSON.stringify(settingsData, null, 2)}</pre>
         <button
-          className="bg-gray-200 p-1 rounded"
+          className="bg-slate-600 p-1 px-2 rounded text-white"
           onClick={() => setShowEditModal(true)}
         >
           Edit
