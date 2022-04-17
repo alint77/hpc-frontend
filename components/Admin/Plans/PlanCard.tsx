@@ -25,7 +25,7 @@ export default function planCard({ plan }: Prop) {
 
   return (
     <div>
-      <div className="flex flex-col border-black border-[1px] m-2 p-4">
+      <div className="flex flex-col rounded bg-stone-200  border-[1px] m-2 p-4">
         <div>
           <div>name: {plan.name}</div>
           <div>cores: {plan.processorCores}</div>
@@ -35,7 +35,7 @@ export default function planCard({ plan }: Prop) {
           <div>isActive: {plan.isActive.toString()}</div>
         </div>
         <div className="flex flex-row justify-evenly">
-          <div className=" border-2 cursor-pointer bg-gray-200 mt-2" onClick={()=>setOpenModal(true)}>
+          <div className=" border-2 cursor-pointer bg-slate-600 p-1 px-2 rounded text-white mt-2" onClick={()=>setOpenModal(true)}>
             Edit
           </div>
         </div>

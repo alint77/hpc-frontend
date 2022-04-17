@@ -165,6 +165,7 @@ export default function Index() {
           ))}
         </div>
       </div>
+        <button onClick={handleCreateWallet} className="">Create Wallet</button>
     </div>
   );
 }

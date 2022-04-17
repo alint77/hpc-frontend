@@ -23,8 +23,6 @@ export default function Plans() {
   const [plansList, setPlansList] = useState<Array<any>>([]);
   const [showAddPlanModal, setShowAddPlanModal] = useState(false);
 
-  if (!user || user.role == "USER") return <>Access Denied!</>;
-
   const handleFetchPlansList = async () => {
     setisLoading(true);
     if (!isAccessTokenValid()) {
@@ -63,11 +61,12 @@ export default function Plans() {
     handleFetchPlansList();
   }, []);
 
+  if (!user || user.role == "USER") return <>Access Denied!</>;
   return (
     <>
       <div className="">
         <div
-          className="bg-gray-200 text-center w-20 m-auto cursor-pointer"
+          className="bg-slate-600 rounded p-2 text-center w-fit m-auto cursor-pointer text-white my-4"
           onClick={() => setShowAddPlanModal(true)}
         >
           Add Plan

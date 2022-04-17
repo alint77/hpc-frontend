@@ -103,6 +103,7 @@ export const AuthProvider = ({ children }) => {
         await checkUserLoggedIn();
         setisLoading(false);
         setTimeout(() => router.push("/activation"), 300);
+        
       })
       .catch((e) => {
         console.log(e);

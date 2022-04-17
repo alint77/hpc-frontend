@@ -69,15 +69,16 @@ export default function Settings() {
   }, []);
 
   return (
-    <div>
-      <pre>{JSON.stringify(settingsData, null, 2)}</pre>
-
-      <button
-        className="bg-gray-200 p-1 rounded"
-        onClick={() => setShowEditModal(true)}
-      >
-        Edit
-      </button>
+    <div className="flex flex-col items-center">
+      <div className="p-2 rounded bg-stone-200 shadow">
+        <pre>{JSON.stringify(settingsData, null, 2)}</pre>
+        <button
+          className="bg-gray-200 p-1 rounded"
+          onClick={() => setShowEditModal(true)}
+        >
+          Edit
+        </button>
+      </div>
       <EditSettinsModal
         settings={settingsData}
         isOpen={showEditModal}
