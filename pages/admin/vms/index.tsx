@@ -84,6 +84,9 @@ export default function VMs() {
             </Link>
           );
         },
+
+        Filter: SelectColumnFilter,
+        filter: "includes",
       },
       {
         Header: "Status",

@@ -5,5 +5,5 @@
 
 @font-face {
     font-family: "iransans";
-    src: url("/components/fonts/iransans.ttf") format("truetype");
+    src: url("./components/fonts/iransans.ttf") format("truetype");
 }
