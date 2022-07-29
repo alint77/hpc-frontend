@@ -23,7 +23,7 @@ export default function extendrequests() {
     }
     const accessToken = window.localStorage.getItem("access");
 
-    const res = await fetch(`${API_URL}/requests/GetAllExtendRequests/admin`, {
+    const res = await fetch(`${API_URL}/vms/GetAllExtendRequests/admin`, {
       method: "GET",
       headers: {
         "content-type": "application/json",

@@ -40,7 +40,7 @@ export default function users() {
             <Link href={`/admin/user/` + value[3]}>
               <div className=" cursor-pointer">
                 <div className="m-auto">
-                  <span className="mr-1">{value[1]}</span>
+                  <span className="mr-1">{value[1]}{" "}</span>
                   <span>{value[0]}</span>
                 </div>
                 <div>{value[2]}</div>

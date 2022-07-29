@@ -61,7 +61,6 @@ export default function UserLayout({ children }) {
                       </div>
                     </a>
                   </Link>
-                  
                 </div>
               </div>
               <div className="w-full mb-12 space-y-4 text-center"></div>
@@ -77,7 +76,11 @@ export default function UserLayout({ children }) {
   return (
     <div className="font-[iransans] relative min-h-screen lg:flex lg:flex-row-reverse">
       <div className="bg-slate-700 px-4 inset-x-0 text-white flex justify-between lg:hidden">
-        <div className="p-4 font-semibold text-lg">BNUT-HPC</div>
+        <Link href="/">
+          <div className="p-5 font-semibold text-xl cursor-pointer">
+            BNUT-HPC
+          </div>
+        </Link>{" "}
         <button
           onClick={() => setSideBarShow(!sideBarShow)}
           className="p-4 focus:outline-none focus:bg-slate-500"

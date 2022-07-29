@@ -40,7 +40,7 @@ export default function Index() {
         return e.json();
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data.data, "DATA");
         setWalletData(data.data);
         setisLoading(false);
       })
@@ -66,7 +66,7 @@ export default function Index() {
         return e.json();
       })
       .then((data) => {
-        console.log(data.data);
+        console.log(data.data, "TRX");
         setTrxData(data.data);
         setisLoading(false);
       })
@@ -119,12 +119,12 @@ export default function Index() {
           <div className="flex flex-row items-center space-x-6 text-center">
             <div className="font-bold text-lg">
               <div>مبلغ آزاد</div>
-              <div className="">{walletData.total - walletData.blocked}</div>
+              <div className="">{(walletData.total - walletData.blocked).toLocaleString()}</div>
             </div>
 
             <div className=" font-light">
               <div>بلوکه شده</div>
-              <div>{walletData.blocked}</div>
+              <div>{walletData.blocked.toLocaleString()}</div>
             </div>
           </div>
         </div>
@@ -165,7 +165,9 @@ export default function Index() {
           ))}
         </div>
       </div>
-        <button onClick={handleCreateWallet} className="">Create Wallet</button>
+      <button onClick={handleCreateWallet} className="">
+        Create Wallet
+      </button>
     </div>
   );
 }
