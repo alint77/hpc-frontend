@@ -48,7 +48,7 @@ interface VM {
   price: number;
   processorCores: number;
   memory: number;
-  image: Image;
+  imageDto: Image;
 }
 
 export default function VMpage() {
@@ -87,7 +87,7 @@ export default function VMpage() {
     processorCores: NaN,
     memory: NaN,
     diskSize: NaN,
-    image: {
+    imageDto: {
       id: "",
       softWare: "",
       osName: "",
@@ -275,7 +275,7 @@ export default function VMpage() {
             <div className="">{vmData.memory}GB RAM</div>
             <div className="">{vmData.diskSize}GB Storage</div>
             <div className="">
-              {vmData.image.osName} version {vmData.image.osVersion}
+              {vmData.imageDto.osName} version {vmData.imageDto.osVersion}
             </div>
           </div>
         </div>

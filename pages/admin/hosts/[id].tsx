@@ -25,6 +25,8 @@ export default function Host() {
     hostState: "",
     createDateTime: "",
     isAvailable: false,
+    temp:NaN,
+    stat:NaN
   });
 
   const router = useRouter();
@@ -147,6 +149,9 @@ export default function Host() {
             <br />
             <div className="">Total Storage : {host.totalDiskSize}GB</div>
             <div className="">Available Storage : {host.freeDiskSize}GB</div>
+            <br />
+            <div className="">Temp : {host.temp}</div>
+            <div className="">Stat : {host.stat}</div>
           </div>
         </div>
       </div>

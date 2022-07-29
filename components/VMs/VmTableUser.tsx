@@ -30,7 +30,7 @@ export default function VmTable({ vmsList }: Prop) {
       },
       {
         Header: "OS",
-        accessor: (e) => e.image.osName,
+        accessor: (e) => e.imageDto.osName,
       },
       {
         Header: "RAM",

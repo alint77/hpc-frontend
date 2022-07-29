@@ -32,7 +32,7 @@ interface Image {
   osName: string;
 }
 interface VM {
-  image: Image;
+  imageDto: Image;
   vmName: string;
   startProidDateTime: string;
   createDateTime: string;
@@ -81,7 +81,7 @@ export default function VMpage() {
       id: "",
       name: "",
     },
-    image: {
+    imageDto: {
       id: "",
       softWare: "",
       osName: "",
@@ -294,7 +294,7 @@ export default function VMpage() {
             <div className="">{vmData.memory}GB RAM</div>
             <div className="">{vmData.diskSize}GB Storage</div>
             <div className="">
-              {vmData.image.osName} version {vmData.image.osVersion}
+              {vmData.imageDto.osName} version {vmData.imageDto.osVersion}
             </div>
           </div>
         </div>

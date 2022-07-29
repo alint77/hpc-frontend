@@ -19,6 +19,7 @@ interface Host {
   name: string;
 }
 
+
 interface VM {
   vmName: string;
   createDateTime: string;
@@ -27,11 +28,12 @@ interface VM {
   vmState: string;
   creator: Creator;
   isPaid: boolean;
-  host: Host;
+  hostDto: Host;
   os: number;
   period: number;
   processorCores: number;
   memory: number;
+  imageDto:any;
 }
 
 export default function VMs() {
@@ -71,7 +73,7 @@ export default function VMs() {
       },
       {
         Header: "Host",
-        accessor: ({ host }) => JSON.stringify([host.name, host.id]),
+        accessor: ({ hostDto }) => JSON.stringify([hostDto.name, hostDto.id]),
         Cell: ({ value }) => {
           value = JSON.parse(value);
           return (
@@ -100,7 +102,7 @@ export default function VMs() {
       },
       {
         Header: "OS",
-        accessor: (e) => e.image.osName,
+        accessor: (e) => e.imageDto.osName,
       },
       {
         Header: "RAM",
