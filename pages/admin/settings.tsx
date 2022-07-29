@@ -17,9 +17,22 @@ export default function Settings() {
   } = useContext(AuthContext);
   const [showEditModal, setShowEditModal] = useState(false);
   const router = useRouter();
-  const [settingsData, setSettingsData] = useState();
+  const [settingsData, setSettingsData] = useState({
+    id: "",
+    name: "",
+    extensionDaysLimit: NaN,
+    studentDiscountPercent: NaN,
+    shutDownVMDiscountPercent: NaN,
+    notifyViaEmail: false,
+    notifyViaSMS: false,
+    notifyViaSystemMessage: false,
+    extraCorePrice: NaN,
+    extraMemoryPrice: NaN,
+    extraDiskPrice: NaN,
+    gpuPrice: NaN,
+  });
   const [input, setInput] = useState({
-    id:"",
+    id: "",
     name: "",
     extensionDaysLimit: NaN,
     studentDiscountPercent: NaN,
@@ -70,8 +83,56 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="p-2 rounded bg-stone-200 shadow">
-        <pre>{JSON.stringify(settingsData, null, 2)}</pre>
+        <div className="rounded bg-stone-200 shadow-md text-right max-w-2xl p-4 m-auto w-full">
+          <div className="firstname flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>extensionDaysLimit</div>{" "}
+            <div className="">{settingsData.extensionDaysLimit}</div>
+          </div>
+          <div className="lastname flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>studentDiscountPercent</div>{" "}
+            <div className="">{settingsData.studentDiscountPercent}</div>
+          </div>
+          <div className="email flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>shutDownVMDiscountPercent</div>{" "}
+            <div className="">{settingsData.shutDownVMDiscountPercent}</div>
+          </div>
+          <div className="phone flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>notifyViaEmail</div>{" "}
+            <div className="">{settingsData.notifyViaEmail.toString()}</div>
+          </div>
+          <div className="ssn flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>notifyViaSMS</div>{" "}
+            <div className="">{settingsData.notifyViaSMS.toString()}</div>
+          </div>
+          <div className="ssn flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>notifyViaSystemMessage</div>{" "}
+            <div className="">
+              {settingsData.notifyViaSystemMessage.toString()}
+            </div>
+          </div>
+
+          <div className=" flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>extraCorePrice</div>{" "}
+            <div className="">
+              {settingsData.extraCorePrice.toLocaleString()}
+            </div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>extraMemoryPrice</div>{" "}
+            <div className="">
+              {settingsData.extraMemoryPrice.toLocaleString()}
+            </div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>extraDiskPrice</div>{" "}
+            <div className="">
+              {settingsData.extraDiskPrice.toLocaleString()}
+            </div>
+          </div>
+          <div className=" flex flex-row-reverse justify-between my-4 px-6 border-2">
+            <div>gpuPrice</div>{" "}
+            <div className="">{settingsData.gpuPrice.toLocaleString()}</div>
+          </div>
         <button
           className="bg-slate-600 p-1 px-2 rounded text-white"
           onClick={() => setShowEditModal(true)}

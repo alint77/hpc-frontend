@@ -64,7 +64,7 @@ export default function hosts() {
       <div className="flex flex-row justify-evenly">
       {hostsList.map((v) => (
         <Link href={"/admin/hosts/" + v.id}>
-          <div className=" flex flex-col w-72 h-min mx-2 rounded bg-stone-200 p-2 shadow" key={v.id}>
+          <div className=" flex flex-col w-72 h-min mx-2 rounded bg-stone-200 p-2 shadow cursor-pointer" key={v.id}>
             <div> name: {v.name}</div>
             <div> deviceName: {v.deviceName}</div>
             <div> totalDiskSize: {v.totalDiskSize}</div>

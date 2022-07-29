@@ -269,7 +269,7 @@ export default function UserAdminPage() {
             <div className="">{userData.role}</div>
           </div>
           {userData.isStudent && (
-            <div className=" flex flex-row-reverse justify-between my-4 px-6">
+            <div className=" flex flex-row-reverse justify-between my-4 px-6 font-bold">
               <div>کاربر دانشجو می باشد </div>
             </div>
           )}

@@ -4,6 +4,7 @@ import AuthContext from "../context/authContext";
 import MenuSVG from "./SVGs/MenuSVG";
 import Link from "next/link";
 import { UserRole } from "../config/config";
+import XbtnSVG from "./SVGs/XbtnSVG";
 
 export default function UserLayout({ children }) {
   const { logout, user, isLoading } = useContext(AuthContext);
@@ -37,7 +38,7 @@ export default function UserLayout({ children }) {
                     onClick={() => setSideBarShow(false)}
                     className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
                   >
-                    X
+                    <XbtnSVG></XbtnSVG>
                   </button>
                   <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
                 </div>
@@ -94,7 +95,7 @@ export default function UserLayout({ children }) {
                   onClick={() => setSideBarShow(false)}
                   className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
                 >
-                  X
+                  <XbtnSVG></XbtnSVG>
                 </button>
                 <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
               </div>

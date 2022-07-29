@@ -4,6 +4,7 @@ import AuthContext from "../context/authContext";
 import MenuSVG from "./SVGs/MenuSVG";
 import Link from "next/link";
 import { UserRole } from "../config/config";
+import XbtnSVG from "./SVGs/XbtnSVG";
 
 export default function UserLayout({ children }) {
   const { logout, user, isLoading } = useContext(AuthContext);
@@ -14,7 +15,11 @@ export default function UserLayout({ children }) {
     return (
       <div className="font-[iransans] relative min-h-screen lg:flex lg:flex-row-reverse">
         <div className="bg-slate-700 px-4 inset-x-0 text-white flex justify-between lg:hidden">
-          <div className="p-5 font-semibold text-xl">BNUT-HPC</div>
+          <Link href="/">
+            <div className="p-5 font-semibold text-xl cursor-pointer">
+              BNUT-HPC
+            </div>
+          </Link>
           <button
             onClick={() => setSideBarShow(!sideBarShow)}
             className="p-4 focus:outline-none focus:bg-slate-500"
@@ -37,7 +42,7 @@ export default function UserLayout({ children }) {
                     onClick={() => setSideBarShow(false)}
                     className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
                   >
-                    X
+                    <XbtnSVG></XbtnSVG>
                   </button>
                   <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
                 </div>
@@ -56,6 +61,7 @@ export default function UserLayout({ children }) {
                       </div>
                     </a>
                   </Link>
+                  
                 </div>
               </div>
               <div className="w-full mb-12 space-y-4 text-center"></div>
@@ -82,8 +88,8 @@ export default function UserLayout({ children }) {
 
       <div
         className={
-          "sidebar shadow-lg bg-slate-700 w-64 min-w-[16rem] text-white fixed inset-y-0 right-0 ease-in-out duration-200 lg:relative lg:translate-x-0" +
-          (!sideBarShow && " translate-x-full")
+          "sidebar shadow-lg bg-slate-700 w-64 min-w-[16rem] z-10 text-white fixed inset-y-0 right-0 ease-in-out duration-200 lg:relative lg:translate-x-0" +
+          (!sideBarShow && " translate-x-full ")
         }
       >
         <div className="flex h-full pb-4 flex-col">
@@ -94,7 +100,7 @@ export default function UserLayout({ children }) {
                   onClick={() => setSideBarShow(false)}
                   className="lg:hidden absolute right-4 top-6 p-4 focus:outline-none"
                 >
-                  X
+                  <XbtnSVG></XbtnSVG>
                 </button>
                 <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
               </div>
@@ -130,6 +136,13 @@ export default function UserLayout({ children }) {
                     </div>
                   </a>
                 </Link>
+                <Link href={"/dashboard/help"}>
+                  <a>
+                    <div className="w-full py-2 rounded hover:bg-slate-600  active:bg-slate-500">
+                      راهنما
+                    </div>
+                  </a>
+                </Link>
               </div>
             </div>
             <div className="w-full mb-12 space-y-4 text-center">
@@ -140,6 +153,7 @@ export default function UserLayout({ children }) {
                   </div>
                 </a>
               </Link>
+
               <button
                 className="w-full hover:bg-slate-600 py-2 active:bg-slate-500"
                 onClick={logout}
@@ -163,7 +177,7 @@ export default function UserLayout({ children }) {
       </div>
 
       <div className="grow p-4">
-          <div className="m-auto">{children}</div>
+        <div className="m-auto">{children}</div>
       </div>
     </div>
   );

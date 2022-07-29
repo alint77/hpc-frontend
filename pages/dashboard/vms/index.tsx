@@ -80,7 +80,7 @@ export default function Index() {
         <div className="m-auto flex flex-row-reverse">
           <Link href="/dashboard/vms/requestNewVM">
             <div className="my-2 shadow-md w-fit cursor-pointer p-2 text-sm bg-slate-700 rounded-md text-white">
-               سرویس جدید
+               سفارش سرویس جدید
             </div>
           </Link>
         </div>
