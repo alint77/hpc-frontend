@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 import ExtendModal from "../../../components/VMs/VMPage/ExtendModal";
 import UpgradeModal from "../../../components/VMs/VMPage/UpgradeModal";
-import UserLayout from "../../../components/UserDashboardLayout";
+import UserLayout from "../../../components/landingLayout";
 
 interface Creator {
   email: string;

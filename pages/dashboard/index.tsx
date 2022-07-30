@@ -1,7 +1,7 @@
 import { useContext, useEffect, useLayoutEffect } from "react";
 import AuthContext from "../../context/authContext";
 import Link from "next/link";
-import UserLayout from "../../components/UserDashboardLayout";
+import UserLayout from "../../components/landingLayout";
 import { useRouter } from "next/router";
 
 export default function Index() {

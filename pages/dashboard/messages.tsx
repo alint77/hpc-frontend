@@ -5,7 +5,7 @@ import { API_URL } from "../../config/config";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import MessageCard from "../../components/Messages/MessageCard";
-import UserLayout from "../../components/UserDashboardLayout";
+import UserLayout from "../../components/landingLayout";
 
 interface Message {
   context: string;

@@ -91,6 +91,12 @@ export default function VMs() {
         filter: "includes",
       },
       {
+        Header: "Identifier",
+        accessor: "serverNameIdentifier",
+        Filter: SelectColumnFilter,
+        filter: "includes",
+      },
+      {
         Header: "Status",
         accessor: "vmState",
         Filter: SelectColumnFilter,

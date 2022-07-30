@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import UserLayout from "../../../components/UserDashboardLayout";
+import UserLayout from "../../../components/landingLayout";
 import { API_URL } from "../../../config/config";
 import AuthContext from "../../../context/authContext";
 

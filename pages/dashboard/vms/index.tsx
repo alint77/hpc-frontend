@@ -12,7 +12,7 @@ import Table, {
 } from "../../../components/Admin/Users/Table";
 import { API_URL, OS } from "../../../config/config";
 import VmTableUser from "../../../components/VMs/VmTableUser";
-import UserLayout from "../../../components/UserDashboardLayout";
+import UserLayout from "../../../components/landingLayout";
 
 export default function Index() {
   const [vmsList, setVmsList] = useState<Array<any>>([]);

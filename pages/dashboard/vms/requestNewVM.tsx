@@ -5,7 +5,7 @@ import AuthContext from "../../../context/authContext";
 import PlanCard from "../../../components/Plans/planCard";
 import Router from "next/router";
 import ImageCard from "../../../components/VMs/RequestNewVM/ImageCard";
-import UserLayout from "../../../components/UserDashboardLayout";
+import UserLayout from "../../../components/landingLayout";
 import { json } from "stream/consumers";
 
 interface Plan {

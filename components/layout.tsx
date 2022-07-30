@@ -44,7 +44,13 @@ export default function UserLayout({ children }) {
                   >
                     <XbtnSVG></XbtnSVG>
                   </button>
-                  <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
+                  <Link href="/">
+                    <a>
+                      <div className="p-10 w-full bg-slate-800">
+                        ابر نوشیروانی
+                      </div>
+                    </a>
+                  </Link>
                 </div>
                 <div className="text-center flex flex-col space-y-4">
                   <Link href={"/login"}>
@@ -105,7 +111,13 @@ export default function UserLayout({ children }) {
                 >
                   <XbtnSVG></XbtnSVG>
                 </button>
-                <div className="p-10 w-full bg-slate-800">ابر نوشیروانی</div>
+                <Link href={"/"}>
+                  <a>
+                    <div className="p-10 w-full bg-slate-800">
+                      ابر نوشیروانی
+                    </div>
+                  </a>
+                </Link>
               </div>
               <div className="text-center flex flex-col space-y-4">
                 <Link href={"/dashboard/vms"}>

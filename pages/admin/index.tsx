@@ -8,30 +8,46 @@ export default function Index() {
   if (!user || user.role == "USER") return <>Access Denied!</>;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="mx-auto bg-stone-200 rounded p-2 shadow">
-        <div>
-          <Link href="/admin/users">Users</Link>
-        </div>
-        <div>
-          <Link href="/admin/hosts">Hosts</Link>
-        </div>
-        <div>
-          <Link href="/admin/plans">Plans</Link>
-        </div>
-        <div>
-          <Link href="/admin/vms">VMs</Link>
-        </div>
-        <div>
-          <Link href="/admin/extendrequests">Extend Requests</Link>
-        </div>
-        <div>
-          <Link href="/admin/images">Images</Link>
-        </div>
-        <div>
-          <Link href="/admin/settings">Site Settings</Link>
-        </div>
-      </div>
+    <div className="flex flex-col items-center mt-8">
+        <Link href="/admin/users">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Users</div>
+          </div>
+        </Link>
+        <Link href="/admin/hosts">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Hosts</div>
+          </div>
+        </Link>
+        <Link href="/admin/plans">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Plans</div>
+          </div>
+        </Link>
+        <Link href="/admin/vms">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>VMs</div>
+          </div>
+        </Link>
+        <Link href="/admin/extendrequests">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Extend Requests</div>
+          </div>
+        </Link>
+        <Link href="/admin/images">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Images</div>
+          </div>
+        </Link>
+        <Link href="/admin/settings">
+          <div  className="bg-stone-200 rounded p-3 w-72 my-3 font-bold shadow cursor-pointer">
+            <div>Site Settings</div>
+          </div>
+        </Link>
+      
     </div>
   );
 }
+
+
+

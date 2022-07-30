@@ -65,7 +65,7 @@ export default function RequestCard({ request, className }: Prop) {
     refreshAccessToken,
     isAccessTokenValid,
   } = useContext(AuthContext);
-  const router = useRouter()
+  const router = useRouter();
   const [vmData, setVmData] = useState({
     creator: {
       lastName: "",
@@ -78,6 +78,7 @@ export default function RequestCard({ request, className }: Prop) {
     id: "",
     vmName: "",
     endPriodDateTime: "",
+    serverNameIdentifier: "",
   });
 
   const handleAcceptOrDecline = async (isApproved: boolean) => {
@@ -105,7 +106,7 @@ export default function RequestCard({ request, className }: Prop) {
       })
       .then((data) => {
         toast.success("Success!");
-        router.reload()
+        router.reload();
         console.log(data.data);
       })
       .catch((e) => {
@@ -178,6 +179,7 @@ export default function RequestCard({ request, className }: Prop) {
             </Link>
             <div>{stringToLocaleString(vmData.endPriodDateTime)}</div>
             <div>{request.extraPeriod}</div>
+            <div>{vmData.serverNameIdentifier}</div>
           </div>
           <div className="flex flex-col text-right space-y-4 mb-4 p-2">
             <div>{"نام متقاضی"}</div>
@@ -185,6 +187,7 @@ export default function RequestCard({ request, className }: Prop) {
             <div>{"شناسه ماشین مجازی"}</div>
             <div>{"تاریخ اتمام سرویس"}</div>
             <div>{"روزهای درخواستی"}</div>
+            <div>{"شناسه سمت سرور"}</div>
           </div>
         </div>
         <div>

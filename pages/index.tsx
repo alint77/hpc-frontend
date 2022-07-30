@@ -2,7 +2,9 @@ import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import LandingPlanCard from "../components/Plans/LandingplanCard";
 import { API_URL } from "../config/config";
+import LandingLayout from "../components/landingLayout";
 import AuthContext from "../context/authContext";
+
 
 interface Plan {
   id: string;
@@ -106,6 +108,8 @@ export default function index() {
           <LandingPlanCard plan={v} key={v.id}></LandingPlanCard>
         ))}
       </div>
+      
     </div>
   );
 }
+index.Layout = LandingLayout

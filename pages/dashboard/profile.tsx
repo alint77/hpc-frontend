@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import ChangePassModal from "../../components/Profile/ChangePassModal";
 import EditUserModal from "../../components/Profile/EditUserModal";
-import UserLayout from "../../components/UserDashboardLayout";
+import UserLayout from "../../components/landingLayout";
 
 interface User {
   unSeenMessagesCount: number;
