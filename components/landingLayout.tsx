@@ -74,8 +74,22 @@ export default function LandingLayout({ children }) {
           </div>
         </div>
 
-        <div className="grow p-4">
-          <div className="">{children}</div>
+        <div className="grow m-auto w-full max-w-[1000px] mt-4  ">
+          <div className=" m-auto">{children}</div>
+        </div>
+        <div className="bg-stone-200 h-44 rounded mt-8 text-right">
+          <div className="m-auto w-full max-w-[1000px] p-4 h-full flex flex-row-reverse items-stretch">
+            <div className="w-1/3 border-2 p-3">ابر نوشیروانی</div>
+            <div className="w-1/3 border-2 p-3">لینک ها</div>
+            <div className="w-1/3 p-3 space-y-3">
+              <div className="font-bold">ارتباط با ما</div>
+              <div className="space-y-1 text-sm">
+                <div><span className="font-bold">آدرس</span>: بابل ، خیابان شریعتی ، دانشگاه صنعتی نوشیروانی مرکز کامپیوتر</div>
+                <div><span className="font-bold">شماره تماس</span> :۰۱۱۱۲۳۴۵۶۷۸</div>
+                <div>HPC@nit.ac.ir <span className="font-bold">ایمیل پشتیبانی</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -194,7 +208,7 @@ export default function LandingLayout({ children }) {
       <div className="grow p-4">
         <div className="m-auto">{children}</div>
       </div>
-      <div className="bg-stone-200 h-44 rounded mt-8"></div>
+      <div className="bg-stone-200 h-36 rounded mt-8">asdasd</div>
     </div>
   );
 }

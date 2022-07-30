@@ -5,7 +5,6 @@ import { API_URL } from "../config/config";
 import LandingLayout from "../components/landingLayout";
 import AuthContext from "../context/authContext";
 
-
 interface Plan {
   id: string;
   isActive: boolean;
@@ -18,7 +17,7 @@ interface Plan {
   processorCores: number;
 }
 
-export default function index() {
+export default function Index() {
   const { user, isLoading, setisLoading } = useContext(AuthContext);
   const [plansList, setPlansList] = useState<Array<Plan>>([]);
 
@@ -102,14 +101,15 @@ export default function index() {
           </div>
         </div>
       </div>
-      <div className="text-center m-auto font-bold text-xl my-6">..پلن ها..</div>
+      <div className="text-center m-auto font-bold text-xl my-6">
+        ..پلن ها..
+      </div>
       <div className="plans flex flex-row-reverse flex-wrap justify-evenly align-top">
         {plansList.map((v) => (
           <LandingPlanCard plan={v} key={v.id}></LandingPlanCard>
         ))}
       </div>
-      
     </div>
   );
 }
-index.Layout = LandingLayout
+Index.Layout = LandingLayout;
