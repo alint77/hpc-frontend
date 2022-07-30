@@ -52,6 +52,7 @@ export default function extendrequests() {
 
   return (
     <div className="p-2">
+      <div className="text-center font-bold my-4">تقاضا های تمدید </div>
       <div className="">
         {requestsList.length > 0 ? (
           requestsList.map((v) => (

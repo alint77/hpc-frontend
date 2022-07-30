@@ -41,7 +41,7 @@ interface VM {
   vmState: string;
   creator: Creator;
   isPaid: boolean;
-  host: Host;
+  hostDto: Host;
   price: number;
   os: number;
   period: number;
@@ -77,7 +77,7 @@ export default function VMpage() {
       lastName: "",
     },
     isPaid: false,
-    host: {
+    hostDto: {
       id: "",
       name: "",
     },
@@ -95,12 +95,7 @@ export default function VMpage() {
   });
 
   const router = useRouter();
-  useEffect(() => {
-    if (router.query.id) {
-      handleFetchVM();
-    }
-  }, []);
-
+  
   const handleFetchVM = async () => {
     const { id } = router.query;
     setisLoading(true);
@@ -108,7 +103,7 @@ export default function VMpage() {
       await refreshAccessToken();
     }
     const accessToken = window.localStorage.getItem("access");
-
+    
     const res = await fetch(`${API_URL}/vms/${id}/GetVMById`, {
       method: "GET",
       headers: {
@@ -116,24 +111,24 @@ export default function VMpage() {
         Authorization: "Bearer " + accessToken,
       },
     })
-      .then(async (e) => {
-        if (!e.ok) {
-          throw Error((await e.json()).message);
-        }
-        return e.json();
-      })
-      .then((data) => {
-        console.log(data.data);
-        setVmData(data.data);
-        setisLoading(false);
-      })
-      .catch((e) => {
-        toast.error(e.message);
-        setisLoading(false);
-        console.log("ERROR:failed to fetch VM", e.message);
-      });
+    .then(async (e) => {
+      if (!e.ok) {
+        throw Error((await e.json()).message);
+      }
+      return e.json();
+    })
+    .then((data) => {
+      console.log(data.data);
+      setVmData(data.data);
+      setisLoading(false);
+    })
+    .catch((e) => {
+      toast.error(e.message);
+      setisLoading(false);
+      console.log("ERROR:failed to fetch VM", e.message);
+    });
   };
-
+  
   const btnsRender = () => {
     const vmState = vmData.vmState;
     switch (vmState) {
@@ -144,83 +139,88 @@ export default function VMpage() {
               onClick={handleBtns}
               id="Shutdown"
               className="p-2 mx-2 rounded bg-gray-200 w-fit"
-            >
+              >
               Shutdown
             </button>
             <button
               onClick={handleBtns}
               id="Restart"
               className="p-2 rounded bg-gray-200 w-fit"
-            >
+              >
               Restart
             </button>
           </div>
         );
-      case VMSTATES[2]:
-        return (
-          <button
+        case VMSTATES[2]:
+          return (
+            <button
             onClick={handleBtns}
             id="PowerUp"
             className="p-2 mx-2 rounded bg-gray-200 w-fit"
-          >
+            >
             Power Up
           </button>
         );
-
-      default:
-        return;
-    }
-  };
-  const handleBtns = async (e) => {
-    const fn = e.target.id;
-    const { id } = router.query;
-    setisLoading(true);
-    if (!isAccessTokenValid()) {
-      await refreshAccessToken();
-    }
-    const accessToken = window.localStorage.getItem("access");
-
-    const res = await fetch(`${API_URL}/vms/RequestFor${fn}VM/${id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-    })
-      .then(async (e) => {
-        if (!e.ok) {
-          throw Error((await e.json()).message);
+        
+        default:
+          return;
         }
-        return e.json();
-      })
-      .then((data) => {
-        toast.success("success!");
-        console.log(data.data);
-        setisLoading(false);
-        setTimeout(() => router.reload(), 200);
-      })
-      .catch((e) => {
-        toast.error(e.message);
-        setisLoading(false);
-        console.log("ERROR:failed to fetch VM", e.message);
-      });
-  };
-  const stringToLocaleString = (date) => {
-    const a = new Date(date);
-    return a.toLocaleString();
-  };
-  const remainingDays = (value) => {
-    return ((new Date(value).getTime() - Date.now()) / 86400000).toFixed();
-  };
-
-  return (
-    <div className="flex flex-col space-y-4 p-4">
+      };
+      const handleBtns = async (e) => {
+        const fn = e.target.id;
+        const { id } = router.query;
+        setisLoading(true);
+        if (!isAccessTokenValid()) {
+          await refreshAccessToken();
+        }
+        const accessToken = window.localStorage.getItem("access");
+        
+        const res = await fetch(`${API_URL}/vms/RequestFor${fn}VM/${id}`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          },
+        })
+        .then(async (e) => {
+          if (!e.ok) {
+            throw Error((await e.json()).message);
+          }
+          return e.json();
+        })
+        .then((data) => {
+          toast.success("success!");
+          console.log(data.data);
+          setisLoading(false);
+          setTimeout(() => router.reload(), 200);
+        })
+        .catch((e) => {
+          toast.error(e.message);
+          setisLoading(false);
+          console.log("ERROR:failed to fetch VM", e.message);
+        });
+      };
+      const stringToLocaleString = (date) => {
+        const a = new Date(date);
+        return a.toLocaleString();
+      };
+      const remainingDays = (value) => {
+        return ((new Date(value).getTime() - Date.now()) / 86400000).toFixed();
+      };
+      
+      useEffect(() => {
+        if (router.query.id) {
+          handleFetchVM();
+        }
+      }, [router.query.id]);
+      return (
+        <div className="flex flex-col space-y-4 p-4">
       <div className="flex flex-row justify-between max-w-2xl w-full m-auto">
         <div className="">
           <button
             onClick={handleFetchVM}
             className="p-2 rounded bg-gray-200 w-fit"
-          >
+            >
             refresh
           </button>
         </div>
@@ -278,8 +278,8 @@ export default function VMpage() {
               <div>سرور میزبان</div>
               <div className="">
                 <span className=" bg-slate-600 text-white rounded p-1 px-2">
-                  <Link href={"/admin/hosts/" + vmData.host.id}>
-                    {vmData.host.name}
+                  <Link href={"/admin/hosts/" + vmData.hostDto.id}>
+                    {vmData.hostDto.name}
                   </Link>
                 </span>
               </div>
