@@ -61,7 +61,7 @@ export default function hosts() {
     
     if (!user || user.role == "USER") return <>Access Denied!</>;
     return (
-      <div className="flex flex-row justify-evenly">
+      <div className="flex flex-row justify-evenly flex-wrap">
       {hostsList.map((v) => (
         <Link href={"/admin/hosts/" + v.id}>
           <div className=" flex flex-col w-72 h-min mx-2 rounded bg-stone-200 p-2 shadow cursor-pointer" key={v.id}>
